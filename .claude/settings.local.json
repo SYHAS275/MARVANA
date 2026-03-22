@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npx expo:*)",
+      "Bash(\"c:\\\\Users\\\\suhas\\\\Desktop\\\\stealth-ai-startup-main\\\\src\\\\app\\\\leaderboard.tsx\")"
+    ]
+  }
+}

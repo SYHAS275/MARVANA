@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "daze",
+    "slug": "daze-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/daze-logo.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "scheme": "daze",
+    "splash": {
+      "image": "./assets/daze-logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.daze.app",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Daze needs microphone access for voice and video calls.",
+        "NSCameraUsageDescription": "Daze needs camera access for video calls."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/daze-logo.png",
+        "backgroundColor": "#000000"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.daze.app",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.BLUETOOTH"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/daze-logo.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ]
+  }
+}
