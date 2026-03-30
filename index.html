@@ -902,6 +902,107 @@
     .parallax-fast { will-change: transform; }
 
     /* ═══ HERO ROBOT ═══ */
+    /* ═══ WHY MARVANA ═══ */
+    .why-section { padding: 140px 24px; position: relative; z-index: 2; overflow: hidden; }
+    .why-section::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 600px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(168,85,247,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .why-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .why-left { display: flex; flex-direction: column; gap: 32px; }
+    .why-problem {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .why-stat-big {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(56px, 8vw, 96px); font-weight: 800; line-height: 1;
+      background: linear-gradient(135deg, #ffffff 0%, #A855F7 50%, #EC4899 100%);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .why-stat-label {
+      font-size: 16px; color: var(--text-secondary); line-height: 1.6; max-width: 380px;
+    }
+    .why-stat-label strong { color: #fff; }
+    .why-divider { width: 48px; height: 2px; background: var(--gradient); border-radius: 2px; }
+    .why-quote {
+      font-size: clamp(15px, 1.8vw, 18px); color: var(--text-secondary);
+      line-height: 1.8; font-style: italic; position: relative; padding-left: 20px;
+    }
+    .why-quote::before {
+      content: ''; position: absolute; left: 0; top: 4px; bottom: 4px;
+      width: 3px; border-radius: 2px;
+      background: linear-gradient(to bottom, #A855F7, #EC4899);
+    }
+    .why-right { display: flex; flex-direction: column; gap: 20px; }
+    .why-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px 28px 24px;
+      display: flex; gap: 20px; align-items: flex-start;
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .why-card::before {
+      content: ''; position: absolute; inset: 0; border-radius: 20px;
+      background: radial-gradient(circle at 0% 50%, color-mix(in srgb, var(--wc) 8%, transparent), transparent 60%);
+      pointer-events: none;
+    }
+    .why-card:hover { border-color: color-mix(in srgb, var(--wc) 30%, transparent); transform: translateX(6px); }
+    .why-card-icon {
+      font-size: 28px; flex-shrink: 0;
+      width: 52px; height: 52px; border-radius: 14px;
+      background: color-mix(in srgb, var(--wc) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--wc) 20%, transparent);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .why-card-body { display: flex; flex-direction: column; gap: 6px; }
+    .why-card-title { font-size: 16px; font-weight: 700; color: #fff; }
+    .why-card-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+    .why-card-tag {
+      margin-top: 6px; display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      color: var(--wc);
+    }
+    .why-card-tag::before { content: ''; width: 16px; height: 1px; background: var(--wc); }
+
+    /* India strip */
+    .india-strip {
+      max-width: 1200px; margin: 80px auto 0;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 24px; padding: 40px 48px;
+      display: flex; align-items: center; gap: 48px;
+      position: relative; overflow: hidden;
+    }
+    .india-strip::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, #FF9933 25%, #ffffff 50%, #138808 75%, transparent);
+    }
+    .india-flag-icon { font-size: 64px; flex-shrink: 0; }
+    .india-text { flex: 1; }
+    .india-text h3 {
+      font-family: 'Space Grotesk', sans-serif; font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 700; margin-bottom: 10px;
+    }
+    .india-text p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; max-width: 560px; }
+    .india-stats { display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; }
+    .india-stat { text-align: center; }
+    .india-stat-num {
+      font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800;
+      background: linear-gradient(135deg, #FF9933, #EC4899);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .india-stat-lbl { font-size: 11px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+
+    @media (max-width: 900px) {
+      .why-grid { grid-template-columns: 1fr; gap: 48px; }
+      .india-strip { flex-direction: column; gap: 24px; padding: 32px 24px; text-align: center; }
+      .india-stats { flex-direction: row; justify-content: center; gap: 32px; }
+    }
+
     /* ═══ FEATURES BENTO ═══ */
     .features-section { padding: 140px 24px; position: relative; z-index: 2; }
     .bento-grid {
@@ -1774,6 +1875,73 @@ setTimeout(function(){
     </div>
   </div>
 </div>
+
+<!-- ═══ WHY MARVANA ═══ -->
+<section class="why-section" id="why">
+  <div class="container" style="max-width:1200px;margin:0 auto">
+    <div class="section-eyebrow reveal">WHY MARVANA</div>
+    <h2 class="section-title reveal delay-1">The world is more connected.<br /><span class="grad">People have never been more alone.</span></h2>
+  </div>
+
+  <div class="why-grid reveal delay-2">
+    <div class="why-left">
+      <div class="why-problem">
+        <div class="why-stat-big">1 in 3</div>
+        <p class="why-stat-label">people globally report feeling <strong>chronically lonely</strong> — and in India, where 600M+ young people are online, the gap between being connected and feeling connected has never been wider.</p>
+      </div>
+      <div class="why-divider"></div>
+      <p class="why-quote">Most social apps give you followers. Nobody gives you someone who actually listens, remembers, and shows up — every single day. That's the problem we're solving.</p>
+    </div>
+
+    <div class="why-right">
+      <div class="why-card" style="--wc:#A855F7">
+        <div class="why-card-icon">🧠</div>
+        <div class="why-card-body">
+          <div class="why-card-title">Real Emotional Connection</div>
+          <div class="why-card-desc">Our AI characters remember your conversations, track your moods, and evolve with you — not just respond to you. It's the difference between a chatbot and a companion.</div>
+          <div class="why-card-tag">The Core Product</div>
+        </div>
+      </div>
+      <div class="why-card" style="--wc:#EC4899">
+        <div class="why-card-icon">🌍</div>
+        <div class="why-card-body">
+          <div class="why-card-title">Built for the Real World</div>
+          <div class="why-card-desc">Characters speak your language, understand your culture, and come from your world — Mumbai streets, Delhi colleges, Seoul cafés. Not generic Western AI personas.</div>
+          <div class="why-card-tag">India-First, Global Vision</div>
+        </div>
+      </div>
+      <div class="why-card" style="--wc:#06B6D4">
+        <div class="why-card-icon">🚀</div>
+        <div class="why-card-body">
+          <div class="why-card-title">A Social App, Not Just a Chat App</div>
+          <div class="why-card-desc">Public rooms, group chats, leaderboards, stories — Marvana is where you hang out. AI characters are the heartbeat, but the social layer is what keeps you coming back.</div>
+          <div class="why-card-tag">The Bigger Vision</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- India Strip -->
+  <div class="india-strip reveal delay-3">
+    <div class="india-flag-icon">🇮🇳</div>
+    <div class="india-text">
+      <h3>India is the <span class="grad">biggest opportunity</span> in social tech right now.</h3>
+      <p>600M+ young Indians are online — hungry for entertainment, connection, and self-expression. No global social app speaks their language, understands their culture, or reflects their reality. Marvana does. We're not localizing a Western product. We're building the first social AI platform <strong style="color:#fff">native to India</strong> — and taking it global.</p>
+    </div>
+    <div class="india-stats">
+      <div class="india-stat">
+        <div class="india-stat-num">600M+</div>
+        <div class="india-stat-lbl">Young Indians Online</div>
+      </div>
+      <div class="india-stat">
+        <div class="india-stat-num">$8B</div>
+        <div class="india-stat-lbl">India Social App Market</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-sep"><div class="glow-sep-inner"></div></div>
 
 <!-- ═══ FEATURES BENTO ═══ -->
 <section class="features-section" id="features">
