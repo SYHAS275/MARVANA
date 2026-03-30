@@ -905,102 +905,179 @@
     /* ═══ WHY MARVANA ═══ */
     .why-section { padding: 140px 24px; position: relative; z-index: 2; overflow: hidden; }
     .why-section::before {
-      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-      width: 800px; height: 600px; border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(168,85,247,0.06) 0%, transparent 70%);
+      content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 1000px; height: 800px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(168,85,247,0.07) 0%, transparent 65%);
       pointer-events: none;
     }
+
+    /* ── Top heading ── */
+    .why-heading-wrap { max-width: 1200px; margin: 0 auto 80px; }
+
+    /* ── Main grid: brain left, cards right ── */
     .why-grid {
       max-width: 1200px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
     }
-    .why-left { display: flex; flex-direction: column; gap: 32px; }
-    .why-problem {
-      display: flex; flex-direction: column; gap: 16px;
+
+    /* ── Brain side ── */
+    .why-brain-wrap {
+      display: flex; flex-direction: column; gap: 36px;
+      position: sticky; top: 100px;
     }
-    .why-stat-big {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(56px, 8vw, 96px); font-weight: 800; line-height: 1;
-      background: linear-gradient(135deg, #ffffff 0%, #A855F7 50%, #EC4899 100%);
+    .brain-canvas-box {
+      position: relative; width: 100%; aspect-ratio: 1;
+      max-width: 420px; margin: 0 auto;
+    }
+    .brain-svg { width: 100%; height: 100%; }
+    /* neural nodes */
+    .nn-node { animation: nnPulse 3s ease-in-out infinite; }
+    .nn-node:nth-child(2) { animation-delay: 0.4s; }
+    .nn-node:nth-child(3) { animation-delay: 0.8s; }
+    .nn-node:nth-child(4) { animation-delay: 1.2s; }
+    .nn-node:nth-child(5) { animation-delay: 1.6s; }
+    .nn-node:nth-child(6) { animation-delay: 2s; }
+    .nn-node:nth-child(7) { animation-delay: 0.6s; }
+    .nn-node:nth-child(8) { animation-delay: 1.0s; }
+    .nn-node:nth-child(9) { animation-delay: 1.4s; }
+    @keyframes nnPulse { 0%,100%{r:5;opacity:0.6} 50%{r:8;opacity:1} }
+    /* signal travelling along edges */
+    .nn-signal { animation: nnTravel 3s linear infinite; }
+    .nn-signal:nth-child(2) { animation-delay: 0.6s; }
+    .nn-signal:nth-child(3) { animation-delay: 1.2s; }
+    .nn-signal:nth-child(4) { animation-delay: 1.8s; }
+    .nn-signal:nth-child(5) { animation-delay: 2.4s; }
+    @keyframes nnTravel { 0%{stroke-dashoffset:300} 100%{stroke-dashoffset:0} }
+    /* center brain glow */
+    .brain-center-glow { animation: brainGlow 4s ease-in-out infinite; }
+    @keyframes brainGlow { 0%,100%{opacity:0.4;r:48} 50%{opacity:0.8;r:58} }
+
+    /* stat pills below brain */
+    .brain-stats { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .brain-stat-pill {
+      padding: 10px 20px; border-radius: 50px;
+      background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.18);
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      min-width: 110px;
+    }
+    .bsp-num {
+      font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 800;
+      background: linear-gradient(135deg, #A855F7, #EC4899);
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .why-stat-label {
-      font-size: 16px; color: var(--text-secondary); line-height: 1.6; max-width: 380px;
+    .bsp-lbl { font-size: 10px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; }
+
+    .why-quote-box {
+      background: linear-gradient(135deg, rgba(168,85,247,0.06), rgba(236,72,153,0.04));
+      border: 1px solid rgba(168,85,247,0.12); border-radius: 18px; padding: 24px 28px;
+      position: relative;
     }
-    .why-stat-label strong { color: #fff; }
-    .why-divider { width: 48px; height: 2px; background: var(--gradient); border-radius: 2px; }
-    .why-quote {
-      font-size: clamp(15px, 1.8vw, 18px); color: var(--text-secondary);
-      line-height: 1.8; font-style: italic; position: relative; padding-left: 20px;
+    .why-quote-box::before {
+      content: '\201C'; position: absolute; top: -12px; left: 20px;
+      font-size: 72px; line-height: 1; color: rgba(168,85,247,0.25);
+      font-family: Georgia, serif;
     }
-    .why-quote::before {
-      content: ''; position: absolute; left: 0; top: 4px; bottom: 4px;
-      width: 3px; border-radius: 2px;
-      background: linear-gradient(to bottom, #A855F7, #EC4899);
+    .why-quote-text {
+      font-size: 15px; color: var(--text-secondary); line-height: 1.8; font-style: italic;
     }
-    .why-right { display: flex; flex-direction: column; gap: 20px; }
+    .why-quote-text strong { color: #fff; font-style: normal; }
+
+    /* ── Cards side ── */
+    .why-cards { display: flex; flex-direction: column; gap: 20px; }
+
     .why-card {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 20px; padding: 28px 28px 24px;
-      display: flex; gap: 20px; align-items: flex-start;
-      transition: border-color 0.3s, transform 0.3s;
-      position: relative; overflow: hidden;
+      border-radius: 24px; padding: 28px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
+      position: relative; overflow: hidden; cursor: default;
     }
-    .why-card::before {
-      content: ''; position: absolute; inset: 0; border-radius: 20px;
-      background: radial-gradient(circle at 0% 50%, color-mix(in srgb, var(--wc) 8%, transparent), transparent 60%);
-      pointer-events: none;
+    .why-card::after {
+      content: ''; position: absolute; inset: 0; border-radius: 24px;
+      background: radial-gradient(circle at 10% 50%, color-mix(in srgb, var(--wc) 10%, transparent) 0%, transparent 55%);
+      opacity: 0; transition: opacity 0.4s; pointer-events: none;
     }
-    .why-card:hover { border-color: color-mix(in srgb, var(--wc) 30%, transparent); transform: translateX(6px); }
-    .why-card-icon {
-      font-size: 28px; flex-shrink: 0;
-      width: 52px; height: 52px; border-radius: 14px;
-      background: color-mix(in srgb, var(--wc) 12%, transparent);
-      border: 1px solid color-mix(in srgb, var(--wc) 20%, transparent);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .why-card-body { display: flex; flex-direction: column; gap: 6px; }
-    .why-card-title { font-size: 16px; font-weight: 700; color: #fff; }
-    .why-card-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-    .why-card-tag {
-      margin-top: 6px; display: inline-flex; align-items: center; gap: 6px;
-      font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-      color: var(--wc);
-    }
-    .why-card-tag::before { content: ''; width: 16px; height: 1px; background: var(--wc); }
+    .why-card:hover { border-color: color-mix(in srgb, var(--wc) 35%, transparent); transform: translateY(-4px); box-shadow: 0 20px 48px rgba(0,0,0,0.4), 0 0 0 1px color-mix(in srgb, var(--wc) 10%, transparent); }
+    .why-card:hover::after { opacity: 1; }
 
-    /* India strip */
+    .why-card-head { display: flex; align-items: center; gap: 16px; }
+    .why-card-icon {
+      font-size: 24px; flex-shrink: 0;
+      width: 52px; height: 52px; border-radius: 16px;
+      background: color-mix(in srgb, var(--wc) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--wc) 22%, transparent);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.4s;
+    }
+    .why-card:hover .why-card-icon { transform: scale(1.12) rotate(-4deg); }
+    .why-card-meta { display: flex; flex-direction: column; gap: 3px; }
+    .why-card-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--wc); opacity: 0.8;
+    }
+    .why-card-title { font-size: 17px; font-weight: 700; color: #fff; }
+    .why-card-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+    /* chain connector between cards */
+    .why-chain {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 0 14px;
+    }
+    .why-chain-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(168,85,247,0.3); }
+    .why-chain-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(168,85,247,0.15), rgba(236,72,153,0.15)); }
+
+    /* ── India Strip ── */
     .india-strip {
       max-width: 1200px; margin: 80px auto 0;
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 24px; padding: 40px 48px;
-      display: flex; align-items: center; gap: 48px;
-      position: relative; overflow: hidden;
+      border-radius: 28px; padding: 0; overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255,153,51,0.15);
     }
-    .india-strip::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, transparent, #FF9933 25%, #ffffff 50%, #138808 75%, transparent);
+    .india-strip-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,153,51,0.04) 0%, rgba(0,0,0,0) 40%, rgba(19,136,8,0.04) 100%);
     }
-    .india-flag-icon { font-size: 64px; flex-shrink: 0; }
+    .india-strip-top {
+      height: 3px; width: 100%;
+      background: linear-gradient(90deg, transparent 0%, #FF9933 20%, #ffffff 50%, #138808 80%, transparent 100%);
+    }
+    .india-strip-inner {
+      padding: 44px 52px; display: flex; align-items: center; gap: 52px; position: relative;
+    }
+    .india-flag-wrap {
+      flex-shrink: 0; width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center; font-size: 44px;
+      animation: flagFloat 4s ease-in-out infinite;
+    }
+    @keyframes flagFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
     .india-text { flex: 1; }
     .india-text h3 {
-      font-family: 'Space Grotesk', sans-serif; font-size: clamp(20px, 2.5vw, 28px);
-      font-weight: 700; margin-bottom: 10px;
+      font-family: 'Space Grotesk', sans-serif; font-size: clamp(18px, 2.2vw, 26px);
+      font-weight: 700; margin-bottom: 12px; line-height: 1.3;
     }
-    .india-text p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; max-width: 560px; }
-    .india-stats { display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; }
-    .india-stat { text-align: center; }
+    .india-text p { font-size: 14px; color: var(--text-secondary); line-height: 1.8; max-width: 520px; }
+    .india-text p strong { color: #fff; }
+    .india-stats-col { display: flex; flex-direction: column; gap: 20px; flex-shrink: 0; }
+    .india-stat-box {
+      text-align: center; padding: 16px 24px; border-radius: 16px;
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+      min-width: 130px;
+    }
     .india-stat-num {
-      font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800;
+      font-family: 'Space Grotesk', sans-serif; font-size: 30px; font-weight: 800;
       background: linear-gradient(135deg, #FF9933, #EC4899);
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1.1;
     }
-    .india-stat-lbl { font-size: 11px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+    .india-stat-lbl { font-size: 10px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 4px; }
 
     @media (max-width: 900px) {
-      .why-grid { grid-template-columns: 1fr; gap: 48px; }
-      .india-strip { flex-direction: column; gap: 24px; padding: 32px 24px; text-align: center; }
-      .india-stats { flex-direction: row; justify-content: center; gap: 32px; }
+      .why-grid { grid-template-columns: 1fr; gap: 56px; }
+      .why-brain-wrap { position: static; }
+      .brain-canvas-box { max-width: 300px; }
+      .india-strip-inner { flex-direction: column; gap: 28px; padding: 32px 24px; text-align: center; }
+      .india-stats-col { flex-direction: row; justify-content: center; }
     }
 
     /* ═══ FEATURES BENTO ═══ */
@@ -1878,67 +1955,198 @@ setTimeout(function(){
 
 <!-- ═══ WHY MARVANA ═══ -->
 <section class="why-section" id="why">
-  <div class="container" style="max-width:1200px;margin:0 auto">
+
+  <!-- Heading -->
+  <div class="why-heading-wrap">
     <div class="section-eyebrow reveal">WHY MARVANA</div>
     <h2 class="section-title reveal delay-1">The world is more connected.<br /><span class="grad">People have never been more alone.</span></h2>
   </div>
 
-  <div class="why-grid reveal delay-2">
-    <div class="why-left">
-      <div class="why-problem">
-        <div class="why-stat-big">1 in 3</div>
-        <p class="why-stat-label">people globally report feeling <strong>chronically lonely</strong> — and in India, where 600M+ young people are online, the gap between being connected and feeling connected has never been wider.</p>
+  <!-- Main grid -->
+  <div class="why-grid">
+
+    <!-- LEFT: Neural Brain -->
+    <div class="why-brain-wrap reveal-left">
+
+      <!-- SVG Neural Network Brain -->
+      <div class="brain-canvas-box">
+        <svg class="brain-svg" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="brainGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#A855F7" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#A855F7" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="edgeGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#A855F7" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#EC4899" stop-opacity="0.5"/>
+            </linearGradient>
+            <linearGradient id="edgeGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#A855F7" stop-opacity="0.4"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Center glow -->
+          <circle class="brain-center-glow" cx="210" cy="210" r="52" fill="url(#brainGrad)"/>
+
+          <!-- Outer ring faint -->
+          <circle cx="210" cy="210" r="160" stroke="rgba(168,85,247,0.06)" stroke-width="1" stroke-dasharray="6 8"/>
+          <circle cx="210" cy="210" r="120" stroke="rgba(168,85,247,0.08)" stroke-width="1" stroke-dasharray="4 10"/>
+
+          <!-- Edges / connections -->
+          <line x1="210" y1="210" x2="100" y2="100" stroke="url(#edgeGrad1)" stroke-width="1.5" opacity="0.6"/>
+          <line x1="210" y1="210" x2="320" y2="90" stroke="url(#edgeGrad2)" stroke-width="1.5" opacity="0.6"/>
+          <line x1="210" y1="210" x2="340" y2="210" stroke="url(#edgeGrad1)" stroke-width="1.5" opacity="0.6"/>
+          <line x1="210" y1="210" x2="320" y2="330" stroke="url(#edgeGrad2)" stroke-width="1.5" opacity="0.6"/>
+          <line x1="210" y1="210" x2="100" y2="320" stroke="url(#edgeGrad1)" stroke-width="1.5" opacity="0.6"/>
+          <line x1="210" y1="210" x2="80" y2="210" stroke="url(#edgeGrad2)" stroke-width="1.5" opacity="0.6"/>
+          <line x1="210" y1="210" x2="210" y2="60" stroke="url(#edgeGrad1)" stroke-width="1.5" opacity="0.6"/>
+          <line x1="210" y1="210" x2="210" y2="360" stroke="url(#edgeGrad2)" stroke-width="1.5" opacity="0.6"/>
+          <!-- cross edges -->
+          <line x1="100" y1="100" x2="320" y2="90" stroke="rgba(168,85,247,0.2)" stroke-width="1"/>
+          <line x1="320" y1="90" x2="340" y2="210" stroke="rgba(236,72,153,0.2)" stroke-width="1"/>
+          <line x1="340" y1="210" x2="320" y2="330" stroke="rgba(6,182,212,0.2)" stroke-width="1"/>
+          <line x1="320" y1="330" x2="100" y2="320" stroke="rgba(168,85,247,0.2)" stroke-width="1"/>
+          <line x1="100" y1="320" x2="80" y2="210" stroke="rgba(236,72,153,0.2)" stroke-width="1"/>
+          <line x1="80" y1="210" x2="100" y2="100" stroke="rgba(6,182,212,0.2)" stroke-width="1"/>
+          <line x1="210" y1="60" x2="320" y2="90" stroke="rgba(168,85,247,0.15)" stroke-width="1"/>
+          <line x1="210" y1="60" x2="100" y2="100" stroke="rgba(168,85,247,0.15)" stroke-width="1"/>
+          <line x1="210" y1="360" x2="320" y2="330" stroke="rgba(236,72,153,0.15)" stroke-width="1"/>
+          <line x1="210" y1="360" x2="100" y2="320" stroke="rgba(236,72,153,0.15)" stroke-width="1"/>
+
+          <!-- Travelling signal paths (animated dashes) -->
+          <line class="nn-signal" x1="210" y1="210" x2="100" y2="100" stroke="#A855F7" stroke-width="2" stroke-dasharray="20 280" filter="url(#glow)"/>
+          <line class="nn-signal" x1="210" y1="210" x2="340" y2="210" stroke="#EC4899" stroke-width="2" stroke-dasharray="20 280" filter="url(#glow)"/>
+          <line class="nn-signal" x1="210" y1="210" x2="210" y2="360" stroke="#06B6D4" stroke-width="2" stroke-dasharray="20 280" filter="url(#glow)"/>
+          <line class="nn-signal" x1="210" y1="210" x2="320" y2="90" stroke="#A855F7" stroke-width="2" stroke-dasharray="20 280" filter="url(#glow)"/>
+          <line class="nn-signal" x1="210" y1="210" x2="80" y2="210" stroke="#EC4899" stroke-width="2" stroke-dasharray="20 280" filter="url(#glow)"/>
+
+          <!-- Outer nodes -->
+          <circle class="nn-node" cx="100" cy="100" r="5" fill="#A855F7" filter="url(#glow)"/>
+          <circle class="nn-node" cx="320" cy="90" r="5" fill="#EC4899" filter="url(#glow)"/>
+          <circle class="nn-node" cx="340" cy="210" r="5" fill="#06B6D4" filter="url(#glow)"/>
+          <circle class="nn-node" cx="320" cy="330" r="5" fill="#A855F7" filter="url(#glow)"/>
+          <circle class="nn-node" cx="100" cy="320" r="5" fill="#EC4899" filter="url(#glow)"/>
+          <circle class="nn-node" cx="80" cy="210" r="5" fill="#06B6D4" filter="url(#glow)"/>
+          <circle class="nn-node" cx="210" cy="60" r="5" fill="#A855F7" filter="url(#glow)"/>
+          <circle class="nn-node" cx="210" cy="360" r="5" fill="#EC4899" filter="url(#glow)"/>
+
+          <!-- Center node -->
+          <circle cx="210" cy="210" r="22" fill="rgba(168,85,247,0.12)" stroke="rgba(168,85,247,0.4)" stroke-width="1.5"/>
+          <text x="210" y="216" text-anchor="middle" font-size="20">🧠</text>
+
+          <!-- Node labels -->
+          <text x="88" y="88" text-anchor="middle" font-size="9" fill="rgba(168,85,247,0.7)" font-family="Inter">Memory</text>
+          <text x="336" y="78" text-anchor="middle" font-size="9" fill="rgba(236,72,153,0.7)" font-family="Inter">Mood</text>
+          <text x="364" y="214" text-anchor="middle" font-size="9" fill="rgba(6,182,212,0.7)" font-family="Inter">Voice</text>
+          <text x="336" y="348" text-anchor="middle" font-size="9" fill="rgba(168,85,247,0.7)" font-family="Inter">Story</text>
+          <text x="76" y="338" text-anchor="middle" font-size="9" fill="rgba(236,72,153,0.7)" font-family="Inter">Social</text>
+          <text x="54" y="214" text-anchor="middle" font-size="9" fill="rgba(6,182,212,0.7)" font-family="Inter">Soul</text>
+          <text x="210" y="50" text-anchor="middle" font-size="9" fill="rgba(168,85,247,0.7)" font-family="Inter">Growth</text>
+          <text x="210" y="378" text-anchor="middle" font-size="9" fill="rgba(236,72,153,0.7)" font-family="Inter">Bond</text>
+        </svg>
       </div>
-      <div class="why-divider"></div>
-      <p class="why-quote">Most social apps give you followers. Nobody gives you someone who actually listens, remembers, and shows up — every single day. That's the problem we're solving.</p>
+
+      <!-- Stat pills -->
+      <div class="brain-stats">
+        <div class="brain-stat-pill">
+          <div class="bsp-num">1 in 3</div>
+          <div class="bsp-lbl">Feel Lonely</div>
+        </div>
+        <div class="brain-stat-pill">
+          <div class="bsp-num">600M+</div>
+          <div class="bsp-lbl">India's Youth</div>
+        </div>
+        <div class="brain-stat-pill">
+          <div class="bsp-num">$8B</div>
+          <div class="bsp-lbl">Market Size</div>
+        </div>
+      </div>
+
+      <!-- Quote -->
+      <div class="why-quote-box">
+        <p class="why-quote-text">Most social apps give you <strong>followers.</strong> Nobody gives you someone who <strong>listens, remembers,</strong> and shows up — every single day. That's the gap we're closing.</p>
+      </div>
     </div>
 
-    <div class="why-right">
+    <!-- RIGHT: Why cards -->
+    <div class="why-cards reveal-right">
+
       <div class="why-card" style="--wc:#A855F7">
-        <div class="why-card-icon">🧠</div>
-        <div class="why-card-body">
-          <div class="why-card-title">Real Emotional Connection</div>
-          <div class="why-card-desc">Our AI characters remember your conversations, track your moods, and evolve with you — not just respond to you. It's the difference between a chatbot and a companion.</div>
-          <div class="why-card-tag">The Core Product</div>
+        <div class="why-card-head">
+          <div class="why-card-icon">🧠</div>
+          <div class="why-card-meta">
+            <div class="why-card-tag">The Core Product</div>
+            <div class="why-card-title">Real Emotional Connection</div>
+          </div>
         </div>
+        <div class="why-card-desc">Our AI characters remember your conversations, track your moods, and evolve with you — not just respond to you. It's the difference between a chatbot and a <strong style="color:#fff">companion.</strong></div>
       </div>
+
+      <div class="why-chain">
+        <div class="why-chain-dot"></div>
+        <div class="why-chain-line"></div>
+        <div class="why-chain-dot"></div>
+      </div>
+
       <div class="why-card" style="--wc:#EC4899">
-        <div class="why-card-icon">🌍</div>
-        <div class="why-card-body">
-          <div class="why-card-title">Built for the Real World</div>
-          <div class="why-card-desc">Characters speak your language, understand your culture, and come from your world — Mumbai streets, Delhi colleges, Seoul cafés. Not generic Western AI personas.</div>
-          <div class="why-card-tag">India-First, Global Vision</div>
+        <div class="why-card-head">
+          <div class="why-card-icon">🌍</div>
+          <div class="why-card-meta">
+            <div class="why-card-tag">India-First · Global Vision</div>
+            <div class="why-card-title">Built for the Real World</div>
+          </div>
         </div>
+        <div class="why-card-desc">Characters speak your language, understand your culture, come from your world — Mumbai streets, Delhi colleges, Seoul cafés. <strong style="color:#fff">Not generic Western AI personas.</strong></div>
       </div>
+
+      <div class="why-chain">
+        <div class="why-chain-dot"></div>
+        <div class="why-chain-line"></div>
+        <div class="why-chain-dot"></div>
+      </div>
+
       <div class="why-card" style="--wc:#06B6D4">
-        <div class="why-card-icon">🚀</div>
-        <div class="why-card-body">
-          <div class="why-card-title">A Social App, Not Just a Chat App</div>
-          <div class="why-card-desc">Public rooms, group chats, leaderboards, stories — Marvana is where you hang out. AI characters are the heartbeat, but the social layer is what keeps you coming back.</div>
-          <div class="why-card-tag">The Bigger Vision</div>
+        <div class="why-card-head">
+          <div class="why-card-icon">🚀</div>
+          <div class="why-card-meta">
+            <div class="why-card-tag">The Bigger Vision</div>
+            <div class="why-card-title">A Social App, Not Just a Chat App</div>
+          </div>
         </div>
+        <div class="why-card-desc">Public rooms, group chats, leaderboards, stories — Marvana is <strong style="color:#fff">where you hang out.</strong> AI characters are the heartbeat, but the social layer is what keeps you coming back.</div>
       </div>
+
     </div>
   </div>
 
   <!-- India Strip -->
   <div class="india-strip reveal delay-3">
-    <div class="india-flag-icon">🇮🇳</div>
-    <div class="india-text">
-      <h3>India is the <span class="grad">biggest opportunity</span> in social tech right now.</h3>
-      <p>600M+ young Indians are online — hungry for entertainment, connection, and self-expression. No global social app speaks their language, understands their culture, or reflects their reality. Marvana does. We're not localizing a Western product. We're building the first social AI platform <strong style="color:#fff">native to India</strong> — and taking it global.</p>
-    </div>
-    <div class="india-stats">
-      <div class="india-stat">
-        <div class="india-stat-num">600M+</div>
-        <div class="india-stat-lbl">Young Indians Online</div>
+    <div class="india-strip-bg"></div>
+    <div class="india-strip-top"></div>
+    <div class="india-strip-inner">
+      <div class="india-flag-wrap">🇮🇳</div>
+      <div class="india-text">
+        <h3>India is the <span class="grad">biggest opportunity</span> in social tech right now.</h3>
+        <p>600M+ young Indians are online — hungry for entertainment, connection, and self-expression. No global social app truly speaks their language or reflects their reality. We're not localizing a Western product. We're building the <strong>first social AI platform native to India</strong> — and scaling it globally.</p>
       </div>
-      <div class="india-stat">
-        <div class="india-stat-num">$8B</div>
-        <div class="india-stat-lbl">India Social App Market</div>
+      <div class="india-stats-col">
+        <div class="india-stat-box">
+          <div class="india-stat-num">600M+</div>
+          <div class="india-stat-lbl">Young Indians Online</div>
+        </div>
+        <div class="india-stat-box">
+          <div class="india-stat-num">$8B</div>
+          <div class="india-stat-lbl">India Social Market</div>
+        </div>
       </div>
     </div>
   </div>
+
 </section>
 
 <div class="glow-sep"><div class="glow-sep-inner"></div></div>
