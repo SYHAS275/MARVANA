@@ -1983,129 +1983,220 @@ setTimeout(function(){
     <!-- LEFT: Neural Brain -->
     <div class="why-brain-wrap reveal-left">
 
-      <!-- SVG Neural Network Brain -->
+      <!-- SVG Neural Network Brain — Low-Poly Mesh -->
       <div class="brain-canvas-box">
-        <svg class="brain-svg" viewBox="0 0 460 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="brain-svg" viewBox="0 0 480 400" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <radialGradient id="brainFillGrad" cx="50%" cy="48%" r="50%">
-              <stop offset="0%" stop-color="#A855F7" stop-opacity="0.07"/>
-              <stop offset="70%" stop-color="#7C3AED" stop-opacity="0.03"/>
-              <stop offset="100%" stop-color="#A855F7" stop-opacity="0"/>
-            </radialGradient>
             <filter id="glow">
-              <feGaussianBlur stdDeviation="3.5" result="blur"/>
+              <feGaussianBlur stdDeviation="3" result="blur"/>
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
-            <filter id="softGlow">
-              <feGaussianBlur stdDeviation="8" result="blur"/>
+            <filter id="bigGlow">
+              <feGaussianBlur stdDeviation="7" result="blur"/>
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
 
-          <!-- ═══ REAL BRAIN OUTLINE (side view, lateral) ═══ -->
-          <!-- Main brain silhouette with gyri bumps -->
-          <path class="brain-outline" d="
-            M 218 345
-            C 196 338 172 322 155 302
-            C 135 280 120 254 114 228
-            C 107 202 110 176 120 153
-            C 128 135 140 118 155 104
-            C 162 95 169 84 177 78
-            C 184 72 192 70 199 74
-            C 206 68 215 64 222 67
-            C 230 61 240 58 247 63
-            C 255 56 265 54 271 60
-            C 279 53 290 53 295 62
-            C 304 55 315 60 318 73
-            C 326 87 330 108 329 130
-            C 330 152 324 173 314 190
-            C 307 205 296 219 287 234
-            C 279 249 271 263 260 273
-            C 248 284 234 290 220 292
-            C 212 294 208 318 208 332
-            C 210 340 215 345 218 345 Z
-          " fill="url(#brainFillGrad)" stroke="rgba(168,85,247,0.5)" stroke-width="2.2" stroke-linejoin="round"/>
+          <!-- ═══ MESH EDGES (triangulated brain shape) ═══ -->
+          <!-- Outer boundary edges -->
+          <line x1="218" y1="338" x2="190" y2="322" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="190" y1="322" x2="160" y2="302" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="160" y1="302" x2="137" y2="276" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="137" y1="276" x2="120" y2="248" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="120" y1="248" x2="112" y2="218" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="112" y1="218" x2="114" y2="188" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="114" y1="188" x2="120" y2="161" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="120" y1="161" x2="133" y2="136" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="133" y1="136" x2="150" y2="112" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="150" y1="112" x2="165" y2="93" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="165" y1="93" x2="179" y2="76" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="179" y1="76" x2="196" y2="68" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="196" y1="68" x2="215" y2="63" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="215" y1="63" x2="235" y2="60" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="235" y1="60" x2="255" y2="58" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="255" y1="58" x2="274" y2="62" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="274" y1="62" x2="292" y2="70" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="292" y1="70" x2="312" y2="88" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="312" y1="88" x2="324" y2="116" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="324" y1="116" x2="325" y2="146" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="325" y1="146" x2="317" y2="172" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="317" y1="172" x2="304" y2="196" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="304" y1="196" x2="284" y2="220" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="284" y1="220" x2="264" y2="252" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="264" y1="252" x2="244" y2="272" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="244" y1="272" x2="222" y2="280" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
+          <line x1="222" y1="280" x2="218" y2="338" stroke="rgba(236,72,153,0.35)" stroke-width="1"/>
 
-          <!-- ═══ SULCI (brain folds) ═══ -->
-          <!-- Central sulcus — divides frontal from parietal -->
-          <path class="brain-sulcus" d="M 247 63 C 243 92 240 122 244 152 C 247 172 254 190 256 210" fill="none" stroke="rgba(168,85,247,0.22)" stroke-width="1.8" stroke-linecap="round"/>
-          <!-- Lateral (Sylvian) fissure — separates temporal lobe -->
-          <path class="brain-sulcus" d="M 155 104 C 188 114 220 116 252 112 C 275 109 295 103 314 92" fill="none" stroke="rgba(168,85,247,0.2)" stroke-width="1.8" stroke-linecap="round"/>
-          <!-- Parieto-occipital sulcus -->
-          <path class="brain-sulcus" d="M 177 78 C 171 108 163 140 158 170 C 152 198 150 222 153 246" fill="none" stroke="rgba(168,85,247,0.16)" stroke-width="1.4" stroke-linecap="round"/>
-          <!-- Superior frontal sulcus -->
-          <path class="brain-sulcus" d="M 271 60 C 275 88 274 118 268 146" fill="none" stroke="rgba(168,85,247,0.14)" stroke-width="1.2" stroke-linecap="round"/>
-          <!-- Inferior frontal sulcus -->
-          <path class="brain-sulcus" d="M 295 62 C 302 88 304 118 298 146" fill="none" stroke="rgba(168,85,247,0.12)" stroke-width="1.2" stroke-linecap="round"/>
-          <!-- Superior temporal sulcus -->
-          <path class="brain-sulcus" d="M 178 240 C 208 250 238 254 268 249 C 288 246 302 238 310 228" fill="none" stroke="rgba(236,72,153,0.14)" stroke-width="1.2" stroke-linecap="round"/>
+          <!-- Interior mesh edges -->
+          <!-- upper ring -->
+          <line x1="165" y1="93" x2="196" y2="68" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="179" y1="76" x2="215" y2="63" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="196" y1="68" x2="228" y2="108" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="215" y1="63" x2="228" y2="108" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="235" y1="60" x2="228" y2="108" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="255" y1="58" x2="258" y2="106" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="235" y1="60" x2="258" y2="106" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="274" y1="62" x2="258" y2="106" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="274" y1="62" x2="290" y2="104" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="292" y1="70" x2="290" y2="104" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="312" y1="88" x2="290" y2="104" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="312" y1="88" x2="314" y2="142" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="324" y1="116" x2="314" y2="142" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="325" y1="146" x2="314" y2="142" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
 
-          <!-- ═══ NODE CONNECTION LINES (dashed) ═══ -->
-          <line x1="157" y1="158" x2="200" y2="76" stroke="rgba(168,85,247,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
-          <line x1="200" y1="76" x2="291" y2="86" stroke="rgba(168,85,247,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
-          <line x1="291" y1="86" x2="322" y2="160" stroke="rgba(236,72,153,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
-          <line x1="322" y1="160" x2="290" y2="236" stroke="rgba(236,72,153,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
-          <line x1="290" y1="236" x2="242" y2="272" stroke="rgba(6,182,212,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
-          <line x1="242" y1="272" x2="152" y2="246" stroke="rgba(6,182,212,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
-          <line x1="152" y1="246" x2="120" y2="198" stroke="rgba(245,158,11,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
-          <line x1="120" y1="198" x2="157" y2="158" stroke="rgba(245,158,11,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
-          <!-- inner cross connections -->
-          <line x1="157" y1="158" x2="222" y2="178" stroke="rgba(168,85,247,0.12)" stroke-width="1" stroke-dasharray="3 8"/>
-          <line x1="322" y1="160" x2="222" y2="178" stroke="rgba(236,72,153,0.12)" stroke-width="1" stroke-dasharray="3 8"/>
-          <line x1="222" y1="178" x2="290" y2="236" stroke="rgba(168,85,247,0.12)" stroke-width="1" stroke-dasharray="3 8"/>
-          <line x1="222" y1="178" x2="152" y2="246" stroke="rgba(6,182,212,0.12)" stroke-width="1" stroke-dasharray="3 8"/>
+          <!-- mid ring -->
+          <line x1="150" y1="112" x2="168" y2="148" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="133" y1="136" x2="168" y2="148" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="165" y1="93" x2="168" y2="148" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="168" y1="148" x2="200" y2="122" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="196" y1="68" x2="200" y2="122" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="200" y1="122" x2="228" y2="108" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="228" y1="108" x2="258" y2="106" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="258" y1="106" x2="290" y2="104" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="290" y1="104" x2="314" y2="142" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="314" y1="142" x2="317" y2="172" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="314" y1="142" x2="290" y2="172" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="317" y1="172" x2="290" y2="172" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
 
-          <!-- ═══ ANIMATED SIGNALS ═══ -->
-          <line class="nn-signal" x1="157" y1="158" x2="200" y2="76" stroke="#A855F7" stroke-width="2.5" stroke-dasharray="18 300" stroke-linecap="round" filter="url(#glow)"/>
-          <line class="nn-signal" x1="291" y1="86" x2="322" y2="160" stroke="#EC4899" stroke-width="2.5" stroke-dasharray="18 300" stroke-linecap="round" filter="url(#glow)"/>
-          <line class="nn-signal" x1="120" y1="198" x2="157" y2="158" stroke="#06B6D4" stroke-width="2.5" stroke-dasharray="18 300" stroke-linecap="round" filter="url(#glow)"/>
-          <line class="nn-signal" x1="322" y1="160" x2="290" y2="236" stroke="#A855F7" stroke-width="2.5" stroke-dasharray="18 300" stroke-linecap="round" filter="url(#glow)"/>
-          <line class="nn-signal" x1="242" y1="272" x2="152" y2="246" stroke="#EC4899" stroke-width="2.5" stroke-dasharray="18 300" stroke-linecap="round" filter="url(#glow)"/>
+          <!-- center connections -->
+          <line x1="168" y1="148" x2="196" y2="150" stroke="rgba(236,72,153,0.25)" stroke-width="1"/>
+          <line x1="200" y1="122" x2="196" y2="150" stroke="rgba(168,85,247,0.25)" stroke-width="1"/>
+          <line x1="200" y1="122" x2="228" y2="146" stroke="rgba(236,72,153,0.25)" stroke-width="1"/>
+          <line x1="228" y1="108" x2="228" y2="146" stroke="rgba(168,85,247,0.25)" stroke-width="1"/>
+          <line x1="258" y1="106" x2="258" y2="156" stroke="rgba(236,72,153,0.25)" stroke-width="1"/>
+          <line x1="228" y1="146" x2="258" y2="156" stroke="rgba(168,85,247,0.25)" stroke-width="1"/>
+          <line x1="290" y1="104" x2="258" y2="156" stroke="rgba(236,72,153,0.25)" stroke-width="1"/>
+          <line x1="290" y1="172" x2="258" y2="156" stroke="rgba(168,85,247,0.25)" stroke-width="1"/>
+          <line x1="196" y1="150" x2="215" y2="198" stroke="rgba(236,72,153,0.25)" stroke-width="1"/>
+          <line x1="228" y1="146" x2="215" y2="198" stroke="rgba(168,85,247,0.25)" stroke-width="1"/>
+          <line x1="258" y1="156" x2="215" y2="198" stroke="rgba(236,72,153,0.25)" stroke-width="1"/>
+          <line x1="290" y1="172" x2="215" y2="198" stroke="rgba(168,85,247,0.25)" stroke-width="1"/>
 
-          <!-- ═══ NODES ═══ -->
-          <!-- Memory — parietal lobe -->
-          <circle cx="157" cy="158" r="14" fill="rgba(168,85,247,0.08)" stroke="rgba(168,85,247,0.2)" stroke-width="1"/>
-          <circle class="nn-node" cx="157" cy="158" r="6" fill="#A855F7" filter="url(#glow)"/>
-          <text x="80" y="153" text-anchor="middle" font-size="10" fill="rgba(168,85,247,0.95)" font-family="Inter" font-weight="700">Memory</text>
+          <!-- left side interior -->
+          <line x1="120" y1="161" x2="140" y2="202" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="133" y1="136" x2="140" y2="202" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="168" y1="148" x2="140" y2="202" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="114" y1="188" x2="140" y2="202" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="112" y1="218" x2="140" y2="202" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="140" y1="202" x2="155" y2="230" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="196" y1="150" x2="140" y2="202" stroke="rgba(236,72,153,0.22)" stroke-width="1"/>
+          <line x1="112" y1="218" x2="155" y2="230" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="120" y1="248" x2="155" y2="230" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="155" y1="230" x2="182" y2="216" stroke="rgba(168,85,247,0.25)" stroke-width="1"/>
+          <line x1="196" y1="150" x2="182" y2="216" stroke="rgba(236,72,153,0.25)" stroke-width="1"/>
+          <line x1="215" y1="198" x2="182" y2="216" stroke="rgba(168,85,247,0.25)" stroke-width="1"/>
+
+          <!-- lower interior -->
+          <line x1="155" y1="230" x2="152" y2="248" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="120" y1="248" x2="152" y2="248" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="137" y1="276" x2="152" y2="248" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="152" y1="248" x2="182" y2="265" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="160" y1="302" x2="182" y2="265" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="190" y1="322" x2="182" y2="265" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="218" y1="338" x2="182" y2="265" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="182" y1="265" x2="215" y2="198" stroke="rgba(168,85,247,0.22)" stroke-width="1"/>
+          <line x1="215" y1="198" x2="245" y2="240" stroke="rgba(236,72,153,0.25)" stroke-width="1"/>
+          <line x1="182" y1="265" x2="245" y2="240" stroke="rgba(168,85,247,0.25)" stroke-width="1"/>
+          <line x1="222" y1="280" x2="245" y2="240" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="244" y1="272" x2="245" y2="240" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="264" y1="252" x2="245" y2="240" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="284" y1="220" x2="245" y2="240" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="284" y1="220" x2="215" y2="198" stroke="rgba(236,72,153,0.25)" stroke-width="1"/>
+          <line x1="284" y1="220" x2="290" y2="172" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+          <line x1="304" y1="196" x2="290" y2="172" stroke="rgba(236,72,153,0.28)" stroke-width="1"/>
+          <line x1="304" y1="196" x2="284" y2="220" stroke="rgba(168,85,247,0.28)" stroke-width="1"/>
+
+          <!-- ═══ ANIMATED SIGNAL EDGES ═══ -->
+          <line class="nn-signal" x1="168" y1="148" x2="228" y2="108" stroke="#EC4899" stroke-width="2" stroke-dasharray="15 350" stroke-linecap="round" filter="url(#glow)"/>
+          <line class="nn-signal" x1="290" y1="104" x2="314" y2="142" stroke="#A855F7" stroke-width="2" stroke-dasharray="15 350" stroke-linecap="round" filter="url(#glow)"/>
+          <line class="nn-signal" x1="215" y1="198" x2="140" y2="202" stroke="#EC4899" stroke-width="2" stroke-dasharray="15 350" stroke-linecap="round" filter="url(#glow)"/>
+          <line class="nn-signal" x1="215" y1="198" x2="245" y2="240" stroke="#A855F7" stroke-width="2" stroke-dasharray="15 350" stroke-linecap="round" filter="url(#glow)"/>
+          <line class="nn-signal" x1="258" y1="156" x2="290" y2="172" stroke="#EC4899" stroke-width="2" stroke-dasharray="15 350" stroke-linecap="round" filter="url(#glow)"/>
+
+          <!-- ═══ ALL MESH NODES (small dots) ═══ -->
+          <!-- boundary nodes -->
+          <circle cx="218" cy="338" r="3" fill="#EC4899" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="190" cy="322" r="3" fill="#EC4899" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="160" cy="302" r="3" fill="#A855F7" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="137" cy="276" r="3" fill="#EC4899" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="120" cy="248" r="3" fill="#A855F7" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="112" cy="218" r="3" fill="#EC4899" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="114" cy="188" r="3" fill="#A855F7" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="120" cy="161" r="3" fill="#EC4899" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="133" cy="136" r="3" fill="#A855F7" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="150" cy="112" r="3" fill="#EC4899" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="165" cy="93" r="3" fill="#A855F7" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="179" cy="76" r="3.5" fill="#EC4899" opacity="0.9" filter="url(#glow)"/>
+          <circle cx="196" cy="68" r="3" fill="#A855F7" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="215" cy="63" r="3.5" fill="#EC4899" opacity="0.9" filter="url(#glow)"/>
+          <circle cx="235" cy="60" r="3" fill="#A855F7" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="255" cy="58" r="3.5" fill="#EC4899" opacity="0.9" filter="url(#glow)"/>
+          <circle cx="274" cy="62" r="3" fill="#A855F7" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="292" cy="70" r="3.5" fill="#EC4899" opacity="0.9" filter="url(#glow)"/>
+          <circle cx="312" cy="88" r="3" fill="#A855F7" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="324" cy="116" r="3" fill="#EC4899" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="325" cy="146" r="3" fill="#A855F7" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="317" cy="172" r="3" fill="#EC4899" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="304" cy="196" r="3" fill="#A855F7" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="284" cy="220" r="3" fill="#EC4899" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="264" cy="252" r="3" fill="#A855F7" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="244" cy="272" r="3" fill="#EC4899" opacity="0.7" filter="url(#glow)"/>
+          <circle cx="222" cy="280" r="3" fill="#A855F7" opacity="0.7" filter="url(#glow)"/>
+          <!-- interior small nodes -->
+          <circle cx="200" cy="122" r="3" fill="#EC4899" opacity="0.65" filter="url(#glow)"/>
+          <circle cx="258" cy="106" r="3" fill="#A855F7" opacity="0.65" filter="url(#glow)"/>
+          <circle cx="290" cy="172" r="3" fill="#EC4899" opacity="0.65" filter="url(#glow)"/>
+          <circle cx="196" cy="150" r="3" fill="#A855F7" opacity="0.65" filter="url(#glow)"/>
+          <circle cx="228" cy="146" r="3" fill="#EC4899" opacity="0.65" filter="url(#glow)"/>
+          <circle cx="258" cy="156" r="3" fill="#A855F7" opacity="0.65" filter="url(#glow)"/>
+          <circle cx="182" cy="216" r="3" fill="#EC4899" opacity="0.65" filter="url(#glow)"/>
+          <circle cx="245" cy="240" r="3" fill="#A855F7" opacity="0.65" filter="url(#glow)"/>
+          <circle cx="182" cy="265" r="3" fill="#EC4899" opacity="0.65" filter="url(#glow)"/>
+
+          <!-- ═══ 8 LABELED KEY NODES (larger, brighter) ═══ -->
+          <!-- Memory — parietal -->
+          <circle cx="168" cy="148" r="5" fill="#EC4899" filter="url(#bigGlow)"/>
+          <circle class="nn-node" cx="168" cy="148" r="7" fill="none" stroke="#EC4899" stroke-width="1.5" opacity="0.5"/>
+          <text x="88" y="143" text-anchor="middle" font-size="10" fill="#EC4899" font-family="Inter" font-weight="700" opacity="0.9">Memory</text>
 
           <!-- Growth — top parietal -->
-          <circle cx="200" cy="76" r="14" fill="rgba(168,85,247,0.08)" stroke="rgba(168,85,247,0.2)" stroke-width="1"/>
-          <circle class="nn-node" cx="200" cy="76" r="6" fill="#A855F7" filter="url(#glow)"/>
-          <text x="200" y="50" text-anchor="middle" font-size="10" fill="rgba(168,85,247,0.95)" font-family="Inter" font-weight="700">Growth</text>
+          <circle cx="228" cy="108" r="5" fill="#A855F7" filter="url(#bigGlow)"/>
+          <circle class="nn-node" cx="228" cy="108" r="7" fill="none" stroke="#A855F7" stroke-width="1.5" opacity="0.5"/>
+          <text x="228" y="88" text-anchor="middle" font-size="10" fill="#A855F7" font-family="Inter" font-weight="700" opacity="0.9">Growth</text>
 
           <!-- Mood — prefrontal -->
-          <circle cx="291" cy="86" r="14" fill="rgba(236,72,153,0.08)" stroke="rgba(236,72,153,0.2)" stroke-width="1"/>
-          <circle class="nn-node" cx="291" cy="86" r="6" fill="#EC4899" filter="url(#glow)"/>
-          <text x="310" y="63" text-anchor="middle" font-size="10" fill="rgba(236,72,153,0.95)" font-family="Inter" font-weight="700">Mood</text>
+          <circle cx="290" cy="104" r="5" fill="#EC4899" filter="url(#bigGlow)"/>
+          <circle class="nn-node" cx="290" cy="104" r="7" fill="none" stroke="#EC4899" stroke-width="1.5" opacity="0.5"/>
+          <text x="310" y="84" text-anchor="middle" font-size="10" fill="#EC4899" font-family="Inter" font-weight="700" opacity="0.9">Mood</text>
 
-          <!-- Voice — frontal motor cortex -->
-          <circle cx="322" cy="160" r="14" fill="rgba(236,72,153,0.08)" stroke="rgba(236,72,153,0.2)" stroke-width="1"/>
-          <circle class="nn-node" cx="322" cy="160" r="6" fill="#EC4899" filter="url(#glow)"/>
-          <text x="368" y="164" text-anchor="middle" font-size="10" fill="rgba(236,72,153,0.95)" font-family="Inter" font-weight="700">Voice</text>
+          <!-- Voice — motor cortex -->
+          <circle cx="314" cy="142" r="5" fill="#A855F7" filter="url(#bigGlow)"/>
+          <circle class="nn-node" cx="314" cy="142" r="7" fill="none" stroke="#A855F7" stroke-width="1.5" opacity="0.5"/>
+          <text x="360" y="140" text-anchor="middle" font-size="10" fill="#A855F7" font-family="Inter" font-weight="700" opacity="0.9">Voice</text>
 
-          <!-- Social — temporal-parietal junction -->
-          <circle cx="290" cy="236" r="14" fill="rgba(6,182,212,0.08)" stroke="rgba(6,182,212,0.2)" stroke-width="1"/>
-          <circle class="nn-node" cx="290" cy="236" r="6" fill="#06B6D4" filter="url(#glow)"/>
-          <text x="340" y="240" text-anchor="middle" font-size="10" fill="rgba(6,182,212,0.95)" font-family="Inter" font-weight="700">Social</text>
+          <!-- Social — temporal-parietal -->
+          <circle cx="284" cy="220" r="5" fill="#EC4899" filter="url(#bigGlow)"/>
+          <circle class="nn-node" cx="284" cy="220" r="7" fill="none" stroke="#EC4899" stroke-width="1.5" opacity="0.5"/>
+          <text x="330" y="222" text-anchor="middle" font-size="10" fill="#EC4899" font-family="Inter" font-weight="700" opacity="0.9">Social</text>
 
-          <!-- Bond — temporal lobe -->
-          <circle cx="242" cy="272" r="14" fill="rgba(6,182,212,0.08)" stroke="rgba(6,182,212,0.2)" stroke-width="1"/>
-          <circle class="nn-node" cx="242" cy="272" r="6" fill="#06B6D4" filter="url(#glow)"/>
-          <text x="256" y="300" text-anchor="middle" font-size="10" fill="rgba(6,182,212,0.95)" font-family="Inter" font-weight="700">Bond</text>
+          <!-- Bond — temporal -->
+          <circle cx="245" cy="240" r="5" fill="#A855F7" filter="url(#bigGlow)"/>
+          <circle class="nn-node" cx="245" cy="240" r="7" fill="none" stroke="#A855F7" stroke-width="1.5" opacity="0.5"/>
+          <text x="258" y="260" text-anchor="middle" font-size="10" fill="#A855F7" font-family="Inter" font-weight="700" opacity="0.9">Bond</text>
 
           <!-- Story — occipital-temporal -->
-          <circle cx="152" cy="246" r="14" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.2)" stroke-width="1"/>
-          <circle class="nn-node" cx="152" cy="246" r="6" fill="#F59E0B" filter="url(#glow)"/>
-          <text x="100" y="268" text-anchor="middle" font-size="10" fill="rgba(245,158,11,0.95)" font-family="Inter" font-weight="700">Story</text>
+          <circle cx="155" cy="230" r="5" fill="#EC4899" filter="url(#bigGlow)"/>
+          <circle class="nn-node" cx="155" cy="230" r="7" fill="none" stroke="#EC4899" stroke-width="1.5" opacity="0.5"/>
+          <text x="100" y="250" text-anchor="middle" font-size="10" fill="#EC4899" font-family="Inter" font-weight="700" opacity="0.9">Story</text>
 
-          <!-- Soul — occipital lobe -->
-          <circle cx="120" cy="198" r="14" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.2)" stroke-width="1"/>
-          <circle class="nn-node" cx="120" cy="198" r="6" fill="#F59E0B" filter="url(#glow)"/>
-          <text x="68" y="202" text-anchor="middle" font-size="10" fill="rgba(245,158,11,0.95)" font-family="Inter" font-weight="700">Soul</text>
+          <!-- Soul — occipital -->
+          <circle cx="140" cy="202" r="5" fill="#A855F7" filter="url(#bigGlow)"/>
+          <circle class="nn-node" cx="140" cy="202" r="7" fill="none" stroke="#A855F7" stroke-width="1.5" opacity="0.5"/>
+          <text x="78" y="202" text-anchor="middle" font-size="10" fill="#A855F7" font-family="Inter" font-weight="700" opacity="0.9">Soul</text>
 
-          <!-- Center consciousness node -->
-          <circle class="brain-center-glow" cx="222" cy="178" r="20" fill="rgba(168,85,247,0.1)" stroke="rgba(168,85,247,0.3)" stroke-width="1.5"/>
-          <text x="222" y="184" text-anchor="middle" font-size="18">🧠</text>
+          <!-- CENTER node -->
+          <circle class="brain-center-glow" cx="215" cy="198" r="8" fill="#EC4899" filter="url(#bigGlow)" opacity="0.9"/>
+          <circle cx="215" cy="198" r="14" fill="none" stroke="#EC4899" stroke-width="1" opacity="0.3"/>
         </svg>
       </div>
 
