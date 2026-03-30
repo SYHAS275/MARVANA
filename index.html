@@ -1001,13 +1001,14 @@
     .mem-tag { font-weight: 700; font-size: 11px; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
 
     /* mood chips */
-    .mem-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+    .mem-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; align-items: center; justify-content: flex-start; }
     .mem-chip {
-      padding: 5px 13px; border-radius: 20px; font-size: 11px; font-weight: 600;
+      padding: 0 13px; height: 28px; line-height: 28px;
+      border-radius: 20px; font-size: 11px; font-weight: 600;
       background: color-mix(in srgb, var(--c) 10%, transparent);
       border: 1px solid color-mix(in srgb, var(--c) 25%, transparent);
       color: var(--c); transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
-      cursor: default;
+      cursor: default; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px;
     }
     .memory-card:hover .mem-chip { transform: translateY(-4px) scale(1.05); }
     .mem-chip:hover { transform: translateY(-6px) scale(1.1) !important; box-shadow: 0 8px 16px color-mix(in srgb, var(--c) 40%, transparent); border-color: color-mix(in srgb, var(--c) 60%, transparent); }
