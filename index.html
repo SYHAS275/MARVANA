@@ -224,6 +224,23 @@
       pointer-events: none;
     }
     @media (max-width: 768px) { .hero-content { padding-bottom: 50px; } }
+
+    /* ── Orientation fixes for iPad / iPhone ── */
+    @media (max-width: 1024px) and (orientation: landscape) {
+      .hero { min-height: 100svh; }
+      .hero-content { padding-bottom: 24px; justify-content: flex-end; }
+      .hero h1, .hero-title { font-size: clamp(28px, 5vw, 52px); letter-spacing: -1px; margin-bottom: 10px; }
+      .hero-sub { font-size: clamp(12px, 1.4vw, 14px); max-width: 380px; }
+    }
+    @media (max-width: 768px) and (orientation: landscape) {
+      .hero h1, .hero-title { font-size: clamp(24px, 4.5vw, 40px); letter-spacing: -1px; margin-bottom: 8px; }
+      .hero-content { padding-bottom: 16px; }
+      .hero-sub { display: none; }
+    }
+    @media (max-width: 1024px) and (orientation: portrait) {
+      .hero h1, .hero-title { font-size: clamp(40px, 8vw, 72px); }
+    }
+
     /* ═══ HERO VIDEO BACKGROUND ═══ */
     .hero-video-bg {
       position: absolute; inset: 0; z-index: 0;
