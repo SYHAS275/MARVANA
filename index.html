@@ -930,6 +930,21 @@
       max-width: 420px; margin: 0 auto;
     }
     .brain-svg { width: 100%; height: 100%; }
+    .brain-outline {
+      stroke-dasharray: 1400; stroke-dashoffset: 1400;
+      animation: brainDraw 3.5s cubic-bezier(0.4,0,0.2,1) 0.3s forwards;
+    }
+    @keyframes brainDraw { to { stroke-dashoffset: 0; } }
+    .brain-sulcus {
+      stroke-dasharray: 200; stroke-dashoffset: 200;
+      animation: brainDraw 1.5s ease forwards;
+    }
+    .brain-sulcus:nth-child(1) { animation-delay: 1.8s; }
+    .brain-sulcus:nth-child(2) { animation-delay: 2.0s; }
+    .brain-sulcus:nth-child(3) { animation-delay: 2.2s; }
+    .brain-sulcus:nth-child(4) { animation-delay: 2.4s; }
+    .brain-sulcus:nth-child(5) { animation-delay: 2.6s; }
+    .brain-sulcus:nth-child(6) { animation-delay: 2.8s; }
     /* neural nodes */
     .nn-node { animation: nnPulse 3s ease-in-out infinite; }
     .nn-node:nth-child(2) { animation-delay: 0.4s; }
@@ -1970,84 +1985,127 @@ setTimeout(function(){
 
       <!-- SVG Neural Network Brain -->
       <div class="brain-canvas-box">
-        <svg class="brain-svg" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="brain-svg" viewBox="0 0 460 420" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <radialGradient id="brainGrad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#A855F7" stop-opacity="0.18"/>
+            <radialGradient id="brainFillGrad" cx="50%" cy="48%" r="50%">
+              <stop offset="0%" stop-color="#A855F7" stop-opacity="0.07"/>
+              <stop offset="70%" stop-color="#7C3AED" stop-opacity="0.03"/>
               <stop offset="100%" stop-color="#A855F7" stop-opacity="0"/>
             </radialGradient>
-            <linearGradient id="edgeGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#A855F7" stop-opacity="0.5"/>
-              <stop offset="100%" stop-color="#EC4899" stop-opacity="0.5"/>
-            </linearGradient>
-            <linearGradient id="edgeGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.4"/>
-              <stop offset="100%" stop-color="#A855F7" stop-opacity="0.4"/>
-            </linearGradient>
             <filter id="glow">
-              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feGaussianBlur stdDeviation="3.5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="softGlow">
+              <feGaussianBlur stdDeviation="8" result="blur"/>
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
 
-          <!-- Center glow -->
-          <circle class="brain-center-glow" cx="210" cy="210" r="52" fill="url(#brainGrad)"/>
+          <!-- ═══ REAL BRAIN OUTLINE (side view, lateral) ═══ -->
+          <!-- Main brain silhouette with gyri bumps -->
+          <path class="brain-outline" d="
+            M 218 345
+            C 196 338 172 322 155 302
+            C 135 280 120 254 114 228
+            C 107 202 110 176 120 153
+            C 128 135 140 118 155 104
+            C 162 95 169 84 177 78
+            C 184 72 192 70 199 74
+            C 206 68 215 64 222 67
+            C 230 61 240 58 247 63
+            C 255 56 265 54 271 60
+            C 279 53 290 53 295 62
+            C 304 55 315 60 318 73
+            C 326 87 330 108 329 130
+            C 330 152 324 173 314 190
+            C 307 205 296 219 287 234
+            C 279 249 271 263 260 273
+            C 248 284 234 290 220 292
+            C 212 294 208 318 208 332
+            C 210 340 215 345 218 345 Z
+          " fill="url(#brainFillGrad)" stroke="rgba(168,85,247,0.5)" stroke-width="2.2" stroke-linejoin="round"/>
 
-          <!-- Outer ring faint -->
-          <circle cx="210" cy="210" r="160" stroke="rgba(168,85,247,0.06)" stroke-width="1" stroke-dasharray="6 8"/>
-          <circle cx="210" cy="210" r="120" stroke="rgba(168,85,247,0.08)" stroke-width="1" stroke-dasharray="4 10"/>
+          <!-- ═══ SULCI (brain folds) ═══ -->
+          <!-- Central sulcus — divides frontal from parietal -->
+          <path class="brain-sulcus" d="M 247 63 C 243 92 240 122 244 152 C 247 172 254 190 256 210" fill="none" stroke="rgba(168,85,247,0.22)" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- Lateral (Sylvian) fissure — separates temporal lobe -->
+          <path class="brain-sulcus" d="M 155 104 C 188 114 220 116 252 112 C 275 109 295 103 314 92" fill="none" stroke="rgba(168,85,247,0.2)" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- Parieto-occipital sulcus -->
+          <path class="brain-sulcus" d="M 177 78 C 171 108 163 140 158 170 C 152 198 150 222 153 246" fill="none" stroke="rgba(168,85,247,0.16)" stroke-width="1.4" stroke-linecap="round"/>
+          <!-- Superior frontal sulcus -->
+          <path class="brain-sulcus" d="M 271 60 C 275 88 274 118 268 146" fill="none" stroke="rgba(168,85,247,0.14)" stroke-width="1.2" stroke-linecap="round"/>
+          <!-- Inferior frontal sulcus -->
+          <path class="brain-sulcus" d="M 295 62 C 302 88 304 118 298 146" fill="none" stroke="rgba(168,85,247,0.12)" stroke-width="1.2" stroke-linecap="round"/>
+          <!-- Superior temporal sulcus -->
+          <path class="brain-sulcus" d="M 178 240 C 208 250 238 254 268 249 C 288 246 302 238 310 228" fill="none" stroke="rgba(236,72,153,0.14)" stroke-width="1.2" stroke-linecap="round"/>
 
-          <!-- Edges / connections -->
-          <line x1="210" y1="210" x2="100" y2="100" stroke="url(#edgeGrad1)" stroke-width="1.5" opacity="0.6"/>
-          <line x1="210" y1="210" x2="320" y2="90" stroke="url(#edgeGrad2)" stroke-width="1.5" opacity="0.6"/>
-          <line x1="210" y1="210" x2="340" y2="210" stroke="url(#edgeGrad1)" stroke-width="1.5" opacity="0.6"/>
-          <line x1="210" y1="210" x2="320" y2="330" stroke="url(#edgeGrad2)" stroke-width="1.5" opacity="0.6"/>
-          <line x1="210" y1="210" x2="100" y2="320" stroke="url(#edgeGrad1)" stroke-width="1.5" opacity="0.6"/>
-          <line x1="210" y1="210" x2="80" y2="210" stroke="url(#edgeGrad2)" stroke-width="1.5" opacity="0.6"/>
-          <line x1="210" y1="210" x2="210" y2="60" stroke="url(#edgeGrad1)" stroke-width="1.5" opacity="0.6"/>
-          <line x1="210" y1="210" x2="210" y2="360" stroke="url(#edgeGrad2)" stroke-width="1.5" opacity="0.6"/>
-          <!-- cross edges -->
-          <line x1="100" y1="100" x2="320" y2="90" stroke="rgba(168,85,247,0.2)" stroke-width="1"/>
-          <line x1="320" y1="90" x2="340" y2="210" stroke="rgba(236,72,153,0.2)" stroke-width="1"/>
-          <line x1="340" y1="210" x2="320" y2="330" stroke="rgba(6,182,212,0.2)" stroke-width="1"/>
-          <line x1="320" y1="330" x2="100" y2="320" stroke="rgba(168,85,247,0.2)" stroke-width="1"/>
-          <line x1="100" y1="320" x2="80" y2="210" stroke="rgba(236,72,153,0.2)" stroke-width="1"/>
-          <line x1="80" y1="210" x2="100" y2="100" stroke="rgba(6,182,212,0.2)" stroke-width="1"/>
-          <line x1="210" y1="60" x2="320" y2="90" stroke="rgba(168,85,247,0.15)" stroke-width="1"/>
-          <line x1="210" y1="60" x2="100" y2="100" stroke="rgba(168,85,247,0.15)" stroke-width="1"/>
-          <line x1="210" y1="360" x2="320" y2="330" stroke="rgba(236,72,153,0.15)" stroke-width="1"/>
-          <line x1="210" y1="360" x2="100" y2="320" stroke="rgba(236,72,153,0.15)" stroke-width="1"/>
+          <!-- ═══ NODE CONNECTION LINES (dashed) ═══ -->
+          <line x1="157" y1="158" x2="200" y2="76" stroke="rgba(168,85,247,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
+          <line x1="200" y1="76" x2="291" y2="86" stroke="rgba(168,85,247,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
+          <line x1="291" y1="86" x2="322" y2="160" stroke="rgba(236,72,153,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
+          <line x1="322" y1="160" x2="290" y2="236" stroke="rgba(236,72,153,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
+          <line x1="290" y1="236" x2="242" y2="272" stroke="rgba(6,182,212,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
+          <line x1="242" y1="272" x2="152" y2="246" stroke="rgba(6,182,212,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
+          <line x1="152" y1="246" x2="120" y2="198" stroke="rgba(245,158,11,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
+          <line x1="120" y1="198" x2="157" y2="158" stroke="rgba(245,158,11,0.2)" stroke-width="1.2" stroke-dasharray="4 7"/>
+          <!-- inner cross connections -->
+          <line x1="157" y1="158" x2="222" y2="178" stroke="rgba(168,85,247,0.12)" stroke-width="1" stroke-dasharray="3 8"/>
+          <line x1="322" y1="160" x2="222" y2="178" stroke="rgba(236,72,153,0.12)" stroke-width="1" stroke-dasharray="3 8"/>
+          <line x1="222" y1="178" x2="290" y2="236" stroke="rgba(168,85,247,0.12)" stroke-width="1" stroke-dasharray="3 8"/>
+          <line x1="222" y1="178" x2="152" y2="246" stroke="rgba(6,182,212,0.12)" stroke-width="1" stroke-dasharray="3 8"/>
 
-          <!-- Travelling signal paths (animated dashes) -->
-          <line class="nn-signal" x1="210" y1="210" x2="100" y2="100" stroke="#A855F7" stroke-width="2" stroke-dasharray="20 280" filter="url(#glow)"/>
-          <line class="nn-signal" x1="210" y1="210" x2="340" y2="210" stroke="#EC4899" stroke-width="2" stroke-dasharray="20 280" filter="url(#glow)"/>
-          <line class="nn-signal" x1="210" y1="210" x2="210" y2="360" stroke="#06B6D4" stroke-width="2" stroke-dasharray="20 280" filter="url(#glow)"/>
-          <line class="nn-signal" x1="210" y1="210" x2="320" y2="90" stroke="#A855F7" stroke-width="2" stroke-dasharray="20 280" filter="url(#glow)"/>
-          <line class="nn-signal" x1="210" y1="210" x2="80" y2="210" stroke="#EC4899" stroke-width="2" stroke-dasharray="20 280" filter="url(#glow)"/>
+          <!-- ═══ ANIMATED SIGNALS ═══ -->
+          <line class="nn-signal" x1="157" y1="158" x2="200" y2="76" stroke="#A855F7" stroke-width="2.5" stroke-dasharray="18 300" stroke-linecap="round" filter="url(#glow)"/>
+          <line class="nn-signal" x1="291" y1="86" x2="322" y2="160" stroke="#EC4899" stroke-width="2.5" stroke-dasharray="18 300" stroke-linecap="round" filter="url(#glow)"/>
+          <line class="nn-signal" x1="120" y1="198" x2="157" y2="158" stroke="#06B6D4" stroke-width="2.5" stroke-dasharray="18 300" stroke-linecap="round" filter="url(#glow)"/>
+          <line class="nn-signal" x1="322" y1="160" x2="290" y2="236" stroke="#A855F7" stroke-width="2.5" stroke-dasharray="18 300" stroke-linecap="round" filter="url(#glow)"/>
+          <line class="nn-signal" x1="242" y1="272" x2="152" y2="246" stroke="#EC4899" stroke-width="2.5" stroke-dasharray="18 300" stroke-linecap="round" filter="url(#glow)"/>
 
-          <!-- Outer nodes -->
-          <circle class="nn-node" cx="100" cy="100" r="5" fill="#A855F7" filter="url(#glow)"/>
-          <circle class="nn-node" cx="320" cy="90" r="5" fill="#EC4899" filter="url(#glow)"/>
-          <circle class="nn-node" cx="340" cy="210" r="5" fill="#06B6D4" filter="url(#glow)"/>
-          <circle class="nn-node" cx="320" cy="330" r="5" fill="#A855F7" filter="url(#glow)"/>
-          <circle class="nn-node" cx="100" cy="320" r="5" fill="#EC4899" filter="url(#glow)"/>
-          <circle class="nn-node" cx="80" cy="210" r="5" fill="#06B6D4" filter="url(#glow)"/>
-          <circle class="nn-node" cx="210" cy="60" r="5" fill="#A855F7" filter="url(#glow)"/>
-          <circle class="nn-node" cx="210" cy="360" r="5" fill="#EC4899" filter="url(#glow)"/>
+          <!-- ═══ NODES ═══ -->
+          <!-- Memory — parietal lobe -->
+          <circle cx="157" cy="158" r="14" fill="rgba(168,85,247,0.08)" stroke="rgba(168,85,247,0.2)" stroke-width="1"/>
+          <circle class="nn-node" cx="157" cy="158" r="6" fill="#A855F7" filter="url(#glow)"/>
+          <text x="80" y="153" text-anchor="middle" font-size="10" fill="rgba(168,85,247,0.95)" font-family="Inter" font-weight="700">Memory</text>
 
-          <!-- Center node -->
-          <circle cx="210" cy="210" r="22" fill="rgba(168,85,247,0.12)" stroke="rgba(168,85,247,0.4)" stroke-width="1.5"/>
-          <text x="210" y="216" text-anchor="middle" font-size="20">🧠</text>
+          <!-- Growth — top parietal -->
+          <circle cx="200" cy="76" r="14" fill="rgba(168,85,247,0.08)" stroke="rgba(168,85,247,0.2)" stroke-width="1"/>
+          <circle class="nn-node" cx="200" cy="76" r="6" fill="#A855F7" filter="url(#glow)"/>
+          <text x="200" y="50" text-anchor="middle" font-size="10" fill="rgba(168,85,247,0.95)" font-family="Inter" font-weight="700">Growth</text>
 
-          <!-- Node labels -->
-          <text x="88" y="88" text-anchor="middle" font-size="9" fill="rgba(168,85,247,0.7)" font-family="Inter">Memory</text>
-          <text x="336" y="78" text-anchor="middle" font-size="9" fill="rgba(236,72,153,0.7)" font-family="Inter">Mood</text>
-          <text x="364" y="214" text-anchor="middle" font-size="9" fill="rgba(6,182,212,0.7)" font-family="Inter">Voice</text>
-          <text x="336" y="348" text-anchor="middle" font-size="9" fill="rgba(168,85,247,0.7)" font-family="Inter">Story</text>
-          <text x="76" y="338" text-anchor="middle" font-size="9" fill="rgba(236,72,153,0.7)" font-family="Inter">Social</text>
-          <text x="54" y="214" text-anchor="middle" font-size="9" fill="rgba(6,182,212,0.7)" font-family="Inter">Soul</text>
-          <text x="210" y="50" text-anchor="middle" font-size="9" fill="rgba(168,85,247,0.7)" font-family="Inter">Growth</text>
-          <text x="210" y="378" text-anchor="middle" font-size="9" fill="rgba(236,72,153,0.7)" font-family="Inter">Bond</text>
+          <!-- Mood — prefrontal -->
+          <circle cx="291" cy="86" r="14" fill="rgba(236,72,153,0.08)" stroke="rgba(236,72,153,0.2)" stroke-width="1"/>
+          <circle class="nn-node" cx="291" cy="86" r="6" fill="#EC4899" filter="url(#glow)"/>
+          <text x="310" y="63" text-anchor="middle" font-size="10" fill="rgba(236,72,153,0.95)" font-family="Inter" font-weight="700">Mood</text>
+
+          <!-- Voice — frontal motor cortex -->
+          <circle cx="322" cy="160" r="14" fill="rgba(236,72,153,0.08)" stroke="rgba(236,72,153,0.2)" stroke-width="1"/>
+          <circle class="nn-node" cx="322" cy="160" r="6" fill="#EC4899" filter="url(#glow)"/>
+          <text x="368" y="164" text-anchor="middle" font-size="10" fill="rgba(236,72,153,0.95)" font-family="Inter" font-weight="700">Voice</text>
+
+          <!-- Social — temporal-parietal junction -->
+          <circle cx="290" cy="236" r="14" fill="rgba(6,182,212,0.08)" stroke="rgba(6,182,212,0.2)" stroke-width="1"/>
+          <circle class="nn-node" cx="290" cy="236" r="6" fill="#06B6D4" filter="url(#glow)"/>
+          <text x="340" y="240" text-anchor="middle" font-size="10" fill="rgba(6,182,212,0.95)" font-family="Inter" font-weight="700">Social</text>
+
+          <!-- Bond — temporal lobe -->
+          <circle cx="242" cy="272" r="14" fill="rgba(6,182,212,0.08)" stroke="rgba(6,182,212,0.2)" stroke-width="1"/>
+          <circle class="nn-node" cx="242" cy="272" r="6" fill="#06B6D4" filter="url(#glow)"/>
+          <text x="256" y="300" text-anchor="middle" font-size="10" fill="rgba(6,182,212,0.95)" font-family="Inter" font-weight="700">Bond</text>
+
+          <!-- Story — occipital-temporal -->
+          <circle cx="152" cy="246" r="14" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.2)" stroke-width="1"/>
+          <circle class="nn-node" cx="152" cy="246" r="6" fill="#F59E0B" filter="url(#glow)"/>
+          <text x="100" y="268" text-anchor="middle" font-size="10" fill="rgba(245,158,11,0.95)" font-family="Inter" font-weight="700">Story</text>
+
+          <!-- Soul — occipital lobe -->
+          <circle cx="120" cy="198" r="14" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.2)" stroke-width="1"/>
+          <circle class="nn-node" cx="120" cy="198" r="6" fill="#F59E0B" filter="url(#glow)"/>
+          <text x="68" y="202" text-anchor="middle" font-size="10" fill="rgba(245,158,11,0.95)" font-family="Inter" font-weight="700">Soul</text>
+
+          <!-- Center consciousness node -->
+          <circle class="brain-center-glow" cx="222" cy="178" r="20" fill="rgba(168,85,247,0.1)" stroke="rgba(168,85,247,0.3)" stroke-width="1.5"/>
+          <text x="222" y="184" text-anchor="middle" font-size="18">🧠</text>
         </svg>
       </div>
 
