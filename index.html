@@ -920,81 +920,59 @@
       display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
     }
 
-    /* ── Brain side ── */
-    .why-brain-wrap {
-      display: flex; flex-direction: column; gap: 36px;
+    /* ── Left problem side ── */
+    .why-left-wrap {
+      display: flex; flex-direction: column; gap: 16px;
       position: sticky; top: 100px;
     }
-    .brain-canvas-box {
-      position: relative; width: 100%; aspect-ratio: 1;
-      max-width: 420px; margin: 0 auto;
-    }
-    .brain-svg { width: 100%; height: 100%; }
-    .brain-outline {
-      stroke-dasharray: 1400; stroke-dashoffset: 1400;
-      animation: brainDraw 3.5s cubic-bezier(0.4,0,0.2,1) 0.3s forwards;
-    }
-    @keyframes brainDraw { to { stroke-dashoffset: 0; } }
-    .brain-sulcus {
-      stroke-dasharray: 200; stroke-dashoffset: 200;
-      animation: brainDraw 1.5s ease forwards;
-    }
-    .brain-sulcus:nth-child(1) { animation-delay: 1.8s; }
-    .brain-sulcus:nth-child(2) { animation-delay: 2.0s; }
-    .brain-sulcus:nth-child(3) { animation-delay: 2.2s; }
-    .brain-sulcus:nth-child(4) { animation-delay: 2.4s; }
-    .brain-sulcus:nth-child(5) { animation-delay: 2.6s; }
-    .brain-sulcus:nth-child(6) { animation-delay: 2.8s; }
-    /* neural nodes */
-    .nn-node { animation: nnPulse 3s ease-in-out infinite; }
-    .nn-node:nth-child(2) { animation-delay: 0.4s; }
-    .nn-node:nth-child(3) { animation-delay: 0.8s; }
-    .nn-node:nth-child(4) { animation-delay: 1.2s; }
-    .nn-node:nth-child(5) { animation-delay: 1.6s; }
-    .nn-node:nth-child(6) { animation-delay: 2s; }
-    .nn-node:nth-child(7) { animation-delay: 0.6s; }
-    .nn-node:nth-child(8) { animation-delay: 1.0s; }
-    .nn-node:nth-child(9) { animation-delay: 1.4s; }
-    @keyframes nnPulse { 0%,100%{r:5;opacity:0.6} 50%{r:8;opacity:1} }
-    /* signal travelling along edges */
-    .nn-signal { animation: nnTravel 3s linear infinite; }
-    .nn-signal:nth-child(2) { animation-delay: 0.6s; }
-    .nn-signal:nth-child(3) { animation-delay: 1.2s; }
-    .nn-signal:nth-child(4) { animation-delay: 1.8s; }
-    .nn-signal:nth-child(5) { animation-delay: 2.4s; }
-    @keyframes nnTravel { 0%{stroke-dashoffset:300} 100%{stroke-dashoffset:0} }
-    /* center brain glow */
-    .brain-center-glow { animation: brainGlow 4s ease-in-out infinite; }
-    @keyframes brainGlow { 0%,100%{opacity:0.4;r:48} 50%{opacity:0.8;r:58} }
 
-    /* stat pills below brain */
-    .brain-stats { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-    .brain-stat-pill {
-      padding: 10px 20px; border-radius: 50px;
-      background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.18);
-      display: flex; flex-direction: column; align-items: center; gap: 2px;
-      min-width: 110px;
+    /* Big animated stat blocks */
+    .why-big-stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 22px 24px;
+      display: flex; align-items: center; gap: 18px;
+      position: relative; overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
     }
-    .bsp-num {
-      font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 800;
-      background: linear-gradient(135deg, #A855F7, #EC4899);
-      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    .why-big-stat::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--sc); border-radius: 0 2px 2px 0;
     }
-    .bsp-lbl { font-size: 10px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; }
+    .why-big-stat::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 0% 50%, color-mix(in srgb, var(--sc) 6%, transparent), transparent 55%);
+      pointer-events: none;
+    }
+    .why-big-stat:hover { border-color: color-mix(in srgb, var(--sc) 30%, transparent); transform: translateX(5px); }
+    .why-stat-emoji { font-size: 28px; flex-shrink: 0; }
+    .why-stat-number {
+      font-family: 'Space Grotesk', sans-serif; font-size: clamp(26px, 3.5vw, 38px); font-weight: 800; line-height: 1;
+      background: var(--sg); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .why-stat-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin-top: 3px; }
+    .why-stat-desc strong { color: #fff; }
+
+    /* Problem pills */
+    .why-problem-pill {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 14px; padding: 13px 16px;
+    }
+    .wpp-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .wpp-line { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+    .wpp-line strong { color: #fff; }
 
     .why-quote-box {
       background: linear-gradient(135deg, rgba(168,85,247,0.06), rgba(236,72,153,0.04));
-      border: 1px solid rgba(168,85,247,0.12); border-radius: 18px; padding: 24px 28px;
+      border: 1px solid rgba(168,85,247,0.12); border-radius: 18px; padding: 20px 22px;
       position: relative;
     }
     .why-quote-box::before {
-      content: '\201C'; position: absolute; top: -12px; left: 20px;
-      font-size: 72px; line-height: 1; color: rgba(168,85,247,0.25);
+      content: '\201C'; position: absolute; top: -14px; left: 18px;
+      font-size: 60px; line-height: 1; color: rgba(168,85,247,0.2);
       font-family: Georgia, serif;
     }
-    .why-quote-text {
-      font-size: 15px; color: var(--text-secondary); line-height: 1.8; font-style: italic;
-    }
+    .why-quote-text { font-size: 14px; color: var(--text-secondary); line-height: 1.8; font-style: italic; }
     .why-quote-text strong { color: #fff; font-style: normal; }
 
     /* ── Cards side ── */
@@ -1089,8 +1067,7 @@
 
     @media (max-width: 900px) {
       .why-grid { grid-template-columns: 1fr; gap: 56px; }
-      .why-brain-wrap { position: static; }
-      .brain-canvas-box { max-width: 300px; }
+      .why-left-wrap { position: static; }
       .india-strip-inner { flex-direction: column; gap: 28px; padding: 32px 24px; text-align: center; }
       .india-stats-col { flex-direction: row; justify-content: center; }
     }
@@ -1980,12 +1957,9 @@ setTimeout(function(){
   <!-- Main grid -->
   <div class="why-grid">
 
-    <!-- LEFT: Neural Brain -->
-    <div class="why-brain-wrap reveal-left">
+    <!-- LEFT: Problem stats -->
+    <div class="why-left-wrap reveal-left">
 
-      <!-- SVG Neural Network Brain — Low-Poly Mesh -->
-      <div class="brain-canvas-box">
-        <svg class="brain-svg" viewBox="0 0 480 400" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <filter id="glow">
               <feGaussianBlur stdDeviation="3" result="blur"/>
@@ -2195,30 +2169,50 @@ setTimeout(function(){
           <text x="78" y="202" text-anchor="middle" font-size="10" fill="#A855F7" font-family="Inter" font-weight="700" opacity="0.9">Soul</text>
 
           <!-- CENTER node -->
-          <circle class="brain-center-glow" cx="215" cy="198" r="8" fill="#EC4899" filter="url(#bigGlow)" opacity="0.9"/>
-          <circle cx="215" cy="198" r="14" fill="none" stroke="#EC4899" stroke-width="1" opacity="0.3"/>
         </svg>
+
+      <!-- Big stat blocks -->
+      <div class="why-big-stat" style="--sc:linear-gradient(135deg,#A855F7,#EC4899);--sg:linear-gradient(135deg,#ffffff,#A855F7,#EC4899)">
+        <div class="why-stat-emoji">😔</div>
+        <div>
+          <div class="why-stat-number">1 in 3</div>
+          <div class="why-stat-desc">people globally feel <strong>chronically lonely</strong> — even with thousands of followers</div>
+        </div>
       </div>
 
-      <!-- Stat pills -->
-      <div class="brain-stats">
-        <div class="brain-stat-pill">
-          <div class="bsp-num">1 in 3</div>
-          <div class="bsp-lbl">Feel Lonely</div>
+      <div class="why-big-stat" style="--sc:linear-gradient(135deg,#EC4899,#F472B6);--sg:linear-gradient(135deg,#EC4899,#F9A8D4)">
+        <div class="why-stat-emoji">📱</div>
+        <div>
+          <div class="why-stat-number">600M+</div>
+          <div class="why-stat-desc"><strong>young Indians</strong> online with no social app built for them</div>
         </div>
-        <div class="brain-stat-pill">
-          <div class="bsp-num">600M+</div>
-          <div class="bsp-lbl">India's Youth</div>
+      </div>
+
+      <div class="why-big-stat" style="--sc:linear-gradient(135deg,#A855F7,#7C3AED);--sg:linear-gradient(135deg,#A855F7,#C084FC)">
+        <div class="why-stat-emoji">💰</div>
+        <div>
+          <div class="why-stat-number">$8B</div>
+          <div class="why-stat-desc">India social app market — <strong>untapped, underserved,</strong> growing fast</div>
         </div>
-        <div class="brain-stat-pill">
-          <div class="bsp-num">$8B</div>
-          <div class="bsp-lbl">Market Size</div>
-        </div>
+      </div>
+
+      <!-- Problem pills -->
+      <div class="why-problem-pill">
+        <div class="wpp-icon">💬</div>
+        <div class="wpp-line">You have <strong>500 followers</strong> but nobody to talk to at 2AM</div>
+      </div>
+      <div class="why-problem-pill">
+        <div class="wpp-icon">🤖</div>
+        <div class="wpp-line">Every AI chatbot <strong>forgets you</strong> the moment you close the app</div>
+      </div>
+      <div class="why-problem-pill">
+        <div class="wpp-icon">🌏</div>
+        <div class="wpp-line">No app speaks <strong>your language, your culture,</strong> your reality</div>
       </div>
 
       <!-- Quote -->
       <div class="why-quote-box">
-        <p class="why-quote-text">Most social apps give you <strong>followers.</strong> Nobody gives you someone who <strong>listens, remembers,</strong> and shows up — every single day. That's the gap we're closing.</p>
+        <p class="why-quote-text">Most social apps give you <strong style="color:#fff">followers.</strong> Nobody gives you someone who <strong style="color:#fff">listens, remembers,</strong> and shows up — every single day. That's the gap we're closing.</p>
       </div>
     </div>
 
