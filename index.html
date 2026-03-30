@@ -153,7 +153,7 @@
       z-index: 1000; display: flex; align-items: center;
       background: #000000; backdrop-filter: blur(24px) saturate(180%);
       border: 1px solid rgba(255,255,255,0.06); border-radius: 100px;
-      padding: 10px 20px; width: min(900px, 95vw);
+      padding: 10px 24px; width: min(1200px, 95vw);
       justify-content: space-between;
       transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
     }
@@ -696,7 +696,7 @@
     .df-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px; max-width: 1200px; margin: 60px auto 0;
+      gap: 16px; max-width: 1200px; margin: 0 auto;
     }
     .df-wide { grid-column: span 2; }
 
@@ -1221,7 +1221,7 @@
     .sf-text p { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
 
     /* ═══ CHARACTERS ═══ */
-    .characters { padding: 140px 0; position: relative; z-index: 2; overflow: hidden; }
+    .characters { padding: 140px 0; position: relative; z-index: 2; overflow: hidden; /* intentional 0 horizontal padding — carousel bleeds full width */ }
     .carousel-mask {
       overflow: hidden;
       mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
@@ -1266,7 +1266,7 @@
     /* ═══ VOICE CHAT FEATURE (NEW!) ═══ */
     .voice-section { padding: 140px 24px; position: relative; z-index: 2; overflow: hidden; }
     .voice-inner {
-      max-width: 1100px; margin: 0 auto;
+      max-width: 1200px; margin: 0 auto;
       display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
     }
     .voice-visual {
@@ -1316,7 +1316,7 @@
     .how-section { padding: 140px 24px; position: relative; z-index: 2; }
     .how-grid {
       display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
-      max-width: 1100px; margin: 0 auto; position: relative;
+      max-width: 1200px; margin: 0 auto; position: relative;
     }
     .how-line {
       position: absolute; top: 42px; left: calc(12.5% + 8px); right: calc(12.5% + 8px); height: 1px;
@@ -1338,7 +1338,7 @@
     .how-card p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.7; }
 
     /* ═══ COMPARE ═══ */
-    .compare-section { padding: 80px 24px 140px; position: relative; z-index: 2; }
+    .compare-section { padding: 140px 24px; position: relative; z-index: 2; }
     .compare-inner { max-width: 760px; margin: 0 auto; }
 
     /* shared column definition — one place to change */
@@ -1377,7 +1377,7 @@
     /* ═══ CTA ═══ */
     .cta-section { padding: 140px 24px; position: relative; z-index: 2; }
     .cta-wrapper {
-      max-width: 840px; margin: 0 auto; padding: 80px 56px;
+      max-width: 840px; margin: 0 auto; padding: 80px 24px;
       border-radius: 36px; text-align: center; position: relative; overflow: hidden;
     }
     .cta-border {
@@ -1451,6 +1451,9 @@
     footer {
       padding: 60px 24px 36px; text-align: center; position: relative; z-index: 2;
       border-top: 1px solid rgba(255,255,255,0.03);
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
     }
     .footer-logo { display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 24px; }
     .footer-logo img { display: block; }
@@ -1543,7 +1546,7 @@
     /* ═══ SECTION GLOW DIVIDER ═══ */
     .glow-sep { width: 100%; display: flex; justify-content: center; position: relative; z-index: 2; padding: 0 24px; margin: 0; }
     .glow-sep-inner {
-      width: 100%; max-width: 960px; height: 1px;
+      width: 100%; max-width: 1200px; height: 1px;
       background: linear-gradient(90deg, transparent 0%, rgba(168,85,247,0.2) 30%, rgba(236,72,153,0.2) 60%, rgba(168,85,247,0.2) 80%, transparent 100%);
       position: relative;
     }
@@ -2172,8 +2175,8 @@ setTimeout(function(){
 
 <!-- ═══ CHARACTERS ═══ -->
 <section class="characters" id="characters">
-  <div class="section-eyebrow reveal" style="margin-bottom:16px">THE CAST</div>
-  <h2 class="section-title reveal delay-1" style="margin-bottom:48px">Meet the characters.<br /><span class="grad">They're waiting for you.</span></h2>
+  <div class="section-eyebrow reveal">THE CAST</div>
+  <h2 class="section-title reveal delay-1">Meet the characters.<br /><span class="grad">They're waiting for you.</span></h2>
   <div class="carousel-mask">
     <div class="carousel-track">
       <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(236,72,153,0.08)">&#x1F98B;</div><div class="char-name">Aanya</div><div class="char-archetype">The Dreamer</div><div class="char-location">&#x1F4CD; Mumbai</div><div class="char-quote">"Life's too short for boring conversations"</div><div class="char-mood">&#x1F485; Playful mood today</div></div>
@@ -2299,29 +2302,31 @@ setTimeout(function(){
 
 <!-- ═══ FOOTER ═══ -->
 <footer>
-  <div class="footer-logo">
-    <img src="robot-icon.png" alt="Marvana" class="nav-logo-icon" style="width:36px;height:36px;margin-top:-4px;" />
-    <img src="marvana-wordmark.png" alt="Marvana" class="nav-logo-wordmark" style="height:18px;margin-top:5px;" />
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <img src="robot-icon.png" alt="Marvana" class="nav-logo-icon" style="width:36px;height:36px;margin-top:-4px;" />
+      <img src="marvana-wordmark.png" alt="Marvana" class="nav-logo-wordmark" style="height:18px;margin-top:5px;" />
+    </div>
+    <div class="footer-social">
+      <a href="#" class="social-icon" title="Twitter / X — Coming Soon">𝕏</a>
+      <a href="#" class="social-icon" title="Instagram — Coming Soon">&#x1F4F8;</a>
+      <a href="#" class="social-icon" title="TikTok — Coming Soon">&#x266B;</a>
+      <a href="#" class="social-icon" title="YouTube — Coming Soon">&#x25B6;</a>
+      <a href="#" class="social-icon" title="Discord — Coming Soon">&#x1F4AC;</a>
+    </div>
+    <div class="social-coming-note">Social handles — will be updated soon 🚀</div>
+    <div class="footer-links">
+      <a href="#features">Features</a>
+      <a href="#characters">Characters</a>
+      <a href="#voice">Voice AI</a>
+      <a href="#how">How It Works</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-tagline">AI Characters That Feel Real &middot; Made with <span style="color:#8B0000">&#x2764;</span> in India</div>
+    <div class="footer-copy">&copy; 2026 Marvana. All rights reserved.</div>
   </div>
-  <div class="footer-social">
-    <a href="#" class="social-icon" title="Twitter / X — Coming Soon">𝕏</a>
-    <a href="#" class="social-icon" title="Instagram — Coming Soon">&#x1F4F8;</a>
-    <a href="#" class="social-icon" title="TikTok — Coming Soon">&#x266B;</a>
-    <a href="#" class="social-icon" title="YouTube — Coming Soon">&#x25B6;</a>
-    <a href="#" class="social-icon" title="Discord — Coming Soon">&#x1F4AC;</a>
-  </div>
-  <div class="social-coming-note">Social handles — will be updated soon 🚀</div>
-  <div class="footer-links">
-    <a href="#features">Features</a>
-    <a href="#characters">Characters</a>
-    <a href="#voice">Voice AI</a>
-    <a href="#how">How It Works</a>
-    <a href="#">Privacy Policy</a>
-    <a href="#">Terms</a>
-    <a href="#">Contact</a>
-  </div>
-  <div class="footer-tagline">AI Characters That Feel Real &middot; Made with <span style="color:#8B0000">&#x2764;</span> in India</div>
-  <div class="footer-copy">&copy; 2026 Marvana. All rights reserved.</div>
 </footer>
 
 <script>
