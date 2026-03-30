@@ -1180,6 +1180,10 @@
       color: var(--c); transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
       cursor: default; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px;
     }
+    @media (max-width: 480px) {
+      .mem-chips { gap: 5px; }
+      .mem-chip { padding: 0 9px; height: 24px; line-height: 24px; font-size: 10px; gap: 3px; }
+    }
     .memory-card:hover .mem-chip { transform: translateY(-4px) scale(1.05); }
     .mem-chip:hover { transform: translateY(-6px) scale(1.1) !important; box-shadow: 0 8px 16px color-mix(in srgb, var(--c) 40%, transparent); border-color: color-mix(in srgb, var(--c) 60%, transparent); }
 
