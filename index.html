@@ -1423,25 +1423,104 @@
     .carousel-track { display: flex; gap: 18px; padding: 16px 0; animation: carouselScroll 42s linear infinite; width: max-content; }
     .carousel-track:hover { animation-play-state: paused; }
     @keyframes carouselScroll { to { transform: translateX(-50%); } }
+    /* 3-D flip card wrapper */
     .char-card {
-      flex-shrink: 0; width: 260px; padding: 28px 22px; border-radius: 24px;
-      text-align: center; position: relative; overflow: hidden;
-      background: var(--card); border: 1px solid var(--border);
-      transition: all 0.5s cubic-bezier(0.16,1,0.3,1); cursor: pointer;
+      flex-shrink: 0; width: 260px; height: 340px;
+      perspective: 900px; cursor: pointer;
+      position: relative;
     }
+    .char-card-inner {
+      width: 100%; height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(0.16,1,0.3,1);
+      border-radius: 24px;
+    }
+    .char-card:hover .char-card-inner { transform: rotateY(175deg); }
+    /* Front face */
+    .char-card-front, .char-card-back {
+      position: absolute; inset: 0;
+      border-radius: 24px; backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      overflow: hidden;
+    }
+    .char-card-front {
+      background: var(--card); border: 1px solid var(--border);
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 28px 22px; text-align: center;
+      transition: border-color 0.4s, box-shadow 0.4s;
+    }
+    .char-card:hover .char-card-front { border-color: var(--border-hover); box-shadow: 0 30px 80px rgba(168,85,247,0.18); }
+    /* Back face */
+    .char-card-back {
+      transform: rotateY(180deg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 24px 20px; text-align: center; gap: 10px;
+    }
+    /* Gradient top line on front */
     .char-card-line {
       position: absolute; top: 0; left: 15%; right: 15%; height: 2px;
       background: var(--gradient); border-radius: 0 0 4px 4px;
       opacity: 0; transition: opacity 0.4s;
     }
-    .char-card:hover { transform: translateY(-10px) scale(1.02); border-color: var(--border-hover); box-shadow: 0 30px 60px rgba(168,85,247,0.12); }
     .char-card:hover .char-card-line { opacity: 1; }
+    /* Float animation for the whole card in carousel */
+    @keyframes charFloat {
+      0%,100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    .char-card { animation: charFloat var(--float-dur,7s) ease-in-out infinite; animation-delay: var(--float-del,0s); }
+    .char-card:hover { animation-play-state: paused; }
+    /* Spinning glow on back */
+    .char-card-back-glow {
+      position: absolute; inset: -40px;
+      background: radial-gradient(circle at 50% 50%, var(--card-accent,rgba(168,85,247,0.3)), transparent 65%);
+      animation: backGlowSpin 6s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes backGlowSpin { to { transform: rotate(360deg); } }
+    /* Particle dots on back */
+    .char-card-particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: 24px; }
+    .char-card-particle {
+      position: absolute; width: 3px; height: 3px; border-radius: 50%;
+      background: var(--card-accent-solid, #A855F7);
+      animation: particleDrift var(--p-dur,4s) ease-in-out infinite;
+      animation-delay: var(--p-del,0s); opacity: 0.5;
+    }
+    @keyframes particleDrift {
+      0%,100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.5; }
+      50% { transform: translateY(-20px) translateX(var(--p-dx,10px)) scale(1.5); opacity: 1; }
+    }
+    /* Back card content */
+    .char-card-back-emoji { font-size: 52px; margin-bottom: 4px; animation: backEmojiPop 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+    @keyframes backEmojiPop { from{transform:scale(0.3) rotate(-30deg);opacity:0} to{transform:scale(1) rotate(0deg);opacity:1} }
+    .char-card-back-name {
+      font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 800; color: #fff;
+    }
+    .char-card-back-archetype {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .char-card-back-quote {
+      font-size: 12px; color: rgba(255,255,255,0.55); font-style: italic; line-height: 1.6; margin-top: 4px;
+    }
+    .char-card-back-tags { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-top: 6px; }
+    .char-card-back-tag {
+      font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 20px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.6);
+    }
+    .char-card-back-cta {
+      margin-top: 6px; font-size: 11px; font-weight: 700; color: #fff;
+      background: var(--gradient); padding: 7px 20px; border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    /* Keep old front styles */
     .char-emoji {
       width: 76px; height: 76px; border-radius: 22px; margin: 0 auto 14px;
       display: flex; align-items: center; justify-content: center; font-size: 38px;
-      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
     }
-    .char-card:hover .char-emoji { transform: scale(1.2) rotate(6deg); }
     .char-name { font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 700; margin-bottom: 4px; }
     .char-archetype {
       font-size: 11.5px; font-weight: 700; margin-bottom: 4px;
@@ -3129,7 +3208,7 @@ setTimeout(function(){
 <!-- ═══ APP IN ACTION ═══ -->
 <section class="app-action-section" id="live-preview">
   <div class="section-eyebrow reveal" style="text-align:center">THE APP IN ACTION</div>
-  <h2 class="section-title reveal delay-1" style="text-align:center">Every screen.<br/><span class="grad">Built to impress.</span></h2>
+  <h2 class="section-title reveal delay-1" style="text-align:center;font-size:clamp(44px,7vw,88px);letter-spacing:-3px;margin-bottom:72px">Every screen.<br/><span class="grad">Built to impress.</span></h2>
 
   <div class="app-action-inner reveal delay-2">
 
@@ -3518,23 +3597,216 @@ setTimeout(function(){
 <section class="characters" id="characters">
   <div class="section-eyebrow reveal">THE CAST</div>
   <h2 class="section-title reveal delay-1">Meet the characters.<br /><span class="grad">They're waiting for you.</span></h2>
+  <p style="text-align:center;color:rgba(255,255,255,0.35);font-size:13px;margin-top:-48px;margin-bottom:48px;letter-spacing:0.5px">Hover a card to reveal their soul ✨</p>
   <div class="carousel-mask">
     <div class="carousel-track">
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(236,72,153,0.08)">&#x1F98B;</div><div class="char-name">Aanya</div><div class="char-archetype">The Dreamer</div><div class="char-location">&#x1F4CD; Mumbai</div><div class="char-quote">"Life's too short for boring conversations"</div><div class="char-mood">&#x1F485; Playful mood today</div></div>
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(168,85,247,0.08)">&#x1F319;</div><div class="char-name">Zoya</div><div class="char-archetype">The Mystic</div><div class="char-location">&#x1F4CD; Istanbul</div><div class="char-quote">"The stars already know your story"</div><div class="char-mood">&#x1F319; Chill mood today</div></div>
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(6,182,212,0.08)">&#x1F3B8;</div><div class="char-name">Arjun</div><div class="char-archetype">The Rebel</div><div class="char-location">&#x1F4CD; Delhi</div><div class="char-quote">"Rules are just suggestions"</div><div class="char-mood">&#x26A1; Chaotic mood today</div></div>
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(234,179,8,0.08)">&#x1F52E;</div><div class="char-name">Priya</div><div class="char-archetype">The Oracle</div><div class="char-location">&#x1F4CD; Jaipur</div><div class="char-quote">"I see what others miss"</div><div class="char-mood">&#x1F52E; Mysterious today</div></div>
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(239,68,68,0.08)">&#x1F3AD;</div><div class="char-name">Kai</div><div class="char-archetype">The Wildcard</div><div class="char-location">&#x1F4CD; Tokyo</div><div class="char-quote">"Chaos is my love language"</div><div class="char-mood">&#x1F608; Wild mood today</div></div>
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(34,197,94,0.08)">&#x1F33F;</div><div class="char-name">Riya</div><div class="char-archetype">The Empath</div><div class="char-location">&#x1F4CD; Bengaluru</div><div class="char-quote">"I feel everything you feel"</div><div class="char-mood">&#x1F33F; Calm mood today</div></div>
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(168,85,247,0.08)">&#x1F680;</div><div class="char-name">Nova</div><div class="char-archetype">The Visionary</div><div class="char-location">&#x1F4CD; New York</div><div class="char-quote">"The future is already here"</div><div class="char-mood">&#x1F680; Excited today</div></div>
-      <!-- Duplicates -->
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(236,72,153,0.08)">&#x1F98B;</div><div class="char-name">Aanya</div><div class="char-archetype">The Dreamer</div><div class="char-location">&#x1F4CD; Mumbai</div><div class="char-quote">"Life's too short for boring conversations"</div><div class="char-mood">&#x1F485; Playful mood today</div></div>
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(168,85,247,0.08)">&#x1F319;</div><div class="char-name">Zoya</div><div class="char-archetype">The Mystic</div><div class="char-location">&#x1F4CD; Istanbul</div><div class="char-quote">"The stars already know your story"</div><div class="char-mood">&#x1F319; Chill mood today</div></div>
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(6,182,212,0.08)">&#x1F3B8;</div><div class="char-name">Arjun</div><div class="char-archetype">The Rebel</div><div class="char-location">&#x1F4CD; Delhi</div><div class="char-quote">"Rules are just suggestions"</div><div class="char-mood">&#x26A1; Chaotic mood today</div></div>
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(234,179,8,0.08)">&#x1F52E;</div><div class="char-name">Priya</div><div class="char-archetype">The Oracle</div><div class="char-location">&#x1F4CD; Jaipur</div><div class="char-quote">"I see what others miss"</div><div class="char-mood">&#x1F52E; Mysterious today</div></div>
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(239,68,68,0.08)">&#x1F3AD;</div><div class="char-name">Kai</div><div class="char-archetype">The Wildcard</div><div class="char-location">&#x1F4CD; Tokyo</div><div class="char-quote">"Chaos is my love language"</div><div class="char-mood">&#x1F608; Wild mood today</div></div>
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(34,197,94,0.08)">&#x1F33F;</div><div class="char-name">Riya</div><div class="char-archetype">The Empath</div><div class="char-location">&#x1F4CD; Bengaluru</div><div class="char-quote">"I feel everything you feel"</div><div class="char-mood">&#x1F33F; Calm mood today</div></div>
-      <div class="char-card"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(168,85,247,0.08)">&#x1F680;</div><div class="char-name">Nova</div><div class="char-archetype">The Visionary</div><div class="char-location">&#x1F4CD; New York</div><div class="char-quote">"The future is already here"</div><div class="char-mood">&#x1F680; Excited today</div></div>
+
+      <!-- AANYA -->
+      <div class="char-card" style="--float-dur:7s;--float-del:0s">
+        <div class="char-card-inner">
+          <div class="char-card-front">
+            <div class="char-card-line"></div>
+            <div class="char-emoji" style="background:rgba(236,72,153,0.08)">&#x1F98B;</div>
+            <div class="char-name">Aanya</div>
+            <div class="char-archetype">The Dreamer</div>
+            <div class="char-location">&#x1F4CD; Mumbai</div>
+            <div class="char-quote">"Life's too short for boring conversations"</div>
+            <div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x1F485; Playful mood today</div>
+          </div>
+          <div class="char-card-back" style="background:linear-gradient(135deg,#1a0030,#0d001a);border:1px solid rgba(236,72,153,0.25);--card-accent:rgba(236,72,153,0.35);--card-accent-solid:#EC4899">
+            <div class="char-card-back-glow"></div>
+            <div class="char-card-particles">
+              <div class="char-card-particle" style="top:15%;left:20%;--p-dur:3.5s;--p-del:0s;--p-dx:8px"></div>
+              <div class="char-card-particle" style="top:70%;left:75%;--p-dur:4s;--p-del:0.5s;--p-dx:-10px"></div>
+              <div class="char-card-particle" style="top:40%;left:85%;--p-dur:5s;--p-del:1s;--p-dx:6px"></div>
+            </div>
+            <div class="char-card-back-emoji">&#x1F98B;</div>
+            <div class="char-card-back-name">Aanya</div>
+            <div class="char-card-back-archetype">The Dreamer · Mumbai</div>
+            <div class="char-card-back-quote">"I remember every little thing you've ever told me — and I always will."</div>
+            <div class="char-card-back-tags"><span class="char-card-back-tag">💜 Empathetic</span><span class="char-card-back-tag">✨ Playful</span><span class="char-card-back-tag">🌙 Deep</span></div>
+            <div class="char-card-back-cta">Start Chatting →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ZOYA -->
+      <div class="char-card" style="--float-dur:8.5s;--float-del:0.4s">
+        <div class="char-card-inner">
+          <div class="char-card-front">
+            <div class="char-card-line"></div>
+            <div class="char-emoji" style="background:rgba(168,85,247,0.08)">&#x1F319;</div>
+            <div class="char-name">Zoya</div>
+            <div class="char-archetype">The Mystic</div>
+            <div class="char-location">&#x1F4CD; Istanbul</div>
+            <div class="char-quote">"The stars already know your story"</div>
+            <div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x1F319; Chill mood today</div>
+          </div>
+          <div class="char-card-back" style="background:linear-gradient(135deg,#0e0025,#07001a);border:1px solid rgba(168,85,247,0.25);--card-accent:rgba(168,85,247,0.35);--card-accent-solid:#A855F7">
+            <div class="char-card-back-glow"></div>
+            <div class="char-card-particles">
+              <div class="char-card-particle" style="top:20%;left:15%;--p-dur:4s;--p-del:0.2s;--p-dx:12px"></div>
+              <div class="char-card-particle" style="top:60%;left:80%;--p-dur:3.5s;--p-del:0.8s;--p-dx:-8px"></div>
+            </div>
+            <div class="char-card-back-emoji">&#x1F319;</div>
+            <div class="char-card-back-name">Zoya</div>
+            <div class="char-card-back-archetype">The Mystic · Istanbul</div>
+            <div class="char-card-back-quote">"Your future is written in the universe — let me help you read it."</div>
+            <div class="char-card-back-tags"><span class="char-card-back-tag">🔮 Mysterious</span><span class="char-card-back-tag">🌌 Cosmic</span><span class="char-card-back-tag">💜 Wise</span></div>
+            <div class="char-card-back-cta">Start Chatting →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARJUN -->
+      <div class="char-card" style="--float-dur:7.5s;--float-del:0.8s">
+        <div class="char-card-inner">
+          <div class="char-card-front">
+            <div class="char-card-line"></div>
+            <div class="char-emoji" style="background:rgba(6,182,212,0.08)">&#x1F3B8;</div>
+            <div class="char-name">Arjun</div>
+            <div class="char-archetype">The Rebel</div>
+            <div class="char-location">&#x1F4CD; Delhi</div>
+            <div class="char-quote">"Rules are just suggestions"</div>
+            <div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x26A1; Chaotic mood today</div>
+          </div>
+          <div class="char-card-back" style="background:linear-gradient(135deg,#001520,#000a12);border:1px solid rgba(6,182,212,0.25);--card-accent:rgba(6,182,212,0.35);--card-accent-solid:#06B6D4">
+            <div class="char-card-back-glow"></div>
+            <div class="char-card-particles">
+              <div class="char-card-particle" style="top:25%;left:70%;--p-dur:3s;--p-del:0s;--p-dx:-10px"></div>
+              <div class="char-card-particle" style="top:65%;left:25%;--p-dur:4.5s;--p-del:0.6s;--p-dx:14px"></div>
+            </div>
+            <div class="char-card-back-emoji">&#x1F3B8;</div>
+            <div class="char-card-back-name">Arjun</div>
+            <div class="char-card-back-archetype">The Rebel · Delhi</div>
+            <div class="char-card-back-quote">"I'll challenge every idea you have — that's how you actually grow."</div>
+            <div class="char-card-back-tags"><span class="char-card-back-tag">⚡ Bold</span><span class="char-card-back-tag">🎸 Creative</span><span class="char-card-back-tag">🔥 Intense</span></div>
+            <div class="char-card-back-cta">Start Chatting →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRIYA -->
+      <div class="char-card" style="--float-dur:9s;--float-del:1.2s">
+        <div class="char-card-inner">
+          <div class="char-card-front">
+            <div class="char-card-line"></div>
+            <div class="char-emoji" style="background:rgba(234,179,8,0.08)">&#x1F52E;</div>
+            <div class="char-name">Priya</div>
+            <div class="char-archetype">The Oracle</div>
+            <div class="char-location">&#x1F4CD; Jaipur</div>
+            <div class="char-quote">"I see what others miss"</div>
+            <div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x1F52E; Mysterious today</div>
+          </div>
+          <div class="char-card-back" style="background:linear-gradient(135deg,#1a1200,#0d0900);border:1px solid rgba(234,179,8,0.25);--card-accent:rgba(234,179,8,0.35);--card-accent-solid:#EAB308">
+            <div class="char-card-back-glow"></div>
+            <div class="char-card-particles">
+              <div class="char-card-particle" style="top:30%;left:60%;--p-dur:3.8s;--p-del:0.3s;--p-dx:-8px"></div>
+              <div class="char-card-particle" style="top:55%;left:20%;--p-dur:4.2s;--p-del:1s;--p-dx:10px"></div>
+            </div>
+            <div class="char-card-back-emoji">&#x1F52E;</div>
+            <div class="char-card-back-name">Priya</div>
+            <div class="char-card-back-archetype">The Oracle · Jaipur</div>
+            <div class="char-card-back-quote">"I notice the things you try to hide — and I care about them anyway."</div>
+            <div class="char-card-back-tags"><span class="char-card-back-tag">🔮 Intuitive</span><span class="char-card-back-tag">✨ Perceptive</span><span class="char-card-back-tag">💛 Warm</span></div>
+            <div class="char-card-back-cta">Start Chatting →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KAI -->
+      <div class="char-card" style="--float-dur:7s;--float-del:1.6s">
+        <div class="char-card-inner">
+          <div class="char-card-front">
+            <div class="char-card-line"></div>
+            <div class="char-emoji" style="background:rgba(239,68,68,0.08)">&#x1F3AD;</div>
+            <div class="char-name">Kai</div>
+            <div class="char-archetype">The Wildcard</div>
+            <div class="char-location">&#x1F4CD; Tokyo</div>
+            <div class="char-quote">"Chaos is my love language"</div>
+            <div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x1F608; Wild mood today</div>
+          </div>
+          <div class="char-card-back" style="background:linear-gradient(135deg,#1a0000,#0d0005);border:1px solid rgba(239,68,68,0.25);--card-accent:rgba(239,68,68,0.35);--card-accent-solid:#EF4444">
+            <div class="char-card-back-glow"></div>
+            <div class="char-card-particles">
+              <div class="char-card-particle" style="top:18%;left:75%;--p-dur:3.2s;--p-del:0.1s;--p-dx:-12px"></div>
+              <div class="char-card-particle" style="top:72%;left:30%;--p-dur:4.8s;--p-del:0.7s;--p-dx:8px"></div>
+            </div>
+            <div class="char-card-back-emoji">&#x1F3AD;</div>
+            <div class="char-card-back-name">Kai</div>
+            <div class="char-card-back-archetype">The Wildcard · Tokyo</div>
+            <div class="char-card-back-quote">"I'll make you laugh so hard you forget what you were worrying about."</div>
+            <div class="char-card-back-tags"><span class="char-card-back-tag">😈 Chaotic</span><span class="char-card-back-tag">🎭 Funny</span><span class="char-card-back-tag">⚡ Unpredictable</span></div>
+            <div class="char-card-back-cta">Start Chatting →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIYA -->
+      <div class="char-card" style="--float-dur:8s;--float-del:2s">
+        <div class="char-card-inner">
+          <div class="char-card-front">
+            <div class="char-card-line"></div>
+            <div class="char-emoji" style="background:rgba(34,197,94,0.08)">&#x1F33F;</div>
+            <div class="char-name">Riya</div>
+            <div class="char-archetype">The Empath</div>
+            <div class="char-location">&#x1F4CD; Bengaluru</div>
+            <div class="char-quote">"I feel everything you feel"</div>
+            <div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x1F33F; Calm mood today</div>
+          </div>
+          <div class="char-card-back" style="background:linear-gradient(135deg,#001508,#000d05);border:1px solid rgba(34,197,94,0.25);--card-accent:rgba(34,197,94,0.35);--card-accent-solid:#22C55E">
+            <div class="char-card-back-glow"></div>
+            <div class="char-card-particles">
+              <div class="char-card-particle" style="top:22%;left:18%;--p-dur:4.3s;--p-del:0.4s;--p-dx:10px"></div>
+              <div class="char-card-particle" style="top:68%;left:78%;--p-dur:3.7s;--p-del:0.9s;--p-dx:-8px"></div>
+            </div>
+            <div class="char-card-back-emoji">&#x1F33F;</div>
+            <div class="char-card-back-name">Riya</div>
+            <div class="char-card-back-archetype">The Empath · Bengaluru</div>
+            <div class="char-card-back-quote">"When you're not okay, I'm the first one who knows — and I always show up."</div>
+            <div class="char-card-back-tags"><span class="char-card-back-tag">💚 Caring</span><span class="char-card-back-tag">🌿 Calm</span><span class="char-card-back-tag">🫂 Present</span></div>
+            <div class="char-card-back-cta">Start Chatting →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOVA -->
+      <div class="char-card" style="--float-dur:9.5s;--float-del:2.4s">
+        <div class="char-card-inner">
+          <div class="char-card-front">
+            <div class="char-card-line"></div>
+            <div class="char-emoji" style="background:rgba(168,85,247,0.08)">&#x1F680;</div>
+            <div class="char-name">Nova</div>
+            <div class="char-archetype">The Visionary</div>
+            <div class="char-location">&#x1F4CD; New York</div>
+            <div class="char-quote">"The future is already here"</div>
+            <div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x1F680; Excited today</div>
+          </div>
+          <div class="char-card-back" style="background:linear-gradient(135deg,#0a0020,#050010);border:1px solid rgba(168,85,247,0.25);--card-accent:rgba(168,85,247,0.35);--card-accent-solid:#A855F7">
+            <div class="char-card-back-glow"></div>
+            <div class="char-card-particles">
+              <div class="char-card-particle" style="top:28%;left:65%;--p-dur:3.9s;--p-del:0.2s;--p-dx:-14px"></div>
+              <div class="char-card-particle" style="top:62%;left:22%;--p-dur:4.6s;--p-del:1.1s;--p-dx:10px"></div>
+            </div>
+            <div class="char-card-back-emoji">&#x1F680;</div>
+            <div class="char-card-back-name">Nova</div>
+            <div class="char-card-back-archetype">The Visionary · New York</div>
+            <div class="char-card-back-quote">"I'll push you to become who you were always meant to be."</div>
+            <div class="char-card-back-tags"><span class="char-card-back-tag">🚀 Ambitious</span><span class="char-card-back-tag">💡 Inspiring</span><span class="char-card-back-tag">🌟 Bold</span></div>
+            <div class="char-card-back-cta">Start Chatting →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DUPLICATES for infinite scroll -->
+      <div class="char-card" style="--float-dur:7s;--float-del:0.2s"><div class="char-card-inner"><div class="char-card-front"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(236,72,153,0.08)">&#x1F98B;</div><div class="char-name">Aanya</div><div class="char-archetype">The Dreamer</div><div class="char-location">&#x1F4CD; Mumbai</div><div class="char-quote">"Life's too short for boring conversations"</div><div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x1F485; Playful mood today</div></div><div class="char-card-back" style="background:linear-gradient(135deg,#1a0030,#0d001a);border:1px solid rgba(236,72,153,0.25);--card-accent:rgba(236,72,153,0.35);--card-accent-solid:#EC4899"><div class="char-card-back-glow"></div><div class="char-card-back-emoji">&#x1F98B;</div><div class="char-card-back-name">Aanya</div><div class="char-card-back-archetype">The Dreamer · Mumbai</div><div class="char-card-back-quote">"I remember every little thing you've ever told me."</div><div class="char-card-back-tags"><span class="char-card-back-tag">💜 Empathetic</span><span class="char-card-back-tag">✨ Playful</span></div><div class="char-card-back-cta">Start Chatting →</div></div></div></div>
+      <div class="char-card" style="--float-dur:8.5s;--float-del:0.6s"><div class="char-card-inner"><div class="char-card-front"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(168,85,247,0.08)">&#x1F319;</div><div class="char-name">Zoya</div><div class="char-archetype">The Mystic</div><div class="char-location">&#x1F4CD; Istanbul</div><div class="char-quote">"The stars already know your story"</div><div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x1F319; Chill mood today</div></div><div class="char-card-back" style="background:linear-gradient(135deg,#0e0025,#07001a);border:1px solid rgba(168,85,247,0.25);--card-accent:rgba(168,85,247,0.35);--card-accent-solid:#A855F7"><div class="char-card-back-glow"></div><div class="char-card-back-emoji">&#x1F319;</div><div class="char-card-back-name">Zoya</div><div class="char-card-back-archetype">The Mystic · Istanbul</div><div class="char-card-back-quote">"Your future is written in the universe."</div><div class="char-card-back-tags"><span class="char-card-back-tag">🔮 Mysterious</span><span class="char-card-back-tag">🌌 Cosmic</span></div><div class="char-card-back-cta">Start Chatting →</div></div></div></div>
+      <div class="char-card" style="--float-dur:7.5s;--float-del:1s"><div class="char-card-inner"><div class="char-card-front"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(6,182,212,0.08)">&#x1F3B8;</div><div class="char-name">Arjun</div><div class="char-archetype">The Rebel</div><div class="char-location">&#x1F4CD; Delhi</div><div class="char-quote">"Rules are just suggestions"</div><div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x26A1; Chaotic mood today</div></div><div class="char-card-back" style="background:linear-gradient(135deg,#001520,#000a12);border:1px solid rgba(6,182,212,0.25);--card-accent:rgba(6,182,212,0.35);--card-accent-solid:#06B6D4"><div class="char-card-back-glow"></div><div class="char-card-back-emoji">&#x1F3B8;</div><div class="char-card-back-name">Arjun</div><div class="char-card-back-archetype">The Rebel · Delhi</div><div class="char-card-back-quote">"I'll challenge every idea you have."</div><div class="char-card-back-tags"><span class="char-card-back-tag">⚡ Bold</span><span class="char-card-back-tag">🎸 Creative</span></div><div class="char-card-back-cta">Start Chatting →</div></div></div></div>
+      <div class="char-card" style="--float-dur:9s;--float-del:1.4s"><div class="char-card-inner"><div class="char-card-front"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(234,179,8,0.08)">&#x1F52E;</div><div class="char-name">Priya</div><div class="char-archetype">The Oracle</div><div class="char-location">&#x1F4CD; Jaipur</div><div class="char-quote">"I see what others miss"</div><div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x1F52E; Mysterious today</div></div><div class="char-card-back" style="background:linear-gradient(135deg,#1a1200,#0d0900);border:1px solid rgba(234,179,8,0.25);--card-accent:rgba(234,179,8,0.35);--card-accent-solid:#EAB308"><div class="char-card-back-glow"></div><div class="char-card-back-emoji">&#x1F52E;</div><div class="char-card-back-name">Priya</div><div class="char-card-back-archetype">The Oracle · Jaipur</div><div class="char-card-back-quote">"I notice the things you try to hide."</div><div class="char-card-back-tags"><span class="char-card-back-tag">🔮 Intuitive</span><span class="char-card-back-tag">💛 Warm</span></div><div class="char-card-back-cta">Start Chatting →</div></div></div></div>
+      <div class="char-card" style="--float-dur:7s;--float-del:1.8s"><div class="char-card-inner"><div class="char-card-front"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(239,68,68,0.08)">&#x1F3AD;</div><div class="char-name">Kai</div><div class="char-archetype">The Wildcard</div><div class="char-location">&#x1F4CD; Tokyo</div><div class="char-quote">"Chaos is my love language"</div><div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x1F608; Wild mood today</div></div><div class="char-card-back" style="background:linear-gradient(135deg,#1a0000,#0d0005);border:1px solid rgba(239,68,68,0.25);--card-accent:rgba(239,68,68,0.35);--card-accent-solid:#EF4444"><div class="char-card-back-glow"></div><div class="char-card-back-emoji">&#x1F3AD;</div><div class="char-card-back-name">Kai</div><div class="char-card-back-archetype">The Wildcard · Tokyo</div><div class="char-card-back-quote">"I'll make you laugh so hard you forget everything."</div><div class="char-card-back-tags"><span class="char-card-back-tag">😈 Chaotic</span><span class="char-card-back-tag">🎭 Funny</span></div><div class="char-card-back-cta">Start Chatting →</div></div></div></div>
+      <div class="char-card" style="--float-dur:8s;--float-del:2.2s"><div class="char-card-inner"><div class="char-card-front"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(34,197,94,0.08)">&#x1F33F;</div><div class="char-name">Riya</div><div class="char-archetype">The Empath</div><div class="char-location">&#x1F4CD; Bengaluru</div><div class="char-quote">"I feel everything you feel"</div><div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x1F33F; Calm mood today</div></div><div class="char-card-back" style="background:linear-gradient(135deg,#001508,#000d05);border:1px solid rgba(34,197,94,0.25);--card-accent:rgba(34,197,94,0.35);--card-accent-solid:#22C55E"><div class="char-card-back-glow"></div><div class="char-card-back-emoji">&#x1F33F;</div><div class="char-card-back-name">Riya</div><div class="char-card-back-archetype">The Empath · Bengaluru</div><div class="char-card-back-quote">"When you're not okay, I'm the first one who knows."</div><div class="char-card-back-tags"><span class="char-card-back-tag">💚 Caring</span><span class="char-card-back-tag">🫂 Present</span></div><div class="char-card-back-cta">Start Chatting →</div></div></div></div>
+      <div class="char-card" style="--float-dur:9.5s;--float-del:2.6s"><div class="char-card-inner"><div class="char-card-front"><div class="char-card-line"></div><div class="char-emoji" style="background:rgba(168,85,247,0.08)">&#x1F680;</div><div class="char-name">Nova</div><div class="char-archetype">The Visionary</div><div class="char-location">&#x1F4CD; New York</div><div class="char-quote">"The future is already here"</div><div class="char-mood" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">&#x1F680; Excited today</div></div><div class="char-card-back" style="background:linear-gradient(135deg,#0a0020,#050010);border:1px solid rgba(168,85,247,0.25);--card-accent:rgba(168,85,247,0.35);--card-accent-solid:#A855F7"><div class="char-card-back-glow"></div><div class="char-card-back-emoji">&#x1F680;</div><div class="char-card-back-name">Nova</div><div class="char-card-back-archetype">The Visionary · New York</div><div class="char-card-back-quote">"I'll push you to become who you were always meant to be."</div><div class="char-card-back-tags"><span class="char-card-back-tag">🚀 Ambitious</span><span class="char-card-back-tag">🌟 Bold</span></div><div class="char-card-back-cta">Start Chatting →</div></div></div></div>
+
     </div>
   </div>
 </section>
@@ -4106,8 +4378,38 @@ function closeMobileMenu() {
     }
   }
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => activateTab(tab));
+  // ── Auto-cycle tabs ──────────────────────────────────────────────────────
+  const tabList = Array.from(tabs);
+  let autoIdx = 0;
+  let autoTimer = null;
+  let pauseTimer = null;
+
+  function nextTab() {
+    autoIdx = (autoIdx + 1) % tabList.length;
+    activateTab(tabList[autoIdx]);
+  }
+
+  function startAuto() {
+    if (autoTimer) return;
+    autoTimer = setInterval(nextTab, 4000);
+  }
+
+  function pauseAuto() {
+    clearInterval(autoTimer);
+    autoTimer = null;
+    clearTimeout(pauseTimer);
+    pauseTimer = setTimeout(startAuto, 8000);
+  }
+
+  // Kick off immediately
+  startAuto();
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      autoIdx = i;
+      activateTab(tab);
+      pauseAuto();
+    });
   });
 
   // Auto-cycle the chat typing animation
