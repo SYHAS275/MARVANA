@@ -225,17 +225,26 @@
     }
     @media (max-width: 768px) { .hero-content { padding-bottom: 50px; } }
 
-    /* ── Orientation fixes for iPad / iPhone ── */
-    @media (max-width: 1024px) and (orientation: landscape) {
+    /* ── Orientation fixes — covers all iPads (mini → Pro 12.9") + phones ── */
+    /* iPad landscape: 768px–1400px wide, landscape — catches iPad Air, Pro 11", Pro 12.9" */
+    @media (min-width: 600px) and (max-width: 1400px) and (orientation: landscape) {
       .hero { min-height: 100svh; }
-      .hero-content { padding-bottom: 24px; justify-content: flex-end; }
-      .hero h1, .hero-title { font-size: clamp(28px, 5vw, 52px); letter-spacing: -1px; margin-bottom: 10px; }
-      .hero-sub { font-size: clamp(12px, 1.4vw, 14px); max-width: 380px; }
+      .hero-content { padding-bottom: 18px; justify-content: flex-end; }
+      .hero h1, .hero-title { font-size: clamp(26px, 3.8vw, 50px); letter-spacing: -1px; margin-bottom: 8px; }
+      .hero-sub { font-size: 13px; max-width: 360px; }
+      .hero-actions { margin-bottom: 14px; }
+      .hero-actions .btn-primary, .hero-actions .btn-ghost { padding: 12px 28px; font-size: 13px; }
+      .social-proof { margin-bottom: 14px; }
+      .hero-stats { display: none; }
     }
-    @media (max-width: 768px) and (orientation: landscape) {
-      .hero h1, .hero-title { font-size: clamp(24px, 4.5vw, 40px); letter-spacing: -1px; margin-bottom: 8px; }
-      .hero-content { padding-bottom: 16px; }
+    /* Phone landscape: up to 767px wide — hide sub, tighten further */
+    @media (max-width: 767px) and (orientation: landscape) {
+      .hero h1, .hero-title { font-size: clamp(22px, 4.5vw, 36px); letter-spacing: -1px; margin-bottom: 6px; }
+      .hero-content { padding-bottom: 12px; }
       .hero-sub { display: none; }
+      .hero-actions { margin-bottom: 10px; }
+      .hero-actions .btn-primary, .hero-actions .btn-ghost { padding: 10px 22px; font-size: 13px; }
+      .social-proof { display: none; }
     }
     @media (max-width: 1024px) and (orientation: portrait) {
       .hero h1, .hero-title { font-size: clamp(40px, 8vw, 72px); }
@@ -975,6 +984,11 @@
     @media (max-width: 480px) {
       .why-quote-box { padding: 18px 16px 16px; margin-top: 4px; }
       .why-quote-box::before { font-size: 40px; top: -10px; left: 12px; }
+    }
+    /* iPad landscape — tuck quote symbol inside the box so it doesn't overlap siblings */
+    @media (min-width: 600px) and (max-width: 1400px) and (orientation: landscape) {
+      .why-quote-box { padding: 22px 20px 18px; margin-top: 6px; }
+      .why-quote-box::before { position: absolute; top: 6px; left: 16px; font-size: 44px; line-height: 1; }
     }
     .why-quote-text { font-size: 14px; color: var(--text-secondary); line-height: 1.8; font-style: italic; }
     .why-quote-text strong { color: #fff; font-style: normal; }
