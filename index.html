@@ -970,7 +970,11 @@
     .why-quote-box::before {
       content: '\201C'; position: absolute; top: -14px; left: 18px;
       font-size: 60px; line-height: 1; color: rgba(168,85,247,0.2);
-      font-family: Georgia, serif;
+      font-family: Georgia, serif; pointer-events: none;
+    }
+    @media (max-width: 480px) {
+      .why-quote-box { padding: 18px 16px 16px; margin-top: 4px; }
+      .why-quote-box::before { font-size: 40px; top: -10px; left: 12px; }
     }
     .why-quote-text { font-size: 14px; color: var(--text-secondary); line-height: 1.8; font-style: italic; }
     .why-quote-text strong { color: #fff; font-style: normal; }
