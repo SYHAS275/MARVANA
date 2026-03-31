@@ -911,8 +911,7 @@
     .parallax-fast { will-change: transform; }
 
     /* ═══ HERO ROBOT ═══ */
-    /* ═══ WHY MARVANA ═══ */
-    .why-section { padding: 140px 24px; position: relative; z-index: 2; overflow: hidden; }
+    .why-section { display:none; }
     .why-section::before {
       content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
       width: 1000px; height: 800px; border-radius: 50%;
@@ -2280,6 +2279,49 @@
       .aia-tab { min-width: calc(50% - 4px); }
       .aia-phone { width: 240px; height: 500px; }
     }
+
+    /* ═══ GLOBAL MOBILE ALIGNMENT FIXES ═══ */
+    @media (max-width: 768px) {
+      /* Reduce oversized section padding on phones */
+      .features-section,
+      .how-section,
+      .compare-section,
+      .app-action-section,
+      .voice-section { padding: 80px 20px; }
+
+      /* Characters section: add side padding to heading area so title doesn't bleed */
+      .characters { padding: 80px 0; }
+      .characters .section-eyebrow,
+      .characters .section-title,
+      .characters > p { padding-left: 20px; padding-right: 20px; }
+      /* Characters hint text: don't pull too close to title on small screens */
+      .characters > p { margin-top: -20px !important; }
+
+      /* Section titles: tighter letter-spacing on small screens */
+      .section-title { letter-spacing: -1px; }
+
+      /* Bento cards: enforce single-column on small phones */
+      .col-8, .col-4, .col-6, .col-5, .col-7, .col-3, .col-9 { grid-column: span 12 !important; }
+
+      /* Compare table: prevent text cramping */
+      .compare-feature { font-size: 12px; }
+
+      /* How-section grid: single column */
+      .how-grid { grid-template-columns: 1fr !important; }
+    }
+
+    /* iPad portrait — moderate tightening */
+    @media (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {
+      .features-section,
+      .how-section,
+      .compare-section,
+      .app-action-section,
+      .voice-section { padding: 100px 32px; }
+      .characters { padding: 100px 0; }
+      .characters .section-eyebrow,
+      .characters .section-title,
+      .characters > p { padding-left: 32px; padding-right: 32px; }
+    }
   </style>
 </head>
 <body>
@@ -2341,7 +2383,7 @@ setTimeout(function(){
   <a href="#characters" onclick="closeMobileMenu()">Characters</a>
   <a href="#voice"      onclick="closeMobileMenu()">Voice AI</a>
   <a href="#how"        onclick="closeMobileMenu()">How It Works</a>
-  <a href="#compare"    onclick="closeMobileMenu()">Why Marvana</a>
+  <a href="#compare"    onclick="closeMobileMenu()">Compare</a>
   <a href="#download" class="drawer-cta" onclick="closeMobileMenu()">Coming Soon 🚀</a>
 </div>
 
