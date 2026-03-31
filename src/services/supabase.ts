@@ -1,3 +1,4 @@
+
 interface SupabaseUser {
   id: string;
   email?: string;
@@ -18,6 +19,10 @@ export interface UserProfileRow {
   favorite_characters: string[] | null;
   onboarded: boolean | null;
   avatar_url: string | null;
+  public_key: string | null;
+  bio?: string | null;
+  message_count?: number;
+  streak_count?: number;
 }
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
@@ -162,7 +167,7 @@ export async function supabaseSignOut(accessToken: string): Promise<void> {
   });
 }
 
-async function restRequest<T>(path: string, accessToken: string, init?: RequestInit): Promise<T> {
+export async function restRequest<T>(path: string, accessToken: string, init?: RequestInit): Promise<T> {
   const { supabaseUrl, supabaseAnonKey } = getConfig();
   const response = await fetch(`${supabaseUrl}/rest/v1${path}`, {
     ...init,
@@ -190,6 +195,7 @@ export async function upsertProfile(
     favorite_characters?: string[];
     onboarded?: boolean;
     avatar_url?: string;
+    public_key?: string;
   }
 ): Promise<void> {
   await restRequest('/profiles?on_conflict=id', accessToken, {
@@ -203,12 +209,29 @@ export async function upsertProfile(
 
 export async function fetchProfile(accessToken: string, userId: string): Promise<UserProfileRow | null> {
   const rows = await restRequest<UserProfileRow[]>(
-    `/profiles?id=eq.${encodeURIComponent(userId)}&select=id,email,name,favorite_characters,onboarded,avatar_url`,
+    `/profiles?id=eq.${encodeURIComponent(userId)}&select=id,email,name,favorite_characters,onboarded,avatar_url,public_key`,
     accessToken,
     { method: 'GET' }
   );
 
   return rows[0] || null;
+}
+
+/** Fetch just the public key for another user (for E2E encryption) */
+export async function fetchUserPublicKey(
+  accessToken: string,
+  userId: string,
+): Promise<string | null> {
+  try {
+    const rows = await restRequest<{ public_key: string | null }[]>(
+      `/profiles?id=eq.${encodeURIComponent(userId)}&select=public_key&limit=1`,
+      accessToken,
+      { method: 'GET' },
+    );
+    return rows[0]?.public_key || null;
+  } catch {
+    return null;
+  }
 }
 
 export async function uploadAvatar(
@@ -222,31 +245,26 @@ export async function uploadAvatar(
   const fileName = `${userId}/avatar.jpg`;
   const uploadUrl = `${supabaseUrl}/storage/v1/object/avatars/${fileName}`;
 
-  // React Native requires FormData — blob approach doesn't work with local file URIs
-  const formData = new FormData();
-  formData.append('file', {
-    uri: imageUri,
-    name: 'avatar.jpg',
-    type: mimeType,
-  } as any);
+  // Read the local file as an ArrayBuffer — recommended by Supabase for React Native
+  const arrayBuffer = await fetch(imageUri).then((r) => r.arrayBuffer());
 
   const uploadRes = await fetch(uploadUrl, {
     method: 'POST',
     headers: {
       apikey: supabaseAnonKey,
       Authorization: `Bearer ${accessToken}`,
+      'Content-Type': mimeType,
       'x-upsert': 'true',
-      // Do NOT set Content-Type — let FormData set it with the multipart boundary
     },
-    body: formData,
+    body: arrayBuffer,
   });
 
   if (!uploadRes.ok) {
     const err = await uploadRes.text();
-    throw new Error(`Avatar upload failed: ${err}`);
+    throw new Error(`Avatar upload failed (${uploadRes.status}): ${err}`);
   }
 
-  // Add timestamp to bust cache when user re-uploads
+  // Bust CDN cache with timestamp
   return `${supabaseUrl}/storage/v1/object/public/avatars/${fileName}?t=${Date.now()}`;
 }
 
@@ -262,6 +280,24 @@ export interface DMRoom {
   last_message_time?: string;
 }
 
+export type AttachmentType = 'image' | 'video' | 'pdf' | 'document' | 'location' | 'gif' | 'sticker';
+
+export interface DMAttachment {
+  url: string;
+  type: AttachmentType;
+  name: string;
+  size: number; // bytes
+  mime: string;
+  width?: number;
+  height?: number;
+  duration?: number; // seconds, for video
+  // location-specific fields
+  lat?: number;
+  lng?: number;
+  address?: string;
+  placeName?: string;
+}
+
 export interface DMMessage {
   id: string;
   room_id: string;
@@ -269,6 +305,7 @@ export interface DMMessage {
   content: string;
   created_at: string;
   reply_to_id?: string;
+  attachment?: DMAttachment | null;
 }
 
 /** Search users by name or email (excludes self) */
@@ -329,7 +366,7 @@ export async function fetchDMRooms(accessToken: string, myId: string): Promise<D
 export async function fetchDMMessages(accessToken: string, roomId: string, after?: string): Promise<DMMessage[]> {
   const afterParam = after ? `&created_at=gt.${encodeURIComponent(after)}` : '';
   return restRequest<DMMessage[]>(
-    `/dm_messages?room_id=eq.${roomId}${afterParam}&order=created_at.asc&limit=100`,
+    `/dm_messages?room_id=eq.${roomId}${afterParam}&select=id,room_id,sender_id,content,created_at,reply_to_id,attachment&order=created_at.asc&limit=100`,
     accessToken,
     { method: 'GET' }
   );
@@ -355,7 +392,7 @@ export async function getRoomReadStatus(accessToken: string, roomId: string, oth
 
 /** Update last_seen for online status */
 export async function updateLastSeen(accessToken: string, userId: string): Promise<void> {
-  await restRequest('/profiles?id=eq.' + userId, accessToken, {
+  await restRequest(`/profiles?id=eq.${encodeURIComponent(userId)}`, accessToken, {
     method: 'PATCH',
     headers: { Prefer: 'return=minimal' },
     body: JSON.stringify({ last_seen: new Date().toISOString() }),
@@ -365,21 +402,71 @@ export async function updateLastSeen(accessToken: string, userId: string): Promi
 /** Get last_seen for a user — returns true if online (< 3 min ago) */
 export async function isUserOnline(accessToken: string, userId: string): Promise<boolean> {
   const rows = await restRequest<{ last_seen: string }[]>(
-    `/profiles?id=eq.${userId}&select=last_seen`, accessToken, { method: 'GET' }
+    `/profiles?id=eq.${encodeURIComponent(userId)}&select=last_seen`, accessToken, { method: 'GET' }
   );
   if (!rows[0]?.last_seen) return false;
   return Date.now() - new Date(rows[0].last_seen).getTime() < 3 * 60 * 1000;
 }
 
+/** Upload a file to the dm-attachments Supabase Storage bucket. Returns public URL. */
+export async function uploadDMAttachment(
+  accessToken: string,
+  senderId: string,
+  fileUri: string,
+  mimeType: string,
+  fileName: string,
+): Promise<string> {
+  const { supabaseUrl, supabaseAnonKey } = getConfig();
+
+  const ext = fileName.split('.').pop() || 'bin';
+  const path = `${senderId}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+  const uploadUrl = `${supabaseUrl}/storage/v1/object/dm-attachments/${path}`;
+
+  // Read the local file as an ArrayBuffer (raw binary) — recommended by Supabase for React Native
+  // fetch(fileUri).arrayBuffer() works for file:// URIs returned by image/document pickers
+  const arrayBuffer = await fetch(fileUri).then((r) => r.arrayBuffer());
+
+  const res = await fetch(uploadUrl, {
+    method: 'POST',
+    headers: {
+      apikey: supabaseAnonKey,
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': mimeType,
+      'x-upsert': 'false',
+    },
+    body: arrayBuffer,
+  });
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => `HTTP ${res.status}`);
+    throw new Error(`Upload failed (${res.status}): ${errText}`);
+  }
+
+  return `${supabaseUrl}/storage/v1/object/public/dm-attachments/${path}`;
+}
+
 /** Send a message in a DM room */
-export async function sendDMMessage(accessToken: string, roomId: string, senderId: string, content: string, replyToId?: string): Promise<DMMessage> {
+export async function sendDMMessage(
+  accessToken: string,
+  roomId: string,
+  senderId: string,
+  content: string,
+  replyToId?: string,
+  attachment?: DMAttachment,
+): Promise<DMMessage> {
   const rows = await restRequest<DMMessage[]>(
     `/dm_messages`,
     accessToken,
     {
       method: 'POST',
       headers: { Prefer: 'return=representation' },
-      body: JSON.stringify({ room_id: roomId, sender_id: senderId, content, reply_to_id: replyToId || null }),
+      body: JSON.stringify({
+        room_id: roomId,
+        sender_id: senderId,
+        content,
+        reply_to_id: replyToId || null,
+        attachment: attachment || null,
+      }),
     }
   );
   return rows[0];
@@ -600,7 +687,7 @@ export async function initiateCall(
 
 /** Answer an incoming call */
 export async function answerCall(accessToken: string, callId: string): Promise<void> {
-  await restRequest(`/calls?id=eq.${callId}`, accessToken, {
+  await restRequest(`/calls?id=eq.${encodeURIComponent(callId)}`, accessToken, {
     method: 'PATCH',
     headers: { Prefer: 'return=minimal' },
     body: JSON.stringify({ status: 'active' }),
@@ -613,7 +700,7 @@ export async function endCall(
   callId: string,
   status: 'declined' | 'ended' | 'missed' = 'ended',
 ): Promise<void> {
-  await restRequest(`/calls?id=eq.${callId}`, accessToken, {
+  await restRequest(`/calls?id=eq.${encodeURIComponent(callId)}`, accessToken, {
     method: 'PATCH',
     headers: { Prefer: 'return=minimal' },
     body: JSON.stringify({ status }),
@@ -627,7 +714,7 @@ export async function checkIncomingCall(
 ): Promise<CallRecord | null> {
   try {
     const rows = await restRequest<CallRecord[]>(
-      `/calls?to_id=eq.${myId}&status=eq.ringing&order=created_at.desc&limit=1`,
+      `/calls?to_id=eq.${encodeURIComponent(myId)}&status=eq.ringing&order=created_at.desc&limit=1`,
       accessToken,
       { method: 'GET' },
     );
@@ -644,7 +731,7 @@ export async function checkIncomingCall(
 export async function getCallRecord(accessToken: string, callId: string): Promise<CallRecord | null> {
   try {
     const rows = await restRequest<CallRecord[]>(
-      `/calls?id=eq.${callId}&limit=1`,
+      `/calls?id=eq.${encodeURIComponent(callId)}&limit=1`,
       accessToken,
       { method: 'GET' },
     );
@@ -682,6 +769,8 @@ export async function fetchBlockedIds(
 
 // ── Stories (24hr) ───────────────────────────────────────────────────────────
 
+export type StoryMediaType = 'image' | 'video' | null;
+
 export interface Story {
   id: string;
   user_id: string;
@@ -690,8 +779,45 @@ export interface Story {
   bg_color: string;
   created_at: string;
   expires_at: string;
+  is_collab?: boolean;
   author_name?: string;
   author_avatar?: string;
+  media_url?: string | null;
+  media_type?: StoryMediaType;
+  media_mime?: string | null;
+}
+
+/** Upload a story media file (photo/video) to Supabase Storage. Returns public URL. */
+export async function uploadStoryMedia(
+  accessToken: string,
+  userId: string,
+  fileUri: string,
+  mimeType: string,
+): Promise<string> {
+  const { supabaseUrl, supabaseAnonKey } = getConfig();
+  const ext = mimeType.includes('video') ? 'mp4' : mimeType.includes('png') ? 'png' : 'jpg';
+  const path = `${userId}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+  const uploadUrl = `${supabaseUrl}/storage/v1/object/story-media/${path}`;
+
+  const arrayBuffer = await fetch(fileUri).then((r) => r.arrayBuffer());
+
+  const res = await fetch(uploadUrl, {
+    method: 'POST',
+    headers: {
+      apikey: supabaseAnonKey,
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': mimeType,
+      'x-upsert': 'false',
+    },
+    body: arrayBuffer,
+  });
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => `HTTP ${res.status}`);
+    throw new Error(`Story media upload failed (${res.status}): ${errText}`);
+  }
+
+  return `${supabaseUrl}/storage/v1/object/public/story-media/${path}`;
 }
 
 export async function postStory(
@@ -700,20 +826,34 @@ export async function postStory(
   content: string,
   emoji: string,
   bgColor: string,
+  isCollab = false,
+  mediaUrl?: string | null,
+  mediaType?: StoryMediaType,
+  mediaMime?: string | null,
 ): Promise<void> {
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
   await restRequest('/stories', accessToken, {
     method: 'POST',
     headers: { Prefer: 'return=minimal' },
-    body: JSON.stringify({ user_id: userId, content, emoji, bg_color: bgColor, expires_at: expiresAt }),
+    body: JSON.stringify({
+      user_id: userId, content, emoji, bg_color: bgColor, expires_at: expiresAt,
+      is_collab: isCollab, collab_owner_id: isCollab ? userId : null,
+      ...(mediaUrl ? { media_url: mediaUrl, media_type: mediaType, media_mime: mediaMime } : {}),
+    }),
   });
 }
 
 export async function fetchStories(accessToken: string): Promise<Story[]> {
-  return restRequest<Story[]>(
-    `/stories?expires_at=gt.${encodeURIComponent(new Date().toISOString())}&order=created_at.desc&limit=50&select=id,user_id,content,emoji,bg_color,created_at,expires_at`,
+  const rows = await restRequest<(Story & { profiles: { name: string | null; avatar_url: string | null } | null })[]>(
+    `/stories?expires_at=gt.${encodeURIComponent(new Date().toISOString())}&order=created_at.desc&limit=50&select=id,user_id,content,emoji,bg_color,created_at,expires_at,is_collab,media_url,media_type,media_mime,profiles!stories_user_id_fkey(name,avatar_url)`,
     accessToken, { method: 'GET' }
   );
+  return rows.map((s) => ({
+    ...s,
+    author_name: s.profiles?.name || undefined,
+    author_avatar: s.profiles?.avatar_url || undefined,
+    profiles: undefined,
+  }));
 }
 
 export async function deleteStory(accessToken: string, storyId: string): Promise<void> {
@@ -755,10 +895,341 @@ export async function getReferralCode(userId: string): Promise<string> {
   return userId.slice(0, 8).toUpperCase();
 }
 
+// ── Story Comments ────────────────────────────────────────────────────────────
+
+export interface StoryComment {
+  id: string;
+  story_id: string;
+  user_id: string;
+  content: string;
+  created_at: string;
+  author_name?: string;
+}
+
+export async function fetchStoryComments(accessToken: string, storyId: string): Promise<StoryComment[]> {
+  const rows = await restRequest<(StoryComment & { profiles: { name: string | null } | null })[]>(
+    `/story_comments?story_id=eq.${storyId}&order=created_at.asc&select=id,story_id,user_id,content,created_at,profiles(name)`,
+    accessToken, { method: 'GET' }
+  );
+  return rows.map((r) => ({ ...r, author_name: r.profiles?.name || undefined, profiles: undefined }));
+}
+
+export async function postStoryComment(accessToken: string, storyId: string, userId: string, content: string): Promise<StoryComment> {
+  const rows = await restRequest<StoryComment[]>('/story_comments', accessToken, {
+    method: 'POST',
+    headers: { Prefer: 'return=representation' },
+    body: JSON.stringify({ story_id: storyId, user_id: userId, content }),
+  });
+  return rows[0];
+}
+
+export async function deleteStoryComment(accessToken: string, commentId: string): Promise<void> {
+  await restRequest(`/story_comments?id=eq.${commentId}`, accessToken, { method: 'DELETE' });
+}
+
+// ── Friend Requests ───────────────────────────────────────────────────────────
+
+export type FriendRequestStatus = 'pending' | 'accepted' | 'declined';
+
+export interface FriendRequest {
+  id: string;
+  from_id: string;
+  to_id: string;
+  status: FriendRequestStatus;
+  created_at: string;
+  from_profile?: { name: string | null; avatar_url: string | null };
+}
+
+export async function sendFriendRequest(accessToken: string, fromId: string, toId: string): Promise<void> {
+  await restRequest('/friend_requests', accessToken, {
+    method: 'POST',
+    headers: { Prefer: 'resolution=ignore-duplicates,return=minimal' },
+    body: JSON.stringify({ from_id: fromId, to_id: toId }),
+  });
+}
+
+export async function respondFriendRequest(accessToken: string, requestId: string, status: 'accepted' | 'declined'): Promise<void> {
+  await restRequest(`/friend_requests?id=eq.${requestId}`, accessToken, {
+    method: 'PATCH',
+    headers: { Prefer: 'return=minimal' },
+    body: JSON.stringify({ status }),
+  });
+}
+
+export async function getPendingFriendRequests(accessToken: string, userId: string): Promise<FriendRequest[]> {
+  const rows = await restRequest<(FriendRequest & { profiles: { name: string | null; avatar_url: string | null } | null })[]>(
+    `/friend_requests?to_id=eq.${userId}&status=eq.pending&order=created_at.desc&select=id,from_id,to_id,status,created_at,profiles!friend_requests_from_id_fkey(name,avatar_url)`,
+    accessToken, { method: 'GET' }
+  );
+  return rows.map((r) => ({ ...r, from_profile: r.profiles || undefined, profiles: undefined }));
+}
+
+export async function getFriendRequestStatus(accessToken: string, fromId: string, toId: string): Promise<FriendRequestStatus | null> {
+  const rows = await restRequest<{ status: FriendRequestStatus }[]>(
+    `/friend_requests?from_id=eq.${fromId}&to_id=eq.${toId}&select=status&limit=1`,
+    accessToken, { method: 'GET' }
+  );
+  return rows[0]?.status || null;
+}
+
+export async function areFriends(accessToken: string, userId1: string, userId2: string): Promise<boolean> {
+  const rows = await restRequest<{ id: string }[]>(
+    `/friend_requests?or=(and(from_id.eq.${userId1},to_id.eq.${userId2}),and(from_id.eq.${userId2},to_id.eq.${userId1}))&status=eq.accepted&select=id&limit=1`,
+    accessToken, { method: 'GET' }
+  );
+  return rows.length > 0;
+}
+
+export async function cancelFriendRequest(accessToken: string, fromId: string, toId: string): Promise<void> {
+  await restRequest(`/friend_requests?from_id=eq.${fromId}&to_id=eq.${toId}`, accessToken, { method: 'DELETE' });
+}
+
+// ── User Public Profile ───────────────────────────────────────────────────────
+
+export interface PublicProfile {
+  id: string;
+  name: string | null;
+  email: string | null;
+  avatar_url: string | null;
+  bio: string | null;
+  message_count: number;
+  streak_count: number;
+  created_at: string;
+}
+
+export async function fetchPublicProfile(accessToken: string, userId: string): Promise<PublicProfile | null> {
+  const rows = await restRequest<PublicProfile[]>(
+    `/profiles?id=eq.${userId}&select=id,name,email,avatar_url,bio,message_count,streak_count,created_at&limit=1`,
+    accessToken, { method: 'GET' }
+  );
+  return rows[0] || null;
+}
+
+export async function updateBio(accessToken: string, userId: string, bio: string): Promise<void> {
+  await restRequest(`/profiles?id=eq.${userId}`, accessToken, {
+    method: 'PATCH',
+    headers: { Prefer: 'return=minimal' },
+    body: JSON.stringify({ bio }),
+  });
+}
+
+// ── User Status ───────────────────────────────────────────────────────────────
+
+export interface UserStatus {
+  user_id: string;
+  name: string | null;
+  status_text: string | null;
+  status_emoji: string | null;
+  status_updated_at: string | null;
+}
+
+export async function setUserStatus(
+  accessToken: string,
+  userId: string,
+  statusText: string | null,
+  statusEmoji: string | null,
+): Promise<void> {
+  await restRequest(`/profiles?id=eq.${userId}`, accessToken, {
+    method: 'PATCH',
+    headers: { Prefer: 'return=minimal' },
+    body: JSON.stringify({
+      status_text: statusText,
+      status_emoji: statusEmoji,
+      status_updated_at: statusText ? new Date().toISOString() : null,
+    }),
+  });
+}
+
+export async function fetchContactStatuses(
+  accessToken: string,
+  userIds: string[],
+): Promise<UserStatus[]> {
+  if (userIds.length === 0) return [];
+  const ids = userIds.map((id) => `"${id}"`).join(',');
+  return restRequest<UserStatus[]>(
+    `/profiles?id=in.(${ids})&select=id,name,status_text,status_emoji,status_updated_at`,
+    accessToken,
+    { method: 'GET' },
+  ).then((rows: any[]) => rows.map((r) => ({ ...r, user_id: r.id })));
+}
+
+export async function getMyStatus(accessToken: string, userId: string): Promise<{ status_text: string | null; status_emoji: string | null }> {
+  const rows = await restRequest<{ status_text: string | null; status_emoji: string | null }[]>(
+    `/profiles?id=eq.${userId}&select=status_text,status_emoji&limit=1`,
+    accessToken,
+    { method: 'GET' },
+  );
+  return rows[0] || { status_text: null, status_emoji: null };
+}
+
 // ── Account Deletion ─────────────────────────────────────────────────────────
 
 export async function deleteAccount(accessToken: string, userId: string): Promise<void> {
   // Delete profile — cascade will remove most data via FK
   await restRequest(`/profiles?id=eq.${userId}`, accessToken, { method: 'DELETE' });
   await supabaseSignOut(accessToken);
+}
+
+// ── Public Rooms ─────────────────────────────────────────────────────────────
+
+export interface PublicRoom {
+  id: string;
+  name: string;
+  description: string | null;
+  emoji: string;
+  topic: string | null;
+  created_by: string | null;
+  created_at: string;
+  is_active: boolean;
+  max_members: number;
+  member_count: number;
+}
+
+export interface PublicRoomMessage {
+  id: string;
+  room_id: string;
+  sender_id: string;
+  sender_name: string;
+  sender_avatar: string | null;
+  content: string;
+  created_at: string;
+}
+
+export interface PublicRoomMember {
+  room_id: string;
+  user_id: string;
+  joined_at: string;
+}
+
+/** Fetch all active public rooms, ordered by member_count desc */
+export async function fetchPublicRooms(accessToken: string): Promise<PublicRoom[]> {
+  return restRequest<PublicRoom[]>(
+    '/public_rooms?is_active=eq.true&select=id,name,description,emoji,topic,created_by,created_at,is_active,max_members,member_count&order=member_count.desc',
+    accessToken,
+    { method: 'GET' },
+  );
+}
+
+/** Create a new public room and auto-join the creator */
+export async function createPublicRoom(
+  accessToken: string,
+  userId: string,
+  name: string,
+  description: string | null,
+  emoji: string,
+  topic: string | null,
+): Promise<PublicRoom> {
+  const rows = await restRequest<PublicRoom[]>(
+    '/public_rooms',
+    accessToken,
+    {
+      method: 'POST',
+      headers: { Prefer: 'return=representation' },
+      body: JSON.stringify({ name, description, emoji, topic, created_by: userId, member_count: 1 }),
+    },
+  );
+  const room = rows[0];
+  // Auto-join creator
+  await restRequest('/public_room_members', accessToken, {
+    method: 'POST',
+    headers: { Prefer: 'return=minimal' },
+    body: JSON.stringify({ room_id: room.id, user_id: userId }),
+  });
+  return room;
+}
+
+/** Join a public room */
+export async function joinPublicRoom(accessToken: string, roomId: string, userId: string): Promise<void> {
+  // Insert member
+  await restRequest('/public_room_members', accessToken, {
+    method: 'POST',
+    headers: { Prefer: 'return=minimal' },
+    body: JSON.stringify({ room_id: roomId, user_id: userId }),
+  });
+  // Increment member_count via RPC-style PATCH (read current, increment)
+  const rooms = await restRequest<PublicRoom[]>(
+    `/public_rooms?id=eq.${roomId}&select=member_count`,
+    accessToken,
+    { method: 'GET' },
+  );
+  const current = rooms[0]?.member_count ?? 0;
+  await restRequest(`/public_rooms?id=eq.${roomId}`, accessToken, {
+    method: 'PATCH',
+    headers: { Prefer: 'return=minimal' },
+    body: JSON.stringify({ member_count: current + 1 }),
+  });
+}
+
+/** Leave a public room */
+export async function leavePublicRoom(accessToken: string, roomId: string, userId: string): Promise<void> {
+  await restRequest(
+    `/public_room_members?room_id=eq.${roomId}&user_id=eq.${userId}`,
+    accessToken,
+    { method: 'DELETE' },
+  );
+  const rooms = await restRequest<PublicRoom[]>(
+    `/public_rooms?id=eq.${roomId}&select=member_count`,
+    accessToken,
+    { method: 'GET' },
+  );
+  const current = rooms[0]?.member_count ?? 1;
+  await restRequest(`/public_rooms?id=eq.${roomId}`, accessToken, {
+    method: 'PATCH',
+    headers: { Prefer: 'return=minimal' },
+    body: JSON.stringify({ member_count: Math.max(0, current - 1) }),
+  });
+}
+
+/** Fetch messages for a room, ordered by created_at asc */
+export async function fetchRoomMessages(
+  accessToken: string,
+  roomId: string,
+  limit: number = 50,
+): Promise<PublicRoomMessage[]> {
+  return restRequest<PublicRoomMessage[]>(
+    `/public_room_messages?room_id=eq.${roomId}&select=id,room_id,sender_id,sender_name,sender_avatar,content,created_at&order=created_at.asc&limit=${limit}`,
+    accessToken,
+    { method: 'GET' },
+  );
+}
+
+/** Send a message to a public room */
+export async function sendRoomMessage(
+  accessToken: string,
+  roomId: string,
+  senderId: string,
+  senderName: string,
+  senderAvatar: string | null,
+  content: string,
+): Promise<PublicRoomMessage> {
+  const rows = await restRequest<PublicRoomMessage[]>(
+    '/public_room_messages',
+    accessToken,
+    {
+      method: 'POST',
+      headers: { Prefer: 'return=representation' },
+      body: JSON.stringify({
+        room_id: roomId,
+        sender_id: senderId,
+        sender_name: senderName,
+        sender_avatar: senderAvatar,
+        content,
+      }),
+    },
+  );
+  return rows[0];
+}
+
+/** Check if current user is a member of a room */
+export async function checkRoomMembership(
+  accessToken: string,
+  roomId: string,
+  userId: string,
+): Promise<boolean> {
+  const rows = await restRequest<PublicRoomMember[]>(
+    `/public_room_members?room_id=eq.${roomId}&user_id=eq.${userId}&select=room_id&limit=1`,
+    accessToken,
+    { method: 'GET' },
+  );
+  return rows.length > 0;
 }

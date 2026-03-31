@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../theme/colors';
 
-const AGE_VERIFIED_KEY = 'daze:age_verified';
+const AGE_VERIFIED_KEY = 'marvana:age_verified';
 
 export async function hasVerifiedAge(): Promise<boolean> {
   try {
@@ -22,8 +22,10 @@ export default function AgeGateScreen() {
   const [year, setYear] = useState('');
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleContinue = async () => {
+    if (loading) return;
     const y = parseInt(year, 10);
     const m = parseInt(month, 10);
     const d = parseInt(day, 10);
@@ -41,12 +43,13 @@ export default function AgeGateScreen() {
     if (age < 13) {
       Alert.alert(
         'Age Requirement',
-        'You must be at least 13 years old to use Daze.',
+        'You must be at least 13 years old to use Marvana.',
         [{ text: 'OK' }]
       );
       return;
     }
 
+    setLoading(true);
     await AsyncStorage.setItem(AGE_VERIFIED_KEY, 'true');
     router.replace('/auth/login');
   };
@@ -104,12 +107,12 @@ export default function AgeGateScreen() {
           </View>
 
           <TouchableOpacity
-            style={[styles.btn, (!day || !month || !year) && styles.btnDisabled]}
+            style={[styles.btn, (!day || !month || !year || loading) && styles.btnDisabled]}
             onPress={handleContinue}
-            disabled={!day || !month || !year}
+            disabled={!day || !month || !year || loading}
           >
             <LinearGradient colors={['#A855F7', '#EC4899']} style={StyleSheet.absoluteFillObject} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} />
-            <Text style={styles.btnText}>Continue</Text>
+            <Text style={styles.btnText}>{loading ? 'Loading...' : 'Continue'}</Text>
           </TouchableOpacity>
 
           <Text style={styles.legal}>

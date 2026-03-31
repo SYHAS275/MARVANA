@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Stack, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { View, ActivityIndicator, StyleSheet, Alert, Linking } from 'react-native';
+import { View, StyleSheet, Alert, Linking, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useUserStore } from '../store/useUserStore';
 import { useChatStore } from '../store/useChatStore';
@@ -9,12 +9,13 @@ import { colors } from '../theme/colors';
 import { setupNotificationHandler, registerForPushNotifications } from '../services/notifications';
 import { checkIncomingCall, endCall, CallRecord, UserProfileRow, searchUsers } from '../services/supabase';
 import { IncomingCall } from '../components/common/IncomingCall';
+import MarvanaLoader from '../components/common/MarvanaLoader';
 
 // Setup notification handler before any component renders
 setupNotificationHandler();
 
-const AGE_VERIFIED_KEY = 'daze:age_verified';
-const REVIEW_PROMPT_KEY = 'daze:review_prompted';
+const AGE_VERIFIED_KEY = 'marvana:age_verified';
+const REVIEW_PROMPT_KEY = 'marvana:review_prompted';
 
 async function checkAndPromptReview(messageCount: number) {
   // Prompt for review after 10 messages
@@ -24,14 +25,17 @@ async function checkAndPromptReview(messageCount: number) {
     if (prompted) return;
     await AsyncStorage.setItem(REVIEW_PROMPT_KEY, 'true');
     Alert.alert(
-      'Enjoying Daze? ⭐',
+      'Enjoying Marvana? ⭐',
       'Tap a star to rate us on the App Store — it helps us grow!',
       [
         {
           text: '⭐ Rate Now',
           onPress: () => {
-            // Replace with actual App Store / Play Store ID when published
-            Linking.openURL('https://apps.apple.com/app/id0000000000').catch(() => {});
+            // TODO: Replace APP_STORE_ID and PLAY_STORE_ID with real IDs before publishing
+            const url = Platform.OS === 'ios'
+              ? 'https://apps.apple.com/app/idAPP_STORE_ID'
+              : 'https://play.google.com/store/apps/details?id=com.marvana.app';
+            Linking.openURL(url).catch(() => {});
           },
         },
         { text: 'Maybe Later', style: 'cancel' },
@@ -115,10 +119,10 @@ export default function RootLayout() {
 
   if (!ready) {
     return (
-      <View style={styles.loading}>
-        <ActivityIndicator size="large" color={colors.primary} />
+      <>
+        <MarvanaLoader />
         <StatusBar style="light" />
-      </View>
+      </>
     );
   }
 
@@ -144,11 +148,4 @@ export default function RootLayout() {
   );
 }
 
-const styles = StyleSheet.create({
-  loading: {
-    flex: 1,
-    backgroundColor: colors.bg,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const styles = StyleSheet.create({});
