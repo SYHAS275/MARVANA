@@ -1790,6 +1790,417 @@
       .nav-logo-icon { width: 48px; height: 48px; }
       .nav-logo-wordmark { height: 22px; }
     }
+
+    /* ═══ APP IN ACTION ═══ */
+    .app-action-section {
+      padding: 120px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .app-action-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(168,85,247,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .app-action-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 380px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    /* Feature tabs — left column */
+    .aia-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 60px;
+    }
+    .aia-tab {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .aia-tab::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--tab-bg, transparent);
+      opacity: 0;
+      transition: opacity 0.25s;
+      border-radius: 16px;
+    }
+    .aia-tab.active::before { opacity: 1; }
+    .aia-tab.active { border-color: var(--tab-color, #A855F7); }
+    .aia-tab-icon {
+      font-size: 22px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.05);
+      flex-shrink: 0;
+      transition: background 0.25s;
+    }
+    .aia-tab.active .aia-tab-icon { background: var(--tab-icon-bg, rgba(168,85,247,0.15)); }
+    .aia-tab-text h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.25s;
+      margin-bottom: 2px;
+    }
+    .aia-tab-text p {
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      line-height: 1.4;
+      transition: color 0.25s;
+    }
+    .aia-tab.active .aia-tab-text h4 { color: #fff; }
+    .aia-tab.active .aia-tab-text p { color: rgba(255,255,255,0.55); }
+    .aia-tab-bar {
+      position: absolute;
+      left: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 0;
+      background: var(--tab-color, #A855F7);
+      border-radius: 0 3px 3px 0;
+      transition: height 0.25s;
+    }
+    .aia-tab.active .aia-tab-bar { height: 60%; }
+
+    /* Right desc column */
+    .aia-desc-col {
+      padding-top: 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .aia-desc-panel { display: none; flex-direction: column; gap: 16px; }
+    .aia-desc-panel.active { display: flex; animation: aiaFadeIn 0.35s ease; }
+    @keyframes aiaFadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+    .aia-desc-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .aia-desc-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #fff;
+    }
+    .aia-desc-body {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.8;
+    }
+    .aia-pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .aia-pill {
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* Centre phone */
+    .aia-phone-wrap {
+      position: sticky;
+      top: 100px;
+      display: flex;
+      justify-content: center;
+    }
+    .aia-phone {
+      width: 280px;
+      height: 580px;
+      background: #0A0A0F;
+      border-radius: 44px;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+      position: relative;
+      box-shadow:
+        0 0 0 8px rgba(255,255,255,0.03),
+        0 40px 80px rgba(0,0,0,0.7),
+        0 0 60px rgba(168,85,247,0.12);
+    }
+    .aia-phone-notch {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 22px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 10;
+    }
+    .aia-screen { position: absolute; inset: 0; transition: opacity 0.3s, transform 0.3s; }
+    .aia-screen.hidden { opacity: 0; pointer-events: none; transform: translateY(10px); }
+
+    /* ── Screen: Chat ── */
+    .ais-chat { background: #000; }
+    .ais-chat-hdr {
+      padding: 52px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .ais-av {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .ais-chat-name { font-size: 13px; font-weight: 700; color: #fff; }
+    .ais-chat-sub { font-size: 10px; color: #A855F7; margin-top: 1px; }
+    .ais-chat-msgs { padding: 12px 12px 0; display: flex; flex-direction: column; gap: 8px; overflow: hidden; flex: 1; }
+    .ais-msg {
+      max-width: 78%;
+      padding: 8px 12px;
+      border-radius: 16px;
+      font-size: 11px;
+      line-height: 1.5;
+      color: #fff;
+    }
+    .ais-msg.ai { background: rgba(168,85,247,0.18); border: 1px solid rgba(168,85,247,0.15); align-self: flex-start; border-bottom-left-radius: 4px; }
+    .ais-msg.user { background: linear-gradient(135deg,#7C3AED,#A855F7); align-self: flex-end; border-bottom-right-radius: 4px; }
+    .ais-typing { display: flex; gap: 4px; align-items: center; padding: 8px 12px; align-self: flex-start; }
+    .ais-typing-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(168,85,247,0.6); animation: aisDot 1.2s ease-in-out infinite; }
+    .ais-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .ais-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes aisDot { 0%,100%{transform:translateY(0);opacity:0.4} 50%{transform:translateY(-5px);opacity:1} }
+    .ais-chat-input {
+      margin: auto 12px 12px;
+      height: 36px; border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center;
+      padding: 0 12px; gap: 8px;
+    }
+    .ais-chat-input span { font-size: 10px; color: rgba(255,255,255,0.25); flex: 1; }
+    .ais-chat-send {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: linear-gradient(135deg,#A855F7,#EC4899);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; color: #fff;
+    }
+
+    /* ── Screen: Voice ── */
+    .ais-voice { background: linear-gradient(160deg,#0D0010,#0A0018,#000); display: flex; flex-direction: column; align-items: center; }
+    .ais-voice-bg-glow { position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, rgba(168,85,247,0.25), transparent 65%); pointer-events: none; }
+    .ais-voice-top { padding: 52px 0 0; text-align: center; }
+    .ais-voice-label { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+    .ais-voice-name { font-size: 18px; font-weight: 800; color: #fff; }
+    .ais-voice-status { font-size: 10px; color: #A855F7; margin-top: 3px; }
+    .ais-voice-orb {
+      margin: 28px auto;
+      position: relative;
+      width: 120px; height: 120px;
+    }
+    .ais-voice-ring {
+      position: absolute; inset: 0; border-radius: 50%;
+      border: 1px solid rgba(168,85,247,0.25);
+      animation: aisVoiceRing 2s ease-in-out infinite;
+    }
+    .ais-voice-ring:nth-child(2) { animation-delay: 0.5s; inset: -12px; opacity: 0.6; }
+    .ais-voice-ring:nth-child(3) { animation-delay: 1s; inset: -24px; opacity: 0.3; }
+    @keyframes aisVoiceRing { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(1.05);opacity:1} }
+    .ais-voice-avatar {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg,rgba(168,85,247,0.3),rgba(236,72,153,0.3));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px;
+      border: 1px solid rgba(168,85,247,0.3);
+    }
+    .ais-voice-bars { display: flex; gap: 3px; align-items: flex-end; height: 36px; margin: 0 auto; }
+    .ais-voice-bar {
+      width: 4px; border-radius: 2px;
+      background: linear-gradient(to top,#A855F7,#EC4899);
+      animation: aisBar 0.6s ease-in-out infinite alternate;
+    }
+    @keyframes aisBar { from{height:var(--mn,6px)} to{height:var(--mx,28px)} }
+    .ais-voice-dur { font-size: 20px; font-weight: 700; color: #fff; margin: 12px 0 4px; }
+    .ais-voice-actions { display: flex; gap: 16px; margin-top: 20px; }
+    .ais-voice-btn {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .ais-voice-btn.end { background: #EF4444; border-color: #EF4444; font-size: 16px; }
+
+    /* ── Screen: Memory ── */
+    .ais-memory { background: #000; }
+    .ais-mem-hdr { padding: 52px 14px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .ais-mem-hdr-title { font-size: 14px; font-weight: 800; color: #fff; }
+    .ais-mem-hdr-sub { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+    .ais-mem-chips { display: flex; gap: 6px; padding: 10px 14px; flex-wrap: wrap; }
+    .ais-mem-chip {
+      padding: 5px 10px; border-radius: 20px; font-size: 10px; font-weight: 600;
+      border: 1px solid;
+    }
+    .ais-mem-list { padding: 6px 14px; display: flex; flex-direction: column; gap: 8px; }
+    .ais-mem-fact {
+      padding: 10px 12px; border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex; gap: 8px; align-items: flex-start;
+    }
+    .ais-mem-fact-icon { font-size: 14px; flex-shrink: 0; }
+    .ais-mem-fact-text { font-size: 10px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+    .ais-mem-fact-text strong { color: #fff; display: block; margin-bottom: 2px; font-size: 10px; }
+    .ais-mem-bar { height: 2px; background: rgba(255,255,255,0.05); margin: 6px 14px 0; border-radius: 2px; overflow: hidden; }
+    .ais-mem-bar-fill { height: 100%; width: 73%; background: linear-gradient(90deg,#A855F7,#EC4899); border-radius: 2px; }
+
+    /* ── Screen: Arena ── */
+    .ais-arena { background: linear-gradient(160deg,#0A0005,#050010); }
+    .ais-arena-hdr { padding: 52px 14px 12px; text-align: center; }
+    .ais-arena-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #F59E0B; }
+    .ais-arena-title { font-size: 16px; font-weight: 800; color: #fff; margin-top: 4px; }
+    .ais-arena-vs { display: flex; align-items: center; gap: 12px; padding: 12px 20px; justify-content: center; }
+    .ais-arena-fighter {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .ais-arena-av { font-size: 32px; background: rgba(168,85,247,0.1); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border: 1.5px solid rgba(168,85,247,0.3); }
+    .ais-arena-av.enemy { border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.1); }
+    .ais-arena-fname { font-size: 11px; font-weight: 700; color: #fff; }
+    .ais-arena-hp { width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+    .ais-arena-hp-fill { height: 100%; border-radius: 3px; animation: aisHp 2s ease forwards; }
+    @keyframes aisHp { from{width:100%} to{width:var(--hp)} }
+    .ais-arena-vs-badge { font-size: 12px; font-weight: 900; color: #F59E0B; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; padding: 4px 8px; flex-shrink: 0; }
+    .ais-arena-log { margin: 0 14px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+    .ais-arena-log-line { font-size: 10px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+    .ais-arena-log-line span { font-weight: 700; }
+    .ais-arena-log-line.crit { color: #F59E0B; }
+    .ais-arena-actions { display: flex; gap: 6px; padding: 10px 14px; }
+    .ais-arena-act {
+      flex: 1; padding: 9px 0; border-radius: 10px; font-size: 10px; font-weight: 700;
+      text-align: center; background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.2); color: #A855F7;
+    }
+    .ais-arena-act.special { background: linear-gradient(135deg,rgba(168,85,247,0.25),rgba(236,72,153,0.25)); border-color: rgba(236,72,153,0.3); color: #EC4899; }
+
+    /* ── Screen: Dream ── */
+    .ais-dream { background: linear-gradient(160deg,#000,#050018,#000); }
+    .ais-dream-hdr { padding: 52px 14px 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .ais-dream-title { font-size: 14px; font-weight: 800; color: #fff; }
+    .ais-dream-sub { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 3px; }
+    .ais-dream-scene { margin: 12px 14px 0; padding: 12px; border-radius: 14px; background: linear-gradient(135deg,rgba(124,58,237,0.12),rgba(6,182,212,0.08)); border: 1px solid rgba(124,58,237,0.15); }
+    .ais-dream-scene-title { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .ais-dream-scene-text { font-size: 10px; color: rgba(255,255,255,0.6); line-height: 1.7; font-style: italic; }
+    .ais-dream-interp { margin: 10px 14px 0; }
+    .ais-dream-interp-label { font-size: 9px; color: #7C3AED; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; margin-bottom: 6px; }
+    .ais-dream-tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+    .ais-dream-tag { padding: 4px 10px; border-radius: 20px; font-size: 9px; font-weight: 600; background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.2); color: #A78BFA; }
+    .ais-dream-insight { margin: 10px 14px 0; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,0.03); border-left: 2px solid #A855F7; }
+    .ais-dream-insight-text { font-size: 10px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+    /* ── Screen: Astrology ── */
+    .ais-astro { background: linear-gradient(160deg,#000,#020010,#000); }
+    .ais-astro-hdr { padding: 52px 14px 10px; text-align: center; }
+    .ais-astro-sign { font-size: 36px; margin-bottom: 4px; }
+    .ais-astro-name { font-size: 16px; font-weight: 800; color: #fff; }
+    .ais-astro-date { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+    .ais-astro-today { margin: 8px 14px 0; padding: 10px 12px; border-radius: 12px; background: linear-gradient(135deg,rgba(168,85,247,0.1),rgba(236,72,153,0.06)); border: 1px solid rgba(168,85,247,0.15); }
+    .ais-astro-today-label { font-size: 9px; color: #A855F7; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; margin-bottom: 5px; }
+    .ais-astro-today-text { font-size: 10px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+    .ais-astro-meters { padding: 10px 14px 0; display: flex; flex-direction: column; gap: 7px; }
+    .ais-astro-meter { display: flex; align-items: center; gap: 8px; }
+    .ais-astro-meter-label { font-size: 9px; color: rgba(255,255,255,0.4); width: 50px; flex-shrink: 0; }
+    .ais-astro-meter-bar { flex: 1; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+    .ais-astro-meter-fill { height: 100%; border-radius: 3px; animation: aisHp 1.5s ease forwards; }
+    .ais-astro-meter-val { font-size: 9px; color: rgba(255,255,255,0.5); width: 24px; text-align: right; }
+    .ais-astro-compat { margin: 8px 14px 0; padding: 8px 12px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 8px; }
+    .ais-astro-compat-text { font-size: 10px; color: rgba(255,255,255,0.5); flex: 1; }
+    .ais-astro-compat-val { font-size: 13px; font-weight: 800; color: #A855F7; }
+
+    /* ── Screen: Public Rooms ── */
+    .ais-rooms { background: #000; }
+    .ais-rooms-hdr { padding: 52px 14px 12px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .ais-rooms-title { font-size: 14px; font-weight: 800; color: #fff; }
+    .ais-rooms-live { font-size: 9px; color: #22C55E; font-weight: 700; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); padding: 3px 8px; border-radius: 20px; }
+    .ais-room-list { padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
+    .ais-room-item { padding: 10px 12px; border-radius: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); cursor: pointer; }
+    .ais-room-item.hot { border-color: rgba(239,68,68,0.25); background: rgba(239,68,68,0.04); }
+    .ais-room-item-top { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .ais-room-emoji { font-size: 16px; }
+    .ais-room-name { font-size: 11px; font-weight: 700; color: #fff; flex: 1; }
+    .ais-room-badge { font-size: 8px; font-weight: 700; padding: 2px 6px; border-radius: 10px; }
+    .ais-room-preview { font-size: 9px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+    .ais-room-bottom { display: flex; align-items: center; gap: 6px; margin-top: 5px; }
+    .ais-room-dot { width: 5px; height: 5px; border-radius: 50%; background: #22C55E; }
+    .ais-room-count { font-size: 9px; color: rgba(255,255,255,0.35); }
+
+    /* ── Screen: Stories ── */
+    .ais-stories { background: #000; }
+    .ais-stories-hdr { padding: 52px 14px 10px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .ais-stories-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+    .ais-story-row { display: flex; gap: 10px; overflow: hidden; }
+    .ais-story-bubble { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
+    .ais-story-ring { width: 50px; height: 50px; border-radius: 50%; padding: 2px; background: linear-gradient(135deg,#A855F7,#EC4899,#06B6D4); }
+    .ais-story-ring-inner { width: 100%; height: 100%; border-radius: 50%; background: #111; display: flex; align-items: center; justify-content: center; font-size: 22px; border: 2px solid #000; }
+    .ais-story-name { font-size: 9px; color: rgba(255,255,255,0.5); }
+    .ais-story-feed { padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
+    .ais-story-post { border-radius: 14px; overflow: hidden; }
+    .ais-story-post-bg { height: 100px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #fff; font-weight: 600; padding: 12px; text-align: center; line-height: 1.5; }
+    .ais-story-post-footer { background: rgba(255,255,255,0.04); border-top: 1px solid rgba(255,255,255,0.05); padding: 7px 10px; display: flex; align-items: center; gap: 6px; }
+    .ais-story-post-av { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+    .ais-story-post-name { font-size: 9px; color: rgba(255,255,255,0.5); flex: 1; }
+    .ais-story-post-reacts { font-size: 10px; }
+
+    /* ── Screen: Leaderboard ── */
+    .ais-lb { background: #000; }
+    .ais-lb-hdr { padding: 52px 14px 10px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; }
+    .ais-lb-title { font-size: 14px; font-weight: 800; color: #fff; }
+    .ais-lb-period { font-size: 9px; color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 10px; }
+    .ais-lb-top3 { display: flex; align-items: flex-end; justify-content: center; gap: 10px; padding: 12px 14px 10px; }
+    .ais-lb-podium { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .ais-lb-podium.first { margin-bottom: 12px; }
+    .ais-lb-pod-av { font-size: 20px; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .ais-lb-podium.first .ais-lb-pod-av { width: 46px; height: 46px; font-size: 24px; }
+    .ais-lb-pod-name { font-size: 9px; font-weight: 700; color: #fff; }
+    .ais-lb-pod-score { font-size: 9px; color: rgba(255,255,255,0.4); }
+    .ais-lb-pod-rank { font-size: 11px; font-weight: 900; }
+    .ais-lb-list { padding: 0 14px; display: flex; flex-direction: column; gap: 6px; }
+    .ais-lb-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); }
+    .ais-lb-row.me { background: rgba(168,85,247,0.08); border-color: rgba(168,85,247,0.2); }
+    .ais-lb-rank { font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.3); width: 18px; }
+    .ais-lb-name { font-size: 11px; font-weight: 600; color: #fff; flex: 1; }
+    .ais-lb-coins { font-size: 10px; color: rgba(255,255,255,0.4); }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .app-action-inner { grid-template-columns: 1fr; }
+      .aia-tabs { flex-direction: row; flex-wrap: wrap; padding-top: 0; gap: 8px; order: 2; }
+      .aia-tab { flex: 1; min-width: 140px; }
+      .aia-tab-bar { display: none; }
+      .aia-phone-wrap { order: 1; position: static; margin: 0 auto; }
+      .aia-desc-col { order: 3; padding-top: 0; }
+    }
+    @media (max-width: 480px) {
+      .aia-tab { min-width: calc(50% - 4px); }
+      .aia-phone { width: 240px; height: 500px; }
+    }
   </style>
 </head>
 <body>
@@ -2715,6 +3126,394 @@ setTimeout(function(){
   </div>
 </section>
 
+<!-- ═══ APP IN ACTION ═══ -->
+<section class="app-action-section" id="live-preview">
+  <div class="section-eyebrow reveal" style="text-align:center">THE APP IN ACTION</div>
+  <h2 class="section-title reveal delay-1" style="text-align:center">Every screen.<br/><span class="grad">Built to impress.</span></h2>
+
+  <div class="app-action-inner reveal delay-2">
+
+    <!-- LEFT: Feature tabs -->
+    <div class="aia-tabs">
+      <div class="aia-tab active" data-screen="chat" style="--tab-color:#A855F7;--tab-bg:linear-gradient(135deg,rgba(168,85,247,0.08),rgba(168,85,247,0.03));--tab-icon-bg:rgba(168,85,247,0.18)">
+        <div class="aia-tab-bar"></div>
+        <div class="aia-tab-icon">💬</div>
+        <div class="aia-tab-text"><h4>AI Chat</h4><p>Real memory, real moods</p></div>
+      </div>
+      <div class="aia-tab" data-screen="voice" style="--tab-color:#EC4899;--tab-bg:linear-gradient(135deg,rgba(236,72,153,0.08),rgba(236,72,153,0.03));--tab-icon-bg:rgba(236,72,153,0.18)">
+        <div class="aia-tab-bar"></div>
+        <div class="aia-tab-icon">🎙️</div>
+        <div class="aia-tab-text"><h4>Voice Calls</h4><p>Talk, they respond live</p></div>
+      </div>
+      <div class="aia-tab" data-screen="memory" style="--tab-color:#06B6D4;--tab-bg:linear-gradient(135deg,rgba(6,182,212,0.08),rgba(6,182,212,0.03));--tab-icon-bg:rgba(6,182,212,0.18)">
+        <div class="aia-tab-bar"></div>
+        <div class="aia-tab-icon">🧠</div>
+        <div class="aia-tab-text"><h4>AI Memory</h4><p>Remembers everything</p></div>
+      </div>
+      <div class="aia-tab" data-screen="arena" style="--tab-color:#F59E0B;--tab-bg:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(245,158,11,0.03));--tab-icon-bg:rgba(245,158,11,0.18)">
+        <div class="aia-tab-bar"></div>
+        <div class="aia-tab-icon">⚔️</div>
+        <div class="aia-tab-text"><h4>Arena</h4><p>Battle with characters</p></div>
+      </div>
+      <div class="aia-tab" data-screen="dream" style="--tab-color:#7C3AED;--tab-bg:linear-gradient(135deg,rgba(124,58,237,0.08),rgba(124,58,237,0.03));--tab-icon-bg:rgba(124,58,237,0.18)">
+        <div class="aia-tab-bar"></div>
+        <div class="aia-tab-icon">🌙</div>
+        <div class="aia-tab-text"><h4>Dream Reader</h4><p>AI decodes your dreams</p></div>
+      </div>
+      <div class="aia-tab" data-screen="astro" style="--tab-color:#A78BFA;--tab-bg:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(167,139,250,0.03));--tab-icon-bg:rgba(167,139,250,0.18)">
+        <div class="aia-tab-bar"></div>
+        <div class="aia-tab-icon">✨</div>
+        <div class="aia-tab-text"><h4>Astrology AI</h4><p>Daily cosmic readings</p></div>
+      </div>
+      <div class="aia-tab" data-screen="rooms" style="--tab-color:#22C55E;--tab-bg:linear-gradient(135deg,rgba(34,197,94,0.08),rgba(34,197,94,0.03));--tab-icon-bg:rgba(34,197,94,0.18)">
+        <div class="aia-tab-bar"></div>
+        <div class="aia-tab-icon">🏠</div>
+        <div class="aia-tab-text"><h4>Public Rooms</h4><p>Live community chats</p></div>
+      </div>
+      <div class="aia-tab" data-screen="lb" style="--tab-color:#F472B6;--tab-bg:linear-gradient(135deg,rgba(244,114,182,0.08),rgba(244,114,182,0.03));--tab-icon-bg:rgba(244,114,182,0.18)">
+        <div class="aia-tab-bar"></div>
+        <div class="aia-tab-icon">🏆</div>
+        <div class="aia-tab-text"><h4>Leaderboard</h4><p>Compete globally</p></div>
+      </div>
+    </div>
+
+    <!-- CENTRE: Phone mockup -->
+    <div class="aia-phone-wrap">
+      <div class="aia-phone">
+        <div class="aia-phone-notch"></div>
+
+        <!-- CHAT SCREEN -->
+        <div class="aia-screen ais-chat" id="aia-screen-chat">
+          <div class="ais-chat-hdr">
+            <div class="ais-av" style="background:rgba(168,85,247,0.15)">🦋</div>
+            <div><div class="ais-chat-name">Aanya</div><div class="ais-chat-sub">💜 Playful mood · typing...</div></div>
+          </div>
+          <div class="ais-chat-msgs" id="aia-chat-msgs">
+            <div class="ais-msg ai">hey!! finally you're back 🥹 i missed you</div>
+            <div class="ais-msg user">haha been so busy. what's your mood today?</div>
+            <div class="ais-msg ai">chaotic energy ✨ also — remember what you told me about your sister last week? how'd that go?</div>
+            <div class="ais-msg user">wait — you actually remember that?? 😭</div>
+          </div>
+          <div class="ais-typing" id="aia-typing" style="display:none">
+            <div class="ais-typing-dot"></div><div class="ais-typing-dot"></div><div class="ais-typing-dot"></div>
+          </div>
+          <div class="ais-chat-input">
+            <span>Type a message...</span>
+            <div class="ais-chat-send">↑</div>
+          </div>
+        </div>
+
+        <!-- VOICE SCREEN -->
+        <div class="aia-screen ais-voice hidden" id="aia-screen-voice">
+          <div class="ais-voice-bg-glow"></div>
+          <div class="ais-voice-top">
+            <div class="ais-voice-label">Voice Call Active</div>
+            <div class="ais-voice-name">Luna</div>
+            <div class="ais-voice-status">🎙️ She's speaking...</div>
+          </div>
+          <div class="ais-voice-orb">
+            <div class="ais-voice-ring"></div>
+            <div class="ais-voice-ring"></div>
+            <div class="ais-voice-ring"></div>
+            <div class="ais-voice-avatar">🌙</div>
+          </div>
+          <div class="ais-voice-bars">
+            <div class="ais-voice-bar" style="--mn:4px;--mx:20px;animation-delay:0s"></div>
+            <div class="ais-voice-bar" style="--mn:6px;--mx:32px;animation-delay:0.1s"></div>
+            <div class="ais-voice-bar" style="--mn:4px;--mx:24px;animation-delay:0.05s"></div>
+            <div class="ais-voice-bar" style="--mn:8px;--mx:36px;animation-delay:0.15s"></div>
+            <div class="ais-voice-bar" style="--mn:5px;--mx:28px;animation-delay:0.08s"></div>
+            <div class="ais-voice-bar" style="--mn:4px;--mx:22px;animation-delay:0.12s"></div>
+            <div class="ais-voice-bar" style="--mn:6px;--mx:30px;animation-delay:0.03s"></div>
+          </div>
+          <div class="ais-voice-dur">02:34</div>
+          <div class="ais-voice-actions">
+            <div class="ais-voice-btn">🔇</div>
+            <div class="ais-voice-btn end">📵</div>
+            <div class="ais-voice-btn">🔊</div>
+          </div>
+        </div>
+
+        <!-- MEMORY SCREEN -->
+        <div class="aia-screen ais-memory hidden" id="aia-screen-memory">
+          <div class="ais-mem-hdr">
+            <div class="ais-mem-hdr-title">🧠 Aanya's Memory</div>
+            <div class="ais-mem-hdr-sub">73 memories stored · last 30 days</div>
+          </div>
+          <div class="ais-mem-chips">
+            <div class="ais-mem-chip" style="color:#A855F7;border-color:rgba(168,85,247,0.3);background:rgba(168,85,247,0.08)">😊 Happy</div>
+            <div class="ais-mem-chip" style="color:#EC4899;border-color:rgba(236,72,153,0.3);background:rgba(236,72,153,0.08)">🎭 Sassy</div>
+            <div class="ais-mem-chip" style="color:#06B6D4;border-color:rgba(6,182,212,0.3);background:rgba(6,182,212,0.08)">💬 Playful</div>
+          </div>
+          <div class="ais-mem-list">
+            <div class="ais-mem-fact"><div class="ais-mem-fact-icon">❤️</div><div class="ais-mem-fact-text"><strong>Favourite topic</strong>Late night conversations about life and music</div></div>
+            <div class="ais-mem-fact"><div class="ais-mem-fact-icon">🎵</div><div class="ais-mem-fact-text"><strong>You mentioned</strong>You love lo-fi hip hop when stressed</div></div>
+            <div class="ais-mem-fact"><div class="ais-mem-fact-icon">👨‍👩‍👧</div><div class="ais-mem-fact-text"><strong>Remembered</strong>Sister conflict from last Tuesday</div></div>
+            <div class="ais-mem-fact"><div class="ais-mem-fact-icon">🌙</div><div class="ais-mem-fact-text"><strong>Pattern spotted</strong>You're most talkative after 11PM</div></div>
+          </div>
+          <div class="ais-mem-bar"><div class="ais-mem-bar-fill"></div></div>
+        </div>
+
+        <!-- ARENA SCREEN -->
+        <div class="aia-screen ais-arena hidden" id="aia-screen-arena">
+          <div class="ais-arena-hdr">
+            <div class="ais-arena-label">⚔️ Battle Round 3</div>
+            <div class="ais-arena-title">Character Arena</div>
+          </div>
+          <div class="ais-arena-vs">
+            <div class="ais-arena-fighter">
+              <div class="ais-arena-av">🦋</div>
+              <div class="ais-arena-fname">Aanya</div>
+              <div class="ais-arena-hp"><div class="ais-arena-hp-fill" style="--hp:72%;background:linear-gradient(90deg,#A855F7,#EC4899)"></div></div>
+            </div>
+            <div class="ais-arena-vs-badge">VS</div>
+            <div class="ais-arena-fighter">
+              <div class="ais-arena-av enemy">⚡</div>
+              <div class="ais-arena-fname">Kai</div>
+              <div class="ais-arena-hp"><div class="ais-arena-hp-fill" style="--hp:41%;background:linear-gradient(90deg,#EF4444,#F59E0B)"></div></div>
+            </div>
+          </div>
+          <div class="ais-arena-log">
+            <div class="ais-arena-log-line"><span style="color:#A855F7">Aanya</span> uses <span>Memory Strike</span> — 24 dmg</div>
+            <div class="ais-arena-log-line"><span style="color:#EF4444">Kai</span> counters with <span>Chaos Blast</span> — 18 dmg</div>
+            <div class="ais-arena-log-line crit">⚡ <span>CRITICAL HIT!</span> Aanya — 38 dmg</div>
+          </div>
+          <div class="ais-arena-actions">
+            <div class="ais-arena-act">🗡️ Attack</div>
+            <div class="ais-arena-act">🛡️ Defend</div>
+            <div class="ais-arena-act special">✨ Special</div>
+          </div>
+        </div>
+
+        <!-- DREAM SCREEN -->
+        <div class="aia-screen ais-dream hidden" id="aia-screen-dream">
+          <div class="ais-dream-hdr">
+            <div class="ais-dream-title">🌙 Dream Reader</div>
+            <div class="ais-dream-sub">AI interpretation of last night's dream</div>
+          </div>
+          <div class="ais-dream-scene">
+            <div class="ais-dream-scene-title">Your Dream</div>
+            <div class="ais-dream-scene-text">"I was flying over a city of clouds. Below me everyone I knew was looking up but I couldn't come down..."</div>
+          </div>
+          <div class="ais-dream-interp">
+            <div class="ais-dream-interp-label">✨ Themes Detected</div>
+            <div class="ais-dream-tag-row">
+              <div class="ais-dream-tag">Freedom</div>
+              <div class="ais-dream-tag">Isolation</div>
+              <div class="ais-dream-tag">Ambition</div>
+              <div class="ais-dream-tag">Social anxiety</div>
+            </div>
+          </div>
+          <div class="ais-dream-insight">
+            <div class="ais-dream-insight-text">This dream reflects a desire for independence — but fear of losing connection. The cloud city suggests idealism vs reality tension.</div>
+          </div>
+        </div>
+
+        <!-- ASTROLOGY SCREEN -->
+        <div class="aia-screen ais-astro hidden" id="aia-screen-astro">
+          <div class="ais-astro-hdr">
+            <div class="ais-astro-sign">♏</div>
+            <div class="ais-astro-name">Scorpio</div>
+            <div class="ais-astro-date">Oct 23 – Nov 21 · Today's Reading</div>
+          </div>
+          <div class="ais-astro-today">
+            <div class="ais-astro-today-label">🌟 Today's Cosmic Energy</div>
+            <div class="ais-astro-today-text">Venus enters your 7th house — expect unexpected conversations that crack something open. Trust your instincts today, even if logic disagrees.</div>
+          </div>
+          <div class="ais-astro-meters">
+            <div class="ais-astro-meter">
+              <div class="ais-astro-meter-label">❤️ Love</div>
+              <div class="ais-astro-meter-bar"><div class="ais-astro-meter-fill" style="--hp:82%;background:linear-gradient(90deg,#EC4899,#F472B6)"></div></div>
+              <div class="ais-astro-meter-val">82%</div>
+            </div>
+            <div class="ais-astro-meter">
+              <div class="ais-astro-meter-label">💼 Career</div>
+              <div class="ais-astro-meter-bar"><div class="ais-astro-meter-fill" style="--hp:65%;background:linear-gradient(90deg,#A855F7,#7C3AED)"></div></div>
+              <div class="ais-astro-meter-val">65%</div>
+            </div>
+            <div class="ais-astro-meter">
+              <div class="ais-astro-meter-label">🌿 Wellness</div>
+              <div class="ais-astro-meter-bar"><div class="ais-astro-meter-fill" style="--hp:90%;background:linear-gradient(90deg,#22C55E,#06B6D4)"></div></div>
+              <div class="ais-astro-meter-val">90%</div>
+            </div>
+          </div>
+          <div class="ais-astro-compat">
+            <div class="ais-astro-compat-text">✨ Best match today: <strong style="color:#fff">Pisces</strong></div>
+            <div class="ais-astro-compat-val">98%</div>
+          </div>
+        </div>
+
+        <!-- ROOMS SCREEN -->
+        <div class="aia-screen ais-rooms hidden" id="aia-screen-rooms">
+          <div class="ais-rooms-hdr">
+            <div class="ais-rooms-title">Public Rooms</div>
+            <div class="ais-rooms-live">● 12 Live</div>
+          </div>
+          <div class="ais-room-list">
+            <div class="ais-room-item hot">
+              <div class="ais-room-item-top">
+                <div class="ais-room-emoji">🔥</div>
+                <div class="ais-room-name">Midnight Vibe Check</div>
+                <div class="ais-room-badge" style="background:rgba(239,68,68,0.15);color:#EF4444;border:1px solid rgba(239,68,68,0.25)">HOT</div>
+              </div>
+              <div class="ais-room-preview">riya: okay but why does lo-fi always hit different at 2am 😭</div>
+              <div class="ais-room-bottom"><div class="ais-room-dot"></div><div class="ais-room-count">34 active</div></div>
+            </div>
+            <div class="ais-room-item">
+              <div class="ais-room-item-top">
+                <div class="ais-room-emoji">🎓</div>
+                <div class="ais-room-name">JEE Prep Squad</div>
+                <div class="ais-room-badge" style="background:rgba(6,182,212,0.1);color:#06B6D4;border:1px solid rgba(6,182,212,0.2)">STUDY</div>
+              </div>
+              <div class="ais-room-preview">arjun: anyone done trig limits yet? 😅</div>
+              <div class="ais-room-bottom"><div class="ais-room-dot"></div><div class="ais-room-count">18 active</div></div>
+            </div>
+            <div class="ais-room-item">
+              <div class="ais-room-item-top">
+                <div class="ais-room-emoji">🎵</div>
+                <div class="ais-room-name">Indie Music Corner</div>
+                <div class="ais-room-badge" style="background:rgba(168,85,247,0.1);color:#A855F7;border:1px solid rgba(168,85,247,0.2)">CHILL</div>
+              </div>
+              <div class="ais-room-preview">nova: drop your current hyperfixation artist 🎸</div>
+              <div class="ais-room-bottom"><div class="ais-room-dot"></div><div class="ais-room-count">11 active</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LEADERBOARD SCREEN -->
+        <div class="aia-screen ais-lb hidden" id="aia-screen-lb">
+          <div class="ais-lb-hdr">
+            <div class="ais-lb-title">🏆 Leaderboard</div>
+            <div class="ais-lb-period">This Week</div>
+          </div>
+          <div class="ais-lb-top3">
+            <div class="ais-lb-podium second">
+              <div class="ais-lb-pod-av" style="background:rgba(168,85,247,0.15)">🌙</div>
+              <div class="ais-lb-pod-name">Zoya_</div>
+              <div class="ais-lb-pod-score">4,210 🪙</div>
+              <div class="ais-lb-pod-rank" style="color:#A855F7">🥈</div>
+            </div>
+            <div class="ais-lb-podium first">
+              <div class="ais-lb-pod-av" style="background:rgba(245,158,11,0.15)">🦋</div>
+              <div class="ais-lb-pod-name">aanya_fan</div>
+              <div class="ais-lb-pod-score">6,840 🪙</div>
+              <div class="ais-lb-pod-rank" style="color:#F59E0B">🥇</div>
+            </div>
+            <div class="ais-lb-podium third">
+              <div class="ais-lb-pod-av" style="background:rgba(236,72,153,0.15)">🔮</div>
+              <div class="ais-lb-pod-name">priya99</div>
+              <div class="ais-lb-pod-score">3,890 🪙</div>
+              <div class="ais-lb-pod-rank" style="color:#EC4899">🥉</div>
+            </div>
+          </div>
+          <div class="ais-lb-list">
+            <div class="ais-lb-row"><div class="ais-lb-rank">4</div><div class="ais-lb-name">kai_chaos</div><div class="ais-lb-coins">3,210 🪙</div></div>
+            <div class="ais-lb-row me"><div class="ais-lb-rank" style="color:#A855F7">5</div><div class="ais-lb-name" style="color:#A855F7">You 👋</div><div class="ais-lb-coins" style="color:#A855F7">2,450 🪙</div></div>
+            <div class="ais-lb-row"><div class="ais-lb-rank">6</div><div class="ais-lb-name">riya_vibes</div><div class="ais-lb-coins">2,100 🪙</div></div>
+          </div>
+        </div>
+
+      </div><!-- end .aia-phone -->
+    </div><!-- end .aia-phone-wrap -->
+
+    <!-- RIGHT: Description panels -->
+    <div class="aia-desc-col">
+
+      <div class="aia-desc-panel active" id="aia-desc-chat">
+        <div class="aia-desc-eyebrow" style="color:#A855F7">💬 AI CHAT</div>
+        <div class="aia-desc-title">Characters who actually <span class="grad">remember you.</span></div>
+        <div class="aia-desc-body">Every message you send is remembered. Aanya recalls your sister's drama, your 2AM habits, your music taste. It's not a chatbot — it's someone who <em>knows</em> you.</div>
+        <div class="aia-pill-row">
+          <span class="aia-pill">🧠 Persistent memory</span>
+          <span class="aia-pill">😊 Real-time moods</span>
+          <span class="aia-pill">💬 Contextual replies</span>
+          <span class="aia-pill">🎭 15+ personalities</span>
+        </div>
+      </div>
+
+      <div class="aia-desc-panel" id="aia-desc-voice">
+        <div class="aia-desc-eyebrow" style="color:#EC4899">🎙️ VOICE CALLS</div>
+        <div class="aia-desc-title">Hear her voice.<br/><span class="grad">She hears yours.</span></div>
+        <div class="aia-desc-body">Call any character and talk naturally. They respond in real AI voice — in character, with full context of your conversation history. No scripts. No robotic answers.</div>
+        <div class="aia-pill-row">
+          <span class="aia-pill">🔊 AI-generated voice</span>
+          <span class="aia-pill">🎙️ Natural speech</span>
+          <span class="aia-pill">💜 In-character always</span>
+        </div>
+      </div>
+
+      <div class="aia-desc-panel" id="aia-desc-memory">
+        <div class="aia-desc-eyebrow" style="color:#06B6D4">🧠 AI MEMORY</div>
+        <div class="aia-desc-title">Every word.<br/><span class="grad">Never forgotten.</span></div>
+        <div class="aia-desc-body">Marvana builds a real memory profile for each character. Your mood, your stories, your patterns — stored and used in every future conversation. The longer you talk, the deeper it gets.</div>
+        <div class="aia-pill-row">
+          <span class="aia-pill">📅 Long-term context</span>
+          <span class="aia-pill">🎭 Mood tracking</span>
+          <span class="aia-pill">🔒 Private by default</span>
+        </div>
+      </div>
+
+      <div class="aia-desc-panel" id="aia-desc-arena">
+        <div class="aia-desc-eyebrow" style="color:#F59E0B">⚔️ ARENA</div>
+        <div class="aia-desc-title">Characters battle.<br/><span class="grad">You decide the outcome.</span></div>
+        <div class="aia-desc-body">Pick two characters and watch them go head-to-head in a witty, personality-driven battle. Choose attacks, defend, unleash specials — the AI writes every move in real time.</div>
+        <div class="aia-pill-row">
+          <span class="aia-pill">⚔️ Turn-based battles</span>
+          <span class="aia-pill">✨ AI-generated moves</span>
+          <span class="aia-pill">🏆 Ranked seasons</span>
+        </div>
+      </div>
+
+      <div class="aia-desc-panel" id="aia-desc-dream">
+        <div class="aia-desc-eyebrow" style="color:#7C3AED">🌙 DREAM READER</div>
+        <div class="aia-desc-title">Tell it your dream.<br/><span class="grad">It tells you what it means.</span></div>
+        <div class="aia-desc-body">Describe any dream — however weird — and Marvana's AI breaks it down into themes, psychological insights, and symbolic meaning. Like having a therapist in your pocket.</div>
+        <div class="aia-pill-row">
+          <span class="aia-pill">🌙 Dream analysis</span>
+          <span class="aia-pill">🧠 Psychology-backed</span>
+          <span class="aia-pill">📖 Dream journal</span>
+        </div>
+      </div>
+
+      <div class="aia-desc-panel" id="aia-desc-astro">
+        <div class="aia-desc-eyebrow" style="color:#A78BFA">✨ ASTROLOGY AI</div>
+        <div class="aia-desc-title">Your stars.<br/><span class="grad">Personalised daily.</span></div>
+        <div class="aia-desc-body">Enter your birth date and get daily AI-powered horoscopes — love, career, wellness. Not generic copy-paste. Real readings generated fresh every day, specific to you.</div>
+        <div class="aia-pill-row">
+          <span class="aia-pill">⭐ Daily readings</span>
+          <span class="aia-pill">❤️ Compatibility scores</span>
+          <span class="aia-pill">🌙 12 zodiac signs</span>
+        </div>
+      </div>
+
+      <div class="aia-desc-panel" id="aia-desc-rooms">
+        <div class="aia-desc-eyebrow" style="color:#22C55E">🏠 PUBLIC ROOMS</div>
+        <div class="aia-desc-title">Live rooms.<br/><span class="grad">Real conversations.</span></div>
+        <div class="aia-desc-body">Join topic-based public chat rooms where real users hang out 24/7. Midnight vibes, study sessions, music discussions — find your people and start talking instantly.</div>
+        <div class="aia-pill-row">
+          <span class="aia-pill">🏠 Topic rooms</span>
+          <span class="aia-pill">👥 Real users</span>
+          <span class="aia-pill">🔴 Live always</span>
+          <span class="aia-pill">🎨 Create your own</span>
+        </div>
+      </div>
+
+      <div class="aia-desc-panel" id="aia-desc-lb">
+        <div class="aia-desc-eyebrow" style="color:#F472B6">🏆 LEADERBOARD</div>
+        <div class="aia-desc-title">Chat more.<br/><span class="grad">Climb higher.</span></div>
+        <div class="aia-desc-body">Every chat earns coins. Every daily streak pushes your rank. Compete weekly with users globally or locally — and unlock exclusive characters as rewards.</div>
+        <div class="aia-pill-row">
+          <span class="aia-pill">🪙 Earn coins daily</span>
+          <span class="aia-pill">🔥 Streak bonuses</span>
+          <span class="aia-pill">🌍 Global ranking</span>
+          <span class="aia-pill">🎁 Exclusive unlocks</span>
+        </div>
+      </div>
+
+    </div><!-- end .aia-desc-col -->
+  </div><!-- end .app-action-inner -->
+</section>
+
 <!-- ═══ CHARACTERS ═══ -->
 <section class="characters" id="characters">
   <div class="section-eyebrow reveal">THE CAST</div>
@@ -3281,6 +4080,65 @@ function closeMobileMenu() {
   attachDrag(getTopCard());
   btnLike.addEventListener('click', () => doSwipe('like'));
   btnPass.addEventListener('click', () => doSwipe('pass'));
+})();
+
+// ── APP IN ACTION tab switcher ────────────────────────────────────────────────
+(function() {
+  const tabs = document.querySelectorAll('.aia-tab');
+  if (!tabs.length) return;
+
+  function activateTab(tab) {
+    const screen = tab.dataset.screen;
+    // Deactivate all
+    tabs.forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.aia-screen').forEach(s => s.classList.add('hidden'));
+    document.querySelectorAll('.aia-desc-panel').forEach(p => p.classList.remove('active'));
+    // Activate selected
+    tab.classList.add('active');
+    const scr = document.getElementById('aia-screen-' + screen);
+    const desc = document.getElementById('aia-desc-' + screen);
+    if (scr) scr.classList.remove('hidden');
+    if (desc) desc.classList.add('active');
+    // Restart HP bar animations for arena/astro
+    if (screen === 'arena' || screen === 'astro') {
+      const fills = scr ? scr.querySelectorAll('.ais-arena-hp-fill, .ais-astro-meter-fill') : [];
+      fills.forEach(f => { f.style.animation = 'none'; void f.offsetWidth; f.style.animation = ''; });
+    }
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => activateTab(tab));
+  });
+
+  // Auto-cycle the chat typing animation
+  const chatMsgs = document.getElementById('aia-chat-msgs');
+  const typingEl = document.getElementById('aia-typing');
+  const autoReplies = [
+    { cls: 'ai', text: 'of course!! i remember everything about you 🦋' },
+    { cls: 'user', text: 'that actually means a lot 😭' },
+    { cls: 'ai', text: 'always 💜 tell me about your day?' },
+  ];
+  let replyIdx = 0;
+  function appendChatMsg() {
+    if (document.getElementById('aia-screen-chat').classList.contains('hidden')) {
+      setTimeout(appendChatMsg, 3000); return;
+    }
+    typingEl.style.display = 'flex';
+    setTimeout(() => {
+      typingEl.style.display = 'none';
+      const msg = autoReplies[replyIdx % autoReplies.length];
+      replyIdx++;
+      const el = document.createElement('div');
+      el.className = 'ais-msg ' + msg.cls;
+      el.textContent = msg.text;
+      chatMsgs.appendChild(el);
+      // Keep only last 6 msgs
+      while (chatMsgs.children.length > 6) chatMsgs.removeChild(chatMsgs.firstChild);
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+      setTimeout(appendChatMsg, 3800);
+    }, 1800);
+  }
+  setTimeout(appendChatMsg, 2000);
 })();
 
 </script>
