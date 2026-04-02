@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Marvana — AI Characters That Feel Real</title>
-  <meta name="description" content="Chat with AI characters that remember you, have real moods & evolve. Voice calls, public rooms, dream reader & more. Download free." />
+  <meta name="description" content="Chat with AI characters that remember you, have real moods & evolve. Voice AI, public rooms, dream reader & more. Download free." />
   <meta property="og:title" content="Marvana — AI Characters That Feel Real" />
-  <meta property="og:description" content="15+ AI characters with moods, memories & real personalities. Voice calls, Arena, Dream Reader & more." />
+  <meta property="og:description" content="15+ AI characters with moods, memories & real personalities. Voice AI, Arena, Dream Reader & more." />
   <meta property="og:image" content="marvana-logo.png" />
   <link rel="icon" type="image/png" href="marvana-logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -543,6 +543,68 @@
       background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
     .stat-label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; display: block; }
+
+    /* ═══ WHAT IS MARVANA ═══ */
+    .what-section {
+      padding: 120px 24px;
+      position: relative;
+      z-index: 2;
+    }
+    .what-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    @media (max-width: 900px) { .what-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .what-grid { grid-template-columns: 1fr; } }
+    .what-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 24px;
+      padding: 36px 28px;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+      overflow: hidden;
+    }
+    .what-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(168,85,247,0.4), transparent);
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .what-card:hover {
+      border-color: rgba(168,85,247,0.3);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(168,85,247,0.08);
+    }
+    .what-card:hover::before { opacity: 1; }
+    .what-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(168,85,247,0.35);
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+    .what-icon {
+      font-size: 36px;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    }
+    .what-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .what-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
 
     /* ═══ MARQUEE ═══ */
     .marquee-section {
@@ -2452,7 +2514,7 @@ setTimeout(function(){
       <div class="marquee-item"><div class="mq-icon">&#x1F464;</div>AI CHARACTERS<div class="marquee-sep"></div></div>
       <div class="marquee-item"><div class="mq-icon">&#x1F9E0;</div>REAL MEMORIES<div class="marquee-sep"></div></div>
       <div class="marquee-item"><div class="mq-icon">&#x1F60F;</div>DYNAMIC MOODS<div class="marquee-sep"></div></div>
-      <div class="marquee-item"><div class="mq-icon">&#x1F399;&#xFE0F;</div>VOICE CALLS<div class="marquee-sep"></div></div>
+      <div class="marquee-item"><div class="mq-icon">&#x1F399;&#xFE0F;</div>VOICE AI<div class="marquee-sep"></div></div>
       <div class="marquee-item"><div class="mq-icon">&#x2694;&#xFE0F;</div>ARENA BATTLES<div class="marquee-sep"></div></div>
       <div class="marquee-item"><div class="mq-icon">&#x1F319;</div>DREAM READER<div class="marquee-sep"></div></div>
       <div class="marquee-item"><div class="mq-icon">&#x1F3AD;</div>ALTER EGO<div class="marquee-sep"></div></div>
@@ -2463,7 +2525,7 @@ setTimeout(function(){
       <div class="marquee-item"><div class="mq-icon">&#x1F464;</div>AI CHARACTERS<div class="marquee-sep"></div></div>
       <div class="marquee-item"><div class="mq-icon">&#x1F9E0;</div>REAL MEMORIES<div class="marquee-sep"></div></div>
       <div class="marquee-item"><div class="mq-icon">&#x1F60F;</div>DYNAMIC MOODS<div class="marquee-sep"></div></div>
-      <div class="marquee-item"><div class="mq-icon">&#x1F399;&#xFE0F;</div>VOICE CALLS<div class="marquee-sep"></div></div>
+      <div class="marquee-item"><div class="mq-icon">&#x1F399;&#xFE0F;</div>VOICE AI<div class="marquee-sep"></div></div>
       <div class="marquee-item"><div class="mq-icon">&#x2694;&#xFE0F;</div>ARENA BATTLES<div class="marquee-sep"></div></div>
       <div class="marquee-item"><div class="mq-icon">&#x1F319;</div>DREAM READER<div class="marquee-sep"></div></div>
       <div class="marquee-item"><div class="mq-icon">&#x1F3AD;</div>ALTER EGO<div class="marquee-sep"></div></div>
@@ -2498,6 +2560,60 @@ setTimeout(function(){
     </div>
   </div>
 </div>
+
+<!-- ═══ WHAT IS MARVANA ═══ -->
+<section class="what-section" id="what">
+  <div class="container">
+    <div class="section-eyebrow reveal">WHAT IS MARVANA</div>
+    <h2 class="section-title reveal delay-1" style="max-width:900px;margin:0 auto 60px">An AI-powered social app where<br/><span class="grad">characters feel like real people.</span></h2>
+
+    <div class="what-grid reveal delay-2">
+
+      <div class="what-card">
+        <div class="what-num">01</div>
+        <div class="what-icon">🧠</div>
+        <h3>They Remember You</h3>
+        <p>Every character builds real memories from your conversations — your name, interests, moods, stories. They never forget.</p>
+      </div>
+
+      <div class="what-card">
+        <div class="what-num">02</div>
+        <div class="what-icon">😏</div>
+        <h3>They Have Moods</h3>
+        <p>Characters aren't always the same. They get happy, sassy, moody, or playful — just like real people. Their vibe shifts dynamically.</p>
+      </div>
+
+      <div class="what-card">
+        <div class="what-num">03</div>
+        <div class="what-icon">🎙️</div>
+        <h3>You Can Talk to Them</h3>
+        <p>Voice chat with any character naturally. AI-generated speech makes it feel like a real conversation.</p>
+      </div>
+
+      <div class="what-card">
+        <div class="what-num">04</div>
+        <div class="what-icon">👥</div>
+        <h3>Real People Too</h3>
+        <p>DM friends, join public rooms, go anonymous, share stories. It's a full social platform — AI + humans in one place.</p>
+      </div>
+
+      <div class="what-card">
+        <div class="what-num">05</div>
+        <div class="what-icon">🎭</div>
+        <h3>Discover Yourself</h3>
+        <p>Alter Ego reveals your hidden personality. Dream Reader interprets your dreams. Astrology AI reads your stars. All powered by AI.</p>
+      </div>
+
+      <div class="what-card">
+        <div class="what-num">06</div>
+        <div class="what-icon">⚔️</div>
+        <h3>Watch Them Battle</h3>
+        <p>Character Arena lets AI characters face off in epic story duels with generated narratives you can vote on.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <!-- ═══ WHY MARVANA ═══ -->
 <section class="why-section" id="why">
@@ -2906,7 +3022,7 @@ setTimeout(function(){
 
       <div class="bento-card col-5 reveal delay-2" data-accent="red">
         <div class="bento-icon">&#x1F399;&#xFE0F;</div>
-        <h3>AI Voice Calls</h3>
+        <h3>Voice AI</h3>
         <p>Call characters and talk with voice. They respond with AI-generated speech. Feels like magic.</p>
         <div class="card-anim-voice">
           <div class="voice-bar" style="--h:14px;--del:0s"></div>
@@ -3264,7 +3380,7 @@ setTimeout(function(){
       <div class="aia-tab" data-screen="voice" style="--tab-color:#EC4899;--tab-bg:linear-gradient(135deg,rgba(236,72,153,0.08),rgba(236,72,153,0.03));--tab-icon-bg:rgba(236,72,153,0.18)">
         <div class="aia-tab-bar"></div>
         <div class="aia-tab-icon">🎙️</div>
-        <div class="aia-tab-text"><h4>Voice Calls</h4><p>Talk, they respond live</p></div>
+        <div class="aia-tab-text"><h4>Voice AI</h4><p>Talk, they respond live</p></div>
       </div>
       <div class="aia-tab" data-screen="memory" style="--tab-color:#06B6D4;--tab-bg:linear-gradient(135deg,rgba(6,182,212,0.08),rgba(6,182,212,0.03));--tab-icon-bg:rgba(6,182,212,0.18)">
         <div class="aia-tab-bar"></div>
@@ -3328,7 +3444,7 @@ setTimeout(function(){
         <div class="aia-screen ais-voice hidden" id="aia-screen-voice">
           <div class="ais-voice-bg-glow"></div>
           <div class="ais-voice-top">
-            <div class="ais-voice-label">Voice Call Active</div>
+            <div class="ais-voice-label">Voice AI Active</div>
             <div class="ais-voice-name">Luna</div>
             <div class="ais-voice-status">🎙️ She's speaking...</div>
           </div>
@@ -3553,7 +3669,7 @@ setTimeout(function(){
       </div>
 
       <div class="aia-desc-panel" id="aia-desc-voice">
-        <div class="aia-desc-eyebrow" style="color:#EC4899">🎙️ VOICE CALLS</div>
+        <div class="aia-desc-eyebrow" style="color:#EC4899">🎙️ VOICE AI</div>
         <div class="aia-desc-title">Hear her voice.<br/><span class="grad">She hears yours.</span></div>
         <div class="aia-desc-body">Call any character and talk naturally. They respond in real AI voice — in character, with full context of your conversation history. No scripts. No robotic answers.</div>
         <div class="aia-pill-row">
@@ -3878,8 +3994,8 @@ setTimeout(function(){
       </div>
     </div>
     <div class="voice-content reveal-right">
-      <h3>AI Voice Calls<br /><span class="hero-gradient-text">Feel like magic.</span></h3>
-      <p>Call any character and have a real voice conversation. You speak naturally, they respond with AI-generated voice &mdash; in character, with full memory of your history together.</p>
+      <h3>Voice AI<br /><span class="hero-gradient-text">Feel like magic.</span></h3>
+      <p>Talk to any character and have a real voice conversation. You speak naturally, they respond with AI-generated voice &mdash; in character, with full memory of your history together.</p>
       <div class="voice-features">
         <div class="voice-feat"><div class="voice-feat-dot">&#x1F399;&#xFE0F;</div>Real-time speech recognition</div>
         <div class="voice-feat"><div class="voice-feat-dot">&#x1F5E3;&#xFE0F;</div>AI text-to-speech replies in character</div>
@@ -3900,7 +4016,7 @@ setTimeout(function(){
     <div class="how-card reveal delay-1"><div class="how-num">1</div><h3>Download</h3><p>Marvana is coming soon to the App Store &amp; Google Play. Join the waitlist to get early access.</p></div>
     <div class="how-card reveal delay-2"><div class="how-num">2</div><h3>Pick a Character</h3><p>Browse 15+ personalities. Filter by mood, archetype, or take our personality quiz.</p></div>
     <div class="how-card reveal delay-3"><div class="how-num">3</div><h3>Start Chatting</h3><p>Your character remembers you from message one. Watch the connection deepen.</p></div>
-    <div class="how-card reveal delay-4"><div class="how-num">4</div><h3>Unlock Everything</h3><p>Build streaks. Earn coins. Explore Arena, Dreams, Voice Calls and more.</p></div>
+    <div class="how-card reveal delay-4"><div class="how-num">4</div><h3>Unlock Everything</h3><p>Build streaks. Earn coins. Explore Arena, Dreams, Voice AI and more.</p></div>
   </div>
 </section>
 
@@ -3917,7 +4033,7 @@ setTimeout(function(){
     </div>
     <div class="compare-row"><div class="compare-feature">Remembers past conversations</div><div class="compare-val">&#x2705;</div><div class="compare-val no">Sometimes</div></div>
     <div class="compare-row"><div class="compare-feature">Dynamic real-time moods</div><div class="compare-val">&#x2705;</div><div class="compare-val no">&#x274C;</div></div>
-    <div class="compare-row"><div class="compare-feature">AI voice calls</div><div class="compare-val">&#x2705;</div><div class="compare-val no">&#x274C;</div></div>
+    <div class="compare-row"><div class="compare-feature">AI voice</div><div class="compare-val">&#x2705;</div><div class="compare-val no">&#x274C;</div></div>
     <div class="compare-row"><div class="compare-feature">Characters with backstories & cities</div><div class="compare-val">&#x2705;</div><div class="compare-val no">&#x274C;</div></div>
     <div class="compare-row"><div class="compare-feature">Arena battles & story mode</div><div class="compare-val">&#x2705;</div><div class="compare-val no">&#x274C;</div></div>
     <div class="compare-row"><div class="compare-feature">Dream reader & astrology AI</div><div class="compare-val">&#x2705;</div><div class="compare-val no">&#x274C;</div></div>
@@ -4276,7 +4392,7 @@ function closeMobileMenu() {
 (function() {
   const badge = document.querySelector('.pulse-dot');
   if (!badge) return;
-  const features = ['LIVE NOW', 'VOICE CALLS', 'DREAM MODE', 'ARENA LIVE', 'NEW STORIES'];
+  const features = ['LIVE NOW', 'VOICE AI', 'DREAM MODE', 'ARENA LIVE', 'NEW STORIES'];
   let i = 0;
   setInterval(() => {
     i = (i + 1) % features.length;
